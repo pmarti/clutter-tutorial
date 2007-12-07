@@ -1,5 +1,17 @@
 2007-12-07  Murray Cumming  <murrayc@murrayc.com>
 
+	* configure.ac:
+	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/figures/Makefile.am:
+	* examples/Makefile.am:
+	* examples/effects/main.c: 
+	Added an Effects chapter and example. I am not sure yet that I 
+	see the advantage of Behaviours over Effects, and the 
+	ClutterEffectsTemplate objects does not seem better than just 
+	passing the timeline and alpha-callback to an effect function.
+
+2007-12-07  Murray Cumming  <murrayc@murrayc.com>
+
 	* AUTHORS: Corrected this.
 	* TODO: Removed this.
 
