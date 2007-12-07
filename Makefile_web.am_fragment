@@ -1,0 +1,16 @@
+web_host = www.openismus.com
+web_path = /home/murrayc/openismus.com/misc/clutter_tutorial/
+web_path_docs = $(web_path)docs/
+
+#--delete and --delete-after are causing
+# "
+# Invalid file index: 1768710413 (count=0) [receiver]
+# rsync error: protocol incompatibility (code 2) at sender.c(156)
+# "
+# with sourceforge recently (May 2005). murrayc.
+#
+#rsync_args = -vz --rsh ssh --delete --delete-after
+rsync_args = -vz --rsh ssh
+
+clutter_docdir = $(datadir)/doc/clutter/docs
+

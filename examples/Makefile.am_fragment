@@ -1,0 +1,12 @@
+LIBS  = $(CLUTTER_DOC_LIBS)
+
+all_includes =  $(CLUTTER_DOC_CFLAGS) $(CLUTTER_DOC_WARNING_FLAGS)
+
+DEFS = @DEFS@
+DEFAULT_INCLUDES =
+INCLUDES = -I. -I$(srcdir) $(strip $(all_includes))
+
+
+post-html:
+	rsync $(rsync_options) $(example_dirs) $$USER@$(web_host):$(web_path)
+

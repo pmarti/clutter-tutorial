@@ -1,0 +1,149 @@
+2007-12-05  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Introduction: Mention that both 
+	OpenGL or OpenGL ES may be used as the backend.
+
+2007-12-05  Murray Cumming  <murrayc@murrayc.com>
+
+	* configure.ac:
+	* docs/tutorial/clutter-tut.xml:
+	* examples/Makefile.am:
+	* examples/custom_actor/Makefile.am:
+	* examples/custom_actor/main.c:
+	* examples/custom_actor/triangle_actor.c:
+	* examples/custom_actor/triangle_actor.h: Added a custom actor 
+	example by copying and simplifying ClutterRectangle. Described 
+	the implementation. Still need to actually make it paint a 
+	triangle though.
+
+2007-12-05  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Behaviours: Mention that the 
+	alpha callback will need to discover the timeline current and total 
+	frames.
+	Timelines: Give hints about the duration of a timeline.
+	Mention unrefing of behaviours and timelines.
+	* examples/behaviour/main.c: (on_alpha): Use the timeline. Now this 
+	makes more sense.
+
+2007-12-05  Murray Cumming  <murrayc@murrayc.com>
+
+	* examples/full_example/main.c: Made this slightly more useful, 
+	trying to make a clicked image rotate to the front. 
+	But clutter_behaviour_ellipse_set_angle_end() does not seem to 
+	have the desired effect.
+
+2007-12-05  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Introduction: 
+	Mention that the examples are mostly unimpressive visually,
+	on purpose, but that the full example should be more impressive.
+	* configure.ac:
+	* examples/Makefile.am:
+	* examples/full_example/Makefile.am:
+	* examples/full_example/README:
+	* examples/full_example/images/
+	* examples/full_example/main.c: Added the beginnings of a 
+	very simple image browser.
+
+2007-12-05  Murray Cumming  <murrayc@murrayc.com>
+
+	* Makefile_web.am_fragment: Add an html upload location on 
+	openismus.com for now.
+	* docs/index.html: Remove the maemomm content.
+	* docs/tutorial/clutter-tut.xml: Introduction: Rephrase - 
+	Clutter is not really an extension of GTK+.
+	Actors: Mention the floating reference.
+
+2007-12-04  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Corrected the figure titles, 
+	and fixed a markup typo.
+
+2007-12-04  Murray Cumming  <murrayc@murrayc.com>
+
+	* configure.ac:
+	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/figures/Makefile.am:
+	* docs/tutorial/figures/stage_widget.am:
+	* examples/Makefile.am:
+	* examples/stage_widget/main.c:
+	Added a section and example to show the use of ClutterWidget and 
+	clarified that a regular stage does not need GTK+.
+
+2007-12-03  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/figures/Makefile.am:
+	* docs/tutorial/figures/timeline.png: Added timeline chapter 
+	text and screeshot.
+	* examples/timeline/main.c: (on_timeline_new_frame):
+	Change the color too, to show that timeline callbacks are good 
+	for changing more than one property (or more than one actor), 
+	compared to a behaviour.
+
+2007-12-03  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/figures/Makefile.am:
+	* docs/tutorial/figures/behaviours.png:
+	* examples/behaviour/main.c: Added text and screenshot for 
+	behaviours chapter.
+
+2007-12-03  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/figures/Makefile.am:
+	* docs/tutorial/figures/actors.png:
+	* examples/actor/main.c: Added some text and a screenshot to 
+	the actors chapter.
+
+2007-12-03  Murray Cumming  <murrayc@murrayc.com>
+
+	* configure.ac:
+	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/figures/Makefile.am:
+	* docs/tutorial/figures/stage.png:
+	* examples/Makefile.am:
+	* examples/stage/main.c: Added stage example and screenshot.
+
+2007-11-29  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: It's a Stage, not a Scene.
+
+2007-11-29  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: A little introductory text.
+
+2007-11-29  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Added markup for examples.
+	* docs/tutorial/insert_example_code.pl: Use .c files instead 
+	of .cc files.
+
+2007-11-29  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Wrote the installation text, 
+	though this only mentions Ubuntu and will need to be updated 
+	later for new clutter versions.
+
+2007-11-29  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Added the expected document 
+	structure and TODO text for each section.
+
+2007-11-29  Murray Cumming  <murrayc@murrayc.com>
+
+	* examples/Makefile.am: Commented out the containers 
+	example for now because they have been removed from clutter 
+	and the new high-level clutter library does not exist yet.
+	* examples/actor/main.c: (main):
+	* examples/actor_events/main.c: (main):
+	Replace use of deprecated clutter_actor_rotate_x() with 
+	clutter_actor_set_rotation().
+	* examples/timeline/main.c: (on_timeline_new_frame): 
+	Replace use of removed clutter_enable_motion_events() 
+	with clutter_set_motion_events_enabled().
+	
+
+

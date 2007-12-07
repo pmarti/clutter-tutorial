@@ -1,0 +1,19 @@
+examples:
+
+- Fix toolbar and uimanager example when bug #875 is fixed
+- Check that we have examples for all (most, at least) widgets/dialogs.
+
+*** TODO Later:
+
+* Wrappers for libosso that allow the application to respond to requests for state saving, low-battery, etc.
+* Wrappers for hildon-status-bar APIs (from maemo-af-desktop). See the Maemo tutorial for a C example.
+
+*** Done:
+- Link to the reference documentation for each class that is mentioned.
+  For instance, see FileChooserDialog.
+- Create a very small separate autotoolsed application that shows a window, shows some dialogs, and a note or caption.
+  (Though it's just a copy of the uimanager example for now.)
+
+- Call Hildon::libs_init(), Hildon::fm_init(), and osso_initialize() from all examples. (Done, Hildon::libs only applications should not need to call the other two)
+
+- Add a bit about the initialization to the Basics chapter. (Done, but let's update it if we can hide osso_initialize()).
