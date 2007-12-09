@@ -32,6 +32,8 @@ typedef struct Item
 }
 Item;
 
+Item* item_at_front = NULL;
+
 GSList *list_items = 0;
 
 void on_foreach_clear_list_items(gpointer data, gpointer user_data)
@@ -105,7 +107,7 @@ void add_to_ellipse_behaviour(ClutterTimeline *timeline, gdouble start_angle, It
     CLUTTER_ROTATE_CW,
     start_angle, start_angle + 360);
   clutter_behaviour_ellipse_set_angle_tilt (CLUTTER_BEHAVIOUR_ELLIPSE (item->ellipse_behaviour), 
-    CLUTTER_X_AXIS, 45);
+    CLUTTER_X_AXIS, -70);
   g_object_unref (alpha);
 
   clutter_behaviour_apply (item->ellipse_behaviour, item->actor);
@@ -146,6 +148,15 @@ void add_image_actors()
   }
 }
 
+gdouble angle_in_360(gdouble angle)
+{
+  gdouble result = angle;
+  while(result > 360)
+    result -= 360;
+  
+  return result;
+}
+
 void rotate_all_until_item_is_at_front(Item *item)
 {
   g_return_if_fail (item);
@@ -153,45 +164,100 @@ void rotate_all_until_item_is_at_front(Item *item)
   clutter_timeline_stop(timeline);
 
   /* Get the item's position in the list: */
-  GSList *this_list_item = g_slist_find (list_items, item);
-  g_return_if_fail (this_list_item);
-  const gint pos = g_slist_position (list_items, this_list_item);
-  printf("debug: pos=%d\n", pos); 
+  const gint pos = g_slist_index (list_items, item);
+  g_assert (pos != -1);
+
+  if(!item_at_front && list_items)
+    item_at_front = (Item*)list_items->data;
+
+  gint pos_front = 0;
+  if(item_at_front)
+     pos_front = g_slist_index (list_items, item_at_front);
+  g_assert (pos_front != -1);
+
+  /* const gint pos_offset_before_start = pos_front - pos; */ 
   
   /* Calculate the end angle of the first item: */
-  gdouble angle_end = 180 - (angle_step * pos);
+  const gdouble angle_front = 180;
+  gdouble angle_start = angle_front - (angle_step * pos_front);
+  angle_start = angle_in_360 (angle_start);
+  gdouble angle_end = angle_front - (angle_step * pos);
+
+  gdouble angle_diff = 0;
 
   /* Set the end angles: */
   GSList *list = list_items;
   while (list)
   {
     Item *this_item = (Item*)list->data;
-    clutter_behaviour_ellipse_set_angle_end (
-      CLUTTER_BEHAVIOUR_ELLIPSE(this_item->ellipse_behaviour), angle_end);
-    printf("debug: angle_end = %f\n", angle_end); 
 
-    /* TODO: This isn't useful, but it's useful for debugging to show what was selected.
-    /* Make all items transparent except the selected one: */
-    if (this_item != item)
-      clutter_actor_set_opacity (this_item->actor, 40);
-    else
+    angle_start = angle_in_360 (angle_start);
+    angle_end = angle_in_360 (angle_end);
+
+    clutter_behaviour_ellipse_set_angle_start (
+      CLUTTER_BEHAVIOUR_ELLIPSE (this_item->ellipse_behaviour), angle_start);
+    clutter_behaviour_ellipse_set_angle_end (
+      CLUTTER_BEHAVIOUR_ELLIPSE (this_item->ellipse_behaviour), angle_end);
+
+    if(this_item == item)
     {
-      clutter_actor_set_opacity (this_item->actor, 255);
-      printf("  debug: angle_end for selected item= %f\n", angle_end); 
+      printf("debug: pos = %d\n", pos);
+      printf("debug: angle_start = %f\n", angle_start);
+      printf("debug: angle_end = %f\n", angle_end);
+   
+      if(angle_start < angle_end)
+        angle_diff =  angle_end - angle_start;
+      else
+        angle_diff = 360 - (angle_start - angle_end);
+
+      printf("  debug: angle diff=%f\n", angle_diff);
 
     }
 
+    /* TODO: Set the number of frames, depending on the angle.
+     * otherwise the actor will take the same amount of time to reach 
+     * the end angle regardless of how far it must move, causing it to 
+     * move very slowly if it does not have far to move.
+     */
     angle_end += angle_step;
+    angle_start += angle_step;
     list = g_slist_next (list);
   }
 
-  /* clutter_timeline_set_loop (timeline, TRUE); */
-  clutter_timeline_start(timeline);
+  /* Set the number of frames to be proportional to the distance to travel,
+     so the speed is always the same: */
+  gint pos_to_move = 0;
+  if(pos_front < pos)
+  {
+     const gint count = g_slist_length (list_items);
+     pos_to_move = count + (pos - pos_front);
+  }
+  else
+  {
+     pos_to_move = pos_front - pos;
+  }
+
+  clutter_timeline_set_n_frames (timeline, angle_diff);
+
+  item_at_front = item;
+
+  clutter_timeline_start (timeline);
 }
 
 static void
 on_texture_button_press (ClutterActor *actor, ClutterEvent *event, gpointer user_data)
 {
+  /* Ignore the events if the timeline is running (meaning, if the objects are moving),
+   * to simplify things:
+   */
+  if(timeline && clutter_timeline_is_playing (timeline))
+  {
+    printf("on_texture_button_press(): ignoring\n");
+    return;
+  }
+  else
+    printf("on_texture_button_press(): handling\n");
+
   Item *item = (Item*)user_data;
   rotate_all_until_item_is_at_front (item);
 }
@@ -225,7 +291,8 @@ int main(int argc, char *argv[])
   /* clutter_timeline_set_loop(timeline, TRUE); */
 
   /* Move them a bit to start with: */
-  clutter_timeline_start (timeline);
+  if(list_items)
+    rotate_all_until_item_is_at_front ((Item*)list_items->data);
 
   /* Start the main loop, so we can respond to events: */
   clutter_main ();

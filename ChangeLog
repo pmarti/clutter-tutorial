@@ -1,3 +1,11 @@
+2007-12-09  Murray Cumming  <murrayc@murrayc.com>
+
+	* examples/full_example/main.c: Limit angles to less than 360, 
+	which seems to stop the last item from going around an extra time,
+ 	but sometimes other items go around an extra time instead.
+	The calculations need to be cleaned up when this is working 
+	properly.
+
 2007-12-07  Murray Cumming  <murrayc@murrayc.com>
 
 	* configure.ac:
