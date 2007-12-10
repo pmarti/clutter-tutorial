@@ -1,5 +1,10 @@
 2007-12-10  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/figures/Makefile.am:
+	Added docs/tutorial/figures/custom_actor.png
+
+2007-12-10  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Put all the text in a sect1 instead of just at 
 	the start of a chapter or appendix. Otherwise people will often jump straight past 
 	it to the example if the example is the only thing listed in the table of contents.
