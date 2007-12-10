@@ -1,5 +1,11 @@
 2007-12-10  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/clutter-tut.xml: Put all the text in a sect1 instead of just at 
+	the start of a chapter or appendix. Otherwise people will often jump straight past 
+	it to the example if the example is the only thing listed in the table of contents.
+
+2007-12-10  Murray Cumming  <murrayc@murrayc.com>
+
 	* examples/custom_actor/main.c: (main): Do not rotate the actor because 
 	this obscures the example.
 	* examples/custom_actor/triangle_actor.c: (clutter_triangle_paint):

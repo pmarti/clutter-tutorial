@@ -383,6 +383,9 @@ TODO:
 
 <chapter id="sec-timelines">
 <title>Timelines</title>
+
+<sect1>
+<title>Using Timelines</title>
 <para>
 A <classname>ClutterTimeline</classname> can be used to change the position or appearance of an actor over time. 
 The timeline object emits its <literal>new-frame</literal> signal for each frame that should be drawn, 
@@ -403,6 +406,7 @@ until you call <function>clutter_timeline_start()</function>.
 <para>Remember to unref the timeline when you are finished with it. Unlike actors, this does not have a &quot;floating reference&quot;.</para> 
 
 <para><ulink url="&url_refdocs_base_clutter;Timeline.html">Reference</ulink></para>
+</sect1>
 
 <sect1 id="timeline-example"><title>Example</title>
 <para>
@@ -424,6 +428,9 @@ The following example demonstrates the use of a timeline to rotate a rectangle a
 
 <chapter id="sec-effects">
 <title>Effects</title>
+
+<sect1>
+<title>Using Effects</title>
 
 <para>
 &clutter; provides several simple effects functions that can be used together with a timeline to change the properties of 
@@ -450,6 +457,7 @@ is running. To do this you can use the behaviours directly, as described in the 
 </para>
 
 <para><ulink url="&url_refdocs_base_clutter;Clutter-Effects.html">Reference</ulink></para>
+</sect1>
 
 
 <sect1 id="effects-example"><title>Example</title>
@@ -475,7 +483,10 @@ changing a rectangle's opacity while it is moved a long a straight line:
 <chapter id="sec-behaviours">
 <title>Behaviours</title>
 
-<para>The <link linked="sec-effecst">Effects</link> API is an easy way to use behaviours but you will often need to 
+<sect1>
+<title>Using Behaviours</title>
+
+<para>The <link linked="sec-effecst">Effects</link> API is simple but you will often need to 
 use behaviours directly to have more control.
 </para>
 
@@ -507,6 +518,7 @@ TODO:
 - Standard behaviours.
 </literallayout>
 </para>
+</sect1>
 
 <sect1 id="behaviour-example"><title>Example</title>
 <para>
@@ -553,6 +565,9 @@ image browser)
 
 <appendix id="appendix-implementing-actors">
 <title>Implementing Actors</title>
+
+<sect1>
+<title>Implementing Actors</title>
 <para>
 If the standard &clutter; actors don't meet all your needs then you may create your own custom actor objects. 
 Implementing a custom actor is much like implementing any new GObject type. You may use the <function>G_DEFINE_TYPE</function> 
@@ -586,6 +601,7 @@ by calling <function>clutter_actor_get_geometry()</function> and <function>clutt
 to use &clutter;'s <literal>cogl</literal> abstraction API which provides functions such as <function>cogl_rectangle()</function> 
 and <function>cogl_push_matrix()</function>.
 </para>
+</sect1>
 
 <sect1 id="custom-actor-example"><title>Example</title>
 <para>
