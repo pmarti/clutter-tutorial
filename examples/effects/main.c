@@ -87,6 +87,9 @@ int main(int argc, char *argv[])
   // so you could use a different alpha callback for this.)
   clutter_effect_fade (effect_template, rect, 50, NULL, NULL);
 
+  g_object_unref (effect_template);
+  effect_template = NULL;
+
   /* Start the main loop, so we can respond to events: */
   clutter_main ();
 

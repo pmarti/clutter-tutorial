@@ -440,9 +440,13 @@ and total number of frames, using <function>clutter_timeline_get_current_frame</
 <function>CLUTTER_ALPHA_SINE</function>, allow you to easily specify natural movement. 
 </para>
 <para>You should then provide this <classname>ClutterEffectTemplate</classname> to one of the <function>clutter_effect</function> 
-functions, along with the actor and any extra parameters required by that function.
-</para>
-<para>However, these functions can only control one actor at a time. To control more actors, see the <link linkend="sec-behaviours">Behaviours</link> section.
+functions, along with the actor and any extra parameters required by that function. Remember to unref the effect template after providing it to the effect function 
+(which will take a reference). Unlike actors, these do not have &quot;floating references&quot;.
+</para> 
+
+<para>The effects API is actually a simplified API that wraps the <classname>ClutterBehaviour</classname> objects. 
+However, the effect functions can only control one actor at a time and do not allow you to change the effects while the timeline 
+is running. To do this you can use the behaviours directly, as described in the <link linkend="sec-behaviours">Behaviours</link> section.
 </para>
 
 <para><ulink url="&url_refdocs_base_clutter;Clutter-Effects.html">Reference</ulink></para>
@@ -471,10 +475,15 @@ changing a rectangle's opacity while it is moved a long a straight line:
 <chapter id="sec-behaviours">
 <title>Behaviours</title>
 
+<para>The <link linked="sec-effecst">Effects</link> API is an easy way to use behaviours but you will often need to 
+use behaviours directly to have more control.
+</para>
+
 <para>
 Although the <classname>ClutterTimeline</classname>'s <literal>new-frame</literal> signal allows you to set actor 
 properties for each frame, &clutter; also provides <literal>Behaviour</literal>s which can change specific properties 
-of one specific actor over time, using a simple numeric calculation. In many cases this is a simpler way to implement animation.</para>
+of one specific actor over time, using a simple numeric calculation. In many cases this is a simpler way to implement animation.
+</para>
 <para>For instance, <classname>ClutterBehaviourPath</classname> moves the actor along a specified path, calculating the position 
 on the path once per frame by calling a supplied <literal>alpha</literal> callback. The <classname>ClutterAlpha</classname> 
 object is constructed with this callback and a <classname>ClutterTimeline</classname> which tells it when a new frame needs a 
