@@ -1,5 +1,12 @@
 2007-12-10  Murray Cumming  <murrayc@murrayc.com>
 
+	* examples/custom_actor/main.c: (main): Do not rotate the actor because 
+	this obscures the example.
+	* examples/custom_actor/triangle_actor.c: (clutter_triangle_paint):
+	Paint a triangle with GL instead of a rectangle.
+
+2007-12-10  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Effects section, Behaviours section:
 	Mention the effects are a simple wrapper around Behaviours, and say when 
 	they are not enough.

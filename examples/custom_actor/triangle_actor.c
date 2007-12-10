@@ -15,13 +15,9 @@
  */
 
 #include "triangle_actor.h"
-/*
-#include "clutter-main.h"
-#include "clutter-private.h"
-#include "clutter-debug.h"
-*/
 
-#include "clutter/cogl.h"
+#include "clutter/cogl.h" /* For some helper functions. */
+#include <GL/glx.h> /* For the OpenGL API. */
 
 G_DEFINE_TYPE (ClutterTriangle, clutter_triangle, CLUTTER_TYPE_ACTOR);
 
@@ -67,8 +63,14 @@ clutter_triangle_paint (ClutterActor *self)
 
   cogl_color (&tmp_col);
 
-  /* TODO: Actually paint a triangle instead of a rectangle: */
-  cogl_rectangle (0, 0, geom.width, geom.height);
+  /* Paint a triangle:
+   * Note that we should really check that glGetError()) != GL_NO_ERROR
+   * after each gl call, but that would complicate this example. */
+  glBegin(GL_POLYGON);
+  glVertex2i(0, 0);
+  glVertex2i(0, geom.height);
+  glVertex2i(geom.width, geom.height);
+  glEnd();
 
   cogl_pop_matrix();
 }

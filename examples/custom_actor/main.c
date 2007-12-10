@@ -38,11 +38,6 @@ int main(int argc, char *argv[])
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), actor);
   clutter_actor_show (actor);
 
-  /* Rotate it 20 degrees away from us around the x axis
-   * (around its top edge)
-   */
-  clutter_actor_set_rotation (actor, CLUTTER_X_AXIS, -20, 0, 0, 0);
-
   /* Show the stage: */
   clutter_actor_show (stage);
 
