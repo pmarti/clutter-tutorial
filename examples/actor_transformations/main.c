@@ -37,12 +37,29 @@ int main(int argc, char *argv[])
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), rect);
   clutter_actor_show (rect);
 
+  /* Rotate it 20 degrees away from us around the x axis
+   * (around its top edge)
+   */
+  clutter_actor_set_rotation (rect, CLUTTER_X_AXIS, -20, 0, 0, 0);
+
+
   /* Add a label to the stage: */
   ClutterActor *label = clutter_label_new_full ("Sans 12", "Some Text", &actor_color);
   clutter_actor_set_size (label, 500, 500); /* TODO: Has no effect yet. See bug #631. */
   clutter_actor_set_position (label, 20, 150);
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), label);
   clutter_actor_show (label);
+
+  /* Scale it 300% along the x axis:
+   */
+  clutter_actor_set_scale (label, 3.00, 1.0);
+
+  /* Move it up and to the right: */
+  clutter_actor_move_by (label, 10, -10);
+
+  /* Move it along the z axis, further from the viewer: */
+  clutter_actor_set_depth (label, -20);
+
 
   /* Show the stage: */
   clutter_actor_show (stage);

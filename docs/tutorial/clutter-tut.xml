@@ -285,8 +285,7 @@ positions should then be specified. All actors derive from <classname>ClutterAct
 <para>Like &gtk; widgets, &clutter; actors have a &quot;floating reference&quot; when they are first instantiated with a function 
 such as <function>clutter_rectangle_new()</function>. This reference is then taken when the actor is added to a container, 
 such as the stage. This means that you do not need to unreference the actor after creating it.</para>
-<para>Actors may also be transformed by scaling or rotation, and may be made partly transparent.
-TODO: Mention the rotation and scaling functions when the API has settled down a little.</para>
+<para>Actors may also be transformed by scaling or rotation, and may be made partly transparent.</para>
 
 <para><ulink url="&url_refdocs_base_clutter;Actor.html">Reference</ulink></para>
 
@@ -304,6 +303,60 @@ The following example demonstrates two unmoving actors in a stage:
 
 <para><ulink url="&url_examples_base;actor">Source Code</ulink></para>
 </sect2>
+</sect1>
+
+<sect1 id = "sec-actors-transformations">
+<title>Transformations</title>
+<para>Actors can be scaled, rotated, and moved.</para>
+
+<sect2>
+<title>Scaling</title>
+<para>Call <function>clutter_actor_set_scale()</function> to increase or decrease the apparent size of the actor. 
+Note that this will not change the result of <function>clutter_actor_get_width()</function> and 
+<function>clutter_actor_get_height()</function> because it only changes the size of the actor as seen by the user. 
+Calling <function>clutter_actor_set_scale()</function> again will replace the first scale rather than multiplying it.
+</para>
+</sect2>
+
+<sect2>
+<title>Rotation</title>
+<para>Call <function>clutter_actor_set_rotation()</function> to rotate the actor around an axis, specifying either 
+<literal>CLUTTER_X_AXIS</literal>, <literal>CLUTTER_Y_AXIS</literal> or <literal>CLUTTER_Z_AXIS</literal> and the desired angle. Only two of 
+the x, y, and z coordinates are used, depending on the specified axis. For instance, when using <literal>CLUTTER_X_AXIS</literal>, the y and z parameters specify the center of rotation on 
+the plane of the x axis.
+</para>
+<para>Like the <function>clutter_actor_set_scale()</function>, this does not affect the position, width, or height of the actor as 
+returned by functions such as <function>clutter_actor_get_x()</function>.
+</para>
+</sect2>
+
+<sect2>
+<title>Movement</title>
+<para><classname>Clutter</classname> does not have a translation function that behaves similarly to 
+<function>clutter_actor_set_scale()</function> and <function>clutter_actor_set_rotation()</function>, but you can move the actor by 
+calling <function>clutter_actor_move_by()</function> or <function>clutter_actor_set_depth</function>.
+</para>
+<para>Unlike the scaling and rotation functions, <function>clutter_actor_move_by()</function> does change the result of 
+functions such as <function>clutter_actor_get_x()</function>.
+</para>
+</sect2>
+
+<sect2 id="actor-example-transformations"><title>Example</title>
+<para>
+The following example demonstrates two unmoving actors in a stage, using rotation, scaling and movement:
+</para>
+
+<figure id="figure-actor-transformations">
+  <title>Actor</title>
+  <screenshot>
+    <graphic format="PNG" fileref="&url_figures_base;actor_transformations.png"/>
+  </screenshot>
+</figure>
+
+<para><ulink url="&url_examples_base;actor">Source Code</ulink></para>
+</sect2>
+
+
 </sect1>
 
 <sect1 id = "sec-containers">
@@ -370,13 +423,6 @@ The following example demonstrates handing of clicks on an actor:
 <para><ulink url="&url_examples_base;actor_events">Source Code</ulink></para>
 </sect2>
 </sect1>
-
-<para>
-<literallayout>
-TODO:
-- See also "Implementing Actors"
-</literallayout>
-</para>
 
 </chapter>
 

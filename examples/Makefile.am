@@ -1,6 +1,6 @@
 include $(top_srcdir)/Makefile_web.am_fragment
 
-example_dirs = actor actor_events behaviour custom_actor effects stage stage_widget timeline full_example
+example_dirs = actor actor_events actor_transformations behaviour custom_actor effects stage stage_widget timeline full_example
 # container - Disabled until the new higher-level library exists.
 
 SUBDIRS = $(example_dirs)

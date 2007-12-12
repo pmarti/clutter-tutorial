@@ -1,3 +1,17 @@
+2007-12-12  Murray Cumming  <murrayc@murrayc.com>
+
+	* configure.ac:
+	* examples/Makefile.am:
+	* examples/actor_transformations/main.c: (main):
+	Added this example.
+	* examples/actor/main.c: (main): Removed the 
+	rotation from this example.
+	* docs/tutorial/clutter-tut.xml: Actors: Added a 
+	transformations sub-section.
+	* docs/tutorial/figures/Makefile.am:
+	* docs/tutorial/figures/: Added screenshots for 
+	actor_events and actor_transformations.
+
 2007-12-10  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/figures/Makefile.am:
