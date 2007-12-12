@@ -267,7 +267,6 @@ Theoretically, therefore, most actors would be invisible if they were exactly ro
 When complex 3D objects are needed, you may use the full OpenGL ES API, as mentioned in the <link linkend="appendix-using-opengl-directly">appendix</link>, 
 but let's look at the standard actors for now:
 <itemizedlist>
-
 <listitem><para><ulink url="&url_refdocs_base_clutter;Stage.html">ClutterStage</ulink>: The stage itself, mentioned already</para></listitem>
 <listitem><para><ulink url="&url_refdocs_base_clutter;Rectangle.html">ClutterRectangle</ulink>: A rectangle.</para></listitem>
 <listitem><para><ulink url="&url_refdocs_base_clutter;Label.html">ClutterLabel</ulink>: Displays text.</para></listitem>
@@ -487,9 +486,9 @@ rotation by calling the supplied <literal>alpha</literal> callback.
 </para>
 <para>To use a clutter effect, you should first create a <classname>ClutterEffectTemplate</classname>, specifying your 
 timeline object and a <classname>ClutterAlphaFunc</classname> callback. This callback will need to call 
-<function>clutter_alpha_get_timeline</function> so it can return a value based on the timeline's current frame number 
-and total number of frames, using <function>clutter_timeline_get_current_frame</function> and 
-<function>clutter_timeline_get_n_frames</function>. Several built-in callbacks, such as 
+<function>clutter_alpha_get_timeline()</function> so it can return a value based on the timeline's current frame number 
+and total number of frames, using <function>clutter_timeline_get_current_frame()</function> and 
+<function>clutter_timeline_get_n_frames()</function>. Several built-in callbacks, such as 
 <function>CLUTTER_ALPHA_SINE</function>, allow you to easily specify natural movement. 
 </para>
 <para>You should then provide this <classname>ClutterEffectTemplate</classname> to one of the <function>clutter_effect</function> 
@@ -546,9 +545,9 @@ on the path once per frame by calling a supplied <literal>alpha</literal> callba
 object is constructed with this callback and a <classname>ClutterTimeline</classname> which tells it when a new frame needs a 
 new value to be calculated.</para>
 
-<para>Your <literal>alpha</literal> callback will need to call <function>clutter_alpha_get_timeline</function> so it can return 
+<para>Your <literal>alpha</literal> callback will need to call <function>clutter_alpha_get_timeline()</function> so it can return 
 a value based on the timeline's current frame number and total number of frames, using 
-<function>clutter_timeline_get_current_frame</function> and <function>clutter_timeline_get_n_frames</function>. Several built-in callbacks, such as 
+<function>clutter_timeline_get_current_frame</function> and <function>clutter_timeline_get_n_frames()</function>. Several built-in callbacks, such as 
 <function>CLUTTER_ALPHA_SINE</function>, allow you to easily specify natural movement. 
 </para>
 
@@ -558,12 +557,18 @@ as much time as specified by the timeline's number of frames and frames per seco
 
 <para>Remember to unref the alpha after providing it to the behaviour (which will take a reference) and remember to unref 
 the behaviour when you are finished with it. Unlike actors, these do not have &quot;floating references&quot;.</para> 
-<para>The 
-<literallayout>
-TODO:
-- Standard behaviours.
-</literallayout>
+<para>The following standard behaviours are available in &clutter;:
+<itemizedlist>
+<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourBspline.html">ClutterBehaviourBspline</ulink>: Moves the actor along a bezier spline.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourDepth.html">ClutterBehaviourDepth</ulink>: Moves the actor along the z axis.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourEllipse.html">ClutterBehaviourEllipse</ulink>: Moves the actor around an ellipse.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourOpacity.html">ClutterBehaviourOpacity</ulink>: Changes the opacity of the actor.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourPath.html">ClutterBehaviourPath</ulink>: Moves the actor along a path defined by a set of points</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourRotate.html">ClutterBehaviourRotate</ulink>: Rotates the actor.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourScale.html">ClutterBehaviourScale</ulink>: Scales the actor.</para></listitem>
+</itemizedlist>
 </para>
+
 </sect1>
 
 <sect1 id="behaviour-example"><title>Example</title>

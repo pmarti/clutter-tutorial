@@ -1,5 +1,10 @@
 2007-12-12  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/clutter-tut.xml: Behaviours: 
+	List the standard behaviours.
+
+2007-12-12  Murray Cumming  <murrayc@murrayc.com>
+
 	* configure.ac:
 	* examples/Makefile.am:
 	* examples/actor_transformations/main.c: (main):
