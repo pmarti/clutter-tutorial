@@ -1,3 +1,17 @@
+2007-12-13  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Contributing: 
+	Correct the email address.
+	Timelines: Mention behaviours and actors, while 
+	still avoiding trying to explain them all in one 
+	paragraph, because each chapter explains the advantage 
+	compared to the previous one. I don't want to confuse 
+	people with too many concepts too quickly.
+	Actor Events: Mention 
+	clutter_set_motion_events_enabled() and 
+	clutter_actor_set_reactive().
+	Thanks to Tommi Komulainen for the suggestions.
+
 2007-12-12  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Behaviours: 

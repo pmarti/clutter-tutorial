@@ -95,7 +95,7 @@ allowing interaction only with a 2D plane such as a touchscreen. In addition, yo
 context to show the user which objects are, for instance, small rather than far away.</para>
 <para>In addition, &clutter; provides timeline and behavior abstractions which simplify animation.</para> 
 <para>&clutter; uses the popular OpenGL 3D graphics API on regular desktop PCs, allowing it access to hardware acceleration. 
-Onn handheld devices it can use OpenGL ES, a subset of the OpenGL API aimed at embedded devices. So, where necessary, you may also use OpenGL or OpenGL ES directly.</para> 
+On handheld devices it can use OpenGL ES, a subset of the OpenGL API aimed at embedded devices. So, where necessary, you may also use OpenGL or OpenGL ES directly.</para> 
 <para>
 In the next few chapters you will learn how to place actors on the stage, how to set their properties, how to change 
 their properties (including their position) over time by using timelines and behaviours, and how to do all this in response to 
@@ -112,7 +112,7 @@ user interaction.</para>
 <title>Prebuilt Packages</title>
 
 <para>&clutter; packages are probably available from your Linux distribution. 
-For instance, on Ubuntu Linux or debian you can install the <literal>libclutter-0.4-dev</literal> package.
+For instance, on Ubuntu Linux or Debian you can install the <literal>libclutter-0.4-dev</literal> package.
 </para>
 
 </sect1>
@@ -178,7 +178,8 @@ applications and libraries:
 <sect1 id="sec-stage-basics">
 <title>Stage Basics</title>
 
-<para>Each &clutter; application contains at least one <classname>ClutterStage</classname>. This stage contains Actors such as 
+<para>Each &clutter; application contains at least one <classname>ClutterStage</classname>. Actually, &clutter; currently 
+allows only one stage per application, but this limitation might be removed in future. This stage contains Actors such as 
 rectangles, images, or text. We will talk more about the actors in the next chapter, but for now let's see how a stage can 
 be created and how we can respond to user interaction with the stage itself.
 </para>
@@ -406,6 +407,11 @@ g_signal_connect (rect, "button-press-event", G_CALLBACK (on_rect_button_press),
 </para>
 <para>Alternatively, you might just handle signals from the parent <classname>ClutterStage</classname> and use 
 <function>clutter_stage_get_actor_at_pos</function> to discover which actor should be affected.</para>
+<para>However, as a performance optimization, &clutter; does not emit all event signals by default. For instance, to 
+receive event signals for an actor instead of just the stage, you must call <function>clutter_actor_set_reactive()</function>, 
+and to receive the motion event signals (<literal>motion-event</literal>, <literal>enter-event</literal> and <literal>leave-event</literal>), 
+you must call the global <function>clutter_set_motion_events_enabled()</function> function.
+</para>
 
 <sect2 id="actor-example-events"><title>Example</title>
 <para>
@@ -433,6 +439,10 @@ The following example demonstrates handing of clicks on an actor:
 <title>Using Timelines</title>
 <para>
 A <classname>ClutterTimeline</classname> can be used to change the position or appearance of an actor over time. 
+These can be used directly as described in this chapter, or together with an effect or behaviour, as you will see in 
+the following chapters.</para> 
+
+<para>
 The timeline object emits its <literal>new-frame</literal> signal for each frame that should be drawn, 
 for as many frames per second as specified. In your signal handler you can set the actor's properties. 
 For instance, the actor might be moved and rotated over time, and its color might change while this is happening.
@@ -531,7 +541,7 @@ changing a rectangle's opacity while it is moved a long a straight line:
 <sect1>
 <title>Using Behaviours</title>
 
-<para>The <link linked="sec-effecst">Effects</link> API is simple but you will often need to 
+<para>The <link linked="sec-effects">Effects</link> API is simple but you will often need to 
 use behaviours directly to have more control.
 </para>
 
@@ -676,7 +686,7 @@ The following example demonstrates the implementation of a new triangle Actor ty
 <para>
 TODO:
 There is no built-in API or actor to assist with this, so this section will 
-show an example implemention of a simple scrolled, based on the scrolled track listing in 
+show an example implementation of a simple scrolled, based on the scrolled track listing in 
 the woohaa example application.
 
 Scrolling will be triggered by either a key press or a mouse drag.
@@ -693,7 +703,7 @@ that should be visible when dealing with large numbers of rows, and implementing
 <title>Implementing Text Editing</title>
 <para>
 TODO:
-Clutter contains a ClutterEntry actor for single-line text entry. This will be described, but beause it 
+Clutter contains a ClutterEntry actor for single-line text entry. This will be described, but because it 
 is limited this section will also discuss its implementation, and attempt to implement multiline text entry. 
 This should provide enough insight for developers to implement the specific UI behaviour that they need for 
 their application.
@@ -714,8 +724,8 @@ effects should be used sparingly, to avoid breaking the familiar interaction con
 <chapter id="sec-Contributing">
 <title>Contributing</title>
 <para>
-If you find errors in this documentation or if you would like to contibute additional material, you are
-encouraged to write an email to gtkmm-list@gnome.org. Thanks!
+If you find errors in this documentation or if you would like to contribute additional material, you are
+encouraged to write an email to clutter@o-hand.com. Thanks.
 </para>
 </chapter>
 
