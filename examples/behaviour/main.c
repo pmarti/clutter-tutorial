@@ -81,6 +81,7 @@ int main(int argc, char *argv[])
  
   ClutterBehaviour *behaviour = clutter_behaviour_path_new (alpha, knot, sizeof(knot) / sizeof(ClutterKnot));
   clutter_behaviour_apply (behaviour, rect);
+  g_object_unref (timeline);
 
   /* Start the main loop, so we can respond to events: */
   clutter_main ();

@@ -1,5 +1,15 @@
 2007-12-13  Murray Cumming  <murrayc@murrayc.com>
 
+	* examples/behaviour/main.c: (main):
+	* examples/effects/main.c: (main):
+	* examples/timeline/main.c: (main): unref the timeline when the mainloop 
+	stops.
+	* examples/full_example/main.c: Avoid using even 360 degrees (not just >360) 
+	to avoid an extra rotation of some items. Move and scale the clicked item 
+	when the rotation stops.
+
+2007-12-13  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Contributing: 
 	Correct the email address.
 	Timelines: Mention behaviours and actors, while 

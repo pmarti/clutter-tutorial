@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
   clutter_effect_fade (effect_template, rect, 50, NULL, NULL);
 
   g_object_unref (effect_template);
-  effect_template = NULL;
+  g_object_unref (timeline);
 
   /* Start the main loop, so we can respond to events: */
   clutter_main ();

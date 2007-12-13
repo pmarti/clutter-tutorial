@@ -84,6 +84,8 @@ int main(int argc, char *argv[])
   /* Start the main loop, so we can respond to events: */
   clutter_main ();
 
+  g_object_unref (timeline);
+
   return EXIT_SUCCESS;
 
 }
