@@ -19,6 +19,9 @@
 
 ClutterActor *stage = NULL;
 
+/* For showing the filename: */
+ClutterActor *label_filename = NULL;
+
 /* For rotating all images around an ellipse: */
 ClutterTimeline *timeline_rotation = NULL;
 
@@ -26,6 +29,7 @@ ClutterTimeline *timeline_rotation = NULL;
 ClutterTimeline *timeline_moveup = NULL;
 ClutterBehaviour *behaviour_scale = NULL;
 ClutterBehaviour *behaviour_path = NULL;
+ClutterBehaviour *behaviour_opacity = NULL;
 
 static void
 on_texture_button_press (ClutterActor *actor, ClutterEvent *event, gpointer data);
@@ -190,6 +194,9 @@ void on_timeline_moveup_completed(ClutterTimeline* timeline, gpointer user_data)
 
   g_object_unref (behaviour_path);
   behaviour_path = NULL;
+
+  g_object_unref (behaviour_opacity);
+  behaviour_opacity = NULL;
 }
 
 /* This signal handler is called when the items have completely 
@@ -197,11 +204,13 @@ void on_timeline_moveup_completed(ClutterTimeline* timeline, gpointer user_data)
  */
 void on_timeline_rotation_completed(ClutterTimeline* timeline, gpointer user_data)
 {
-  ClutterActor *actor = item_at_front->actor;
-
   /* All the items have now been rotated so that the clicked item is at the front. */
-  /* Now we transform just ths one item gradually some more: */
+  /* Now we transform just this one item gradually some more,
+   * and show the filename: */
 
+
+  /* Transform the image: */
+  ClutterActor *actor = item_at_front->actor;
   timeline_moveup = clutter_timeline_new(60 /* frames */, 30 /* frames per second. */);
   ClutterAlpha *alpha = clutter_alpha_new_full (timeline_moveup, CLUTTER_ALPHA_SINE_INC, NULL, NULL);
  
@@ -224,6 +233,14 @@ void on_timeline_rotation_completed(ClutterTimeline* timeline, gpointer user_dat
     clutter_behaviour_path_new  (alpha, knots, G_N_ELEMENTS(knots));
   clutter_behaviour_apply (behaviour_path, actor);
 
+
+  /* Show the filename gradually: */
+  clutter_label_set_text (CLUTTER_LABEL (label_filename), item_at_front->filepath);
+  behaviour_opacity = 
+    clutter_behaviour_opacity_new (alpha, 0, 255);
+  clutter_behaviour_apply (behaviour_opacity, label_filename);
+
+
   /* Start the timeline and handle its "completed" signal so we can unref it. */
   g_signal_connect (timeline_moveup, "completed", G_CALLBACK (on_timeline_moveup_completed), NULL);
   clutter_timeline_start (timeline_moveup);
@@ -240,6 +257,7 @@ void rotate_all_until_item_is_at_front(Item *item)
   /* Stop the other timeline in case that is active at the same time: */
   if(timeline_moveup)
     clutter_timeline_stop (timeline_moveup);
+  clutter_actor_set_opacity (label_filename, 0);
 
   /* Get the item's position in the list: */
   const gint pos = g_slist_index (list_items, item);
@@ -361,7 +379,17 @@ int main(int argc, char *argv[])
   /* Allow clutter to emit motion-event, enter-event, and leave-event.
    * By default this is disabled, to improve performance:
    */
-  clutter_set_motion_events_enabled(TRUE);
+  /* clutter_set_motion_events_enabled (TRUE); */
+
+  /* Create and add a label actor, hidden at first: */
+  label_filename = clutter_label_new ();
+  ClutterColor label_color = { 0x60, 0x60, 0x90, 0xff };
+  clutter_label_set_color (CLUTTER_LABEL (label_filename), &label_color);
+  clutter_label_set_font_name (CLUTTER_LABEL (label_filename), "Sans 24");
+  clutter_actor_set_position (label_filename, 10, 10);
+  clutter_actor_set_opacity (label_filename, 0);
+  clutter_container_add_actor (CLUTTER_CONTAINER (stage), label_filename);
+  clutter_actor_show (label_filename);
 
   /* Show the stage: */
   clutter_actor_show (stage);

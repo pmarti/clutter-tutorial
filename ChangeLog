@@ -1,5 +1,11 @@
 2007-12-13  Murray Cumming  <murrayc@murrayc.com>
 
+	* examples/full_example/main.c: Gradualyl show a label with the filename 
+	when showing the item. I could make this more attractive when we have 
+	container actors again. 
+
+2007-12-13  Murray Cumming  <murrayc@murrayc.com>
+
 	* examples/behaviour/main.c: (main):
 	* examples/effects/main.c: (main):
 	* examples/timeline/main.c: (main): unref the timeline when the mainloop 
