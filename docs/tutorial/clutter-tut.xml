@@ -568,8 +568,7 @@ a value based on the timeline's current frame number and total number of frames,
 end there unless the timeline is set to loop. For instance, an actor will move along a path until it has reached the end, taking 
 as much time as specified by the timeline's number of frames and frames per second.</para> 
 
-<para>Remember to unref the alpha after providing it to the behaviour (which will take a reference) and remember to unref 
-the behaviour when you are finished with it. Unlike actors, these do not have &quot;floating references&quot;.</para> 
+<para>Like actors, <classname>ClutterAlpha</classname> has a &quot;floating references&quot; so you don't need to unref it if you have added it to a behaviour.</para> 
 <para>The following standard behaviours are available in &clutter;:
 <itemizedlist>
 <listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourBspline.html">ClutterBehaviourBspline</ulink>: Moves the actor along a bezier spline.</para></listitem>
@@ -667,6 +666,11 @@ by calling <function>clutter_actor_get_geometry()</function> and <function>clutt
 <para>To make your code work with both OpenGL ES and regular OpenGL (and maybe even future &clutter; backends), you may wish 
 to use &clutter;'s <literal>cogl</literal> abstraction API which provides functions such as <function>cogl_rectangle()</function> 
 and <function>cogl_push_matrix()</function>.
+</para>
+<para>Most of the rest of <classname>ClutterActor</classname>'s virtual functions don't need to be reimplemented, because a suitable default implemention exists in 
+<classname>ClutterActor</classname>. For instance, 
+<function>show()</function>, <function>show_all()</function>, <function>hide()</function>, <function>hide_all()</function>, <function>pick()</function>, 
+<function>request_coord()</function>. TODO: However, mention show/hide_all() when we have containers again.
 </para>
 </sect1>
 

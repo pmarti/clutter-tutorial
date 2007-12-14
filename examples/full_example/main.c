@@ -136,7 +136,7 @@ void add_to_ellipse_behaviour(ClutterTimeline *timeline_rotation, gdouble start_
     start_angle, start_angle + 360);
   clutter_behaviour_ellipse_set_angle_tilt (CLUTTER_BEHAVIOUR_ELLIPSE (item->ellipse_behaviour), 
     CLUTTER_X_AXIS, -90);
-  g_object_unref (alpha);
+  /* Note that ClutterAlpha has a floating reference, so we don't need to unref it. */
 
   clutter_behaviour_apply (item->ellipse_behaviour, item->actor);
 }
@@ -250,7 +250,7 @@ void on_timeline_rotation_completed(ClutterTimeline* timeline, gpointer user_dat
   g_signal_connect (timeline_moveup, "completed", G_CALLBACK (on_timeline_moveup_completed), NULL);
   clutter_timeline_start (timeline_moveup);
 
-  g_object_unref (alpha);
+  /* Note that ClutterAlpha has a floating reference so we don't need to unref it. */
 }
 
 void rotate_all_until_item_is_at_front(Item *item)

@@ -1,5 +1,13 @@
 2007-12-14  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/clutter-tut.xml: Behaviours: ClutterAlpha _does_ have a a 
+	floating reference.
+	* examples/full_example/main.c: (add_to_ellipse_behaviour),
+	(on_timeline_rotation_completed): Do not unref the ClutterAlpha because it has a 
+	floating reference. 
+
+2007-12-14  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/style.css: Make the header pink with black text, to be slightly 
 	more like the default gtk-doc style.
 	* docs/tutorial/clutter-tut.xml: Full Example: Added a description of what it does.
