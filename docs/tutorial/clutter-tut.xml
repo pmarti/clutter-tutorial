@@ -408,9 +408,9 @@ g_signal_connect (rect, "button-press-event", G_CALLBACK (on_rect_button_press),
 <para>Alternatively, you might just handle signals from the parent <classname>ClutterStage</classname> and use 
 <function>clutter_stage_get_actor_at_pos</function> to discover which actor should be affected.</para>
 <para>However, as a performance optimization, &clutter; does not emit all event signals by default. For instance, to 
-receive event signals for an actor instead of just the stage, you must call <function>clutter_actor_set_reactive()</function>, 
-and to receive the motion event signals (<literal>motion-event</literal>, <literal>enter-event</literal> and <literal>leave-event</literal>), 
-you must call the global <function>clutter_set_motion_events_enabled()</function> function.
+receive event signals for an actor instead of just the stage, you must call <function>clutter_actor_set_reactive()</function>. 
+If you don't need the motion event signals (<literal>motion-event</literal>, <literal>enter-event</literal> and <literal>leave-event</literal>), 
+you may call the global <function>clutter_set_motion_events_enabled()</function> function with <literal>FALSE</literal> to further optimize performance.
 </para>
 <para>TODO: Explain the captured-event signal, which seems to be a way to handle all events in one signal handler, before the other event 
 signals are emitted (and so you can stop them from even being emitted by returning true). 

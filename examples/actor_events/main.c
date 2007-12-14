@@ -102,11 +102,6 @@ int main(int argc, char *argv[])
   clutter_actor_show (rect);
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), rect);
 
-  /* Allow clutter to emit motion-event, enter-event, and leave-event.
-   * By default this is disabled, to improve performance:
-   */
-  clutter_set_motion_events_enabled(TRUE);
-
   /* Allow the actor to emit events.
    * By default only the stage does this.
    */

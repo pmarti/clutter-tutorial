@@ -381,11 +381,6 @@ int main(int argc, char *argv[])
   clutter_actor_set_size (stage, 800, 600);
   clutter_stage_set_color (CLUTTER_STAGE (stage), &stage_color);
 
-  /* Allow clutter to emit motion-event, enter-event, and leave-event.
-   * By default this is disabled, to improve performance:
-   */
-  /* clutter_set_motion_events_enabled (TRUE); */
-
   /* Create and add a label actor, hidden at first: */
   label_filename = clutter_label_new ();
   ClutterColor label_color = { 0x60, 0x60, 0x90, 0xff }; /* blueish */

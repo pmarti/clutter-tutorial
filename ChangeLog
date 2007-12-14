@@ -1,5 +1,13 @@
 2007-12-14  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/clutter-tut.xml: Actor Events: 
+	motion events are now on by default, so rephrase.
+	* examples/actor_events/main.c: (main):
+	* examples/full_example/main.c: (main):
+	Don't bother calling clutter_set_motion_events_enabled(TRUE);
+
+2007-12-14  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Timelines, Behaviours: Mention the 
 	ClutterTimeline::completed signal, which you should handle when you want 
 	to unref timelines and behaviours as soon as possible.
