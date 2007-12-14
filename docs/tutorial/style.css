@@ -217,7 +217,7 @@ p { text-align: justify; }
 
 div.navheader tbody , div.navfooter tbody, div.navfooter td   {
     border: 0px;
-    color: #FFFFFF;
+    color: black;
 }
 
 div.navHeader a:link, div.navFooter a:link,
@@ -227,7 +227,7 @@ div.navHeader a:visited, div.navFooter a:visited   {
 
 div.navHeader, div.navFooter   {
     padding: 1em;
-    background-color: #a0afff;
+    background-color: #FFEEEE; /* pink */
     border: 1px solid #000000;
 }
 

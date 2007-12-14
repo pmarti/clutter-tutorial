@@ -412,6 +412,9 @@ receive event signals for an actor instead of just the stage, you must call <fun
 and to receive the motion event signals (<literal>motion-event</literal>, <literal>enter-event</literal> and <literal>leave-event</literal>), 
 you must call the global <function>clutter_set_motion_events_enabled()</function> function.
 </para>
+<para>TODO: Explain the captured-event signal, which seems to be a way to handle all events in one signal handler, before the other event 
+signals are emitted (and so you can stop them from even being emitted by returning true). 
+the.</para>
 
 <sect2 id="actor-example-events"><title>Example</title>
 <para>
@@ -541,7 +544,7 @@ changing a rectangle's opacity while it is moved a long a straight line:
 <sect1>
 <title>Using Behaviours</title>
 
-<para>The <link linked="sec-effects">Effects</link> API is simple but you will often need to 
+<para>The <link linkend="sec-effects">Effects</link> API is simple but you will often need to 
 use behaviours directly to have more control.
 </para>
 
@@ -603,14 +606,17 @@ This simply moves the rectangle from the top-left to the bottom-right of the can
 <chapter id="sec-full-example">
 <title>Full Example</title>
 
+<para>This example loads images from a directory and displays them in a rotating ellipse. You may click an image to 
+bring it to the front. When the image has rotated to the front it will move up while increasing in size, and the file path 
+will appear at the top of the window.
+</para>
 <para>
-<literallayout>
-TODO:
-- A more complete example, with more useful animation and interaction,
-with explanation.
-  (probably based on one of the existing clutter examples, such as an
-image browser)
-</literallayout>
+This is larger than the examples used so far, with multiple timelines and multiple behaviours affecting multiple actors. 
+However, it's still a relatively simple example. A real application would need to be more flexible and have more functionality.
+</para>
+
+<para>
+TODO: Make this prettier. Use containers to do that.
 </para>
 
 <figure id="figure-full-example">

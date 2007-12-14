@@ -31,6 +31,11 @@ ClutterBehaviour *behaviour_scale = NULL;
 ClutterBehaviour *behaviour_path = NULL;
 ClutterBehaviour *behaviour_opacity = NULL;
 
+/* The y position of the ellipse of images: */
+const gint ELLIPSE_Y = 390;
+const gint ELLIPSE_HEIGHT = 450; /* The distance from front to back when it's rotated 90 degrees. */
+const gint IMAGE_HEIGHT = 100;
+
 static void
 on_texture_button_press (ClutterActor *actor, ClutterEvent *event, gpointer data);
 
@@ -64,7 +69,7 @@ void scale_texture_default(ClutterActor *texture)
   g_return_if_fail (pixbuf);
 
   const int pixbuf_height = gdk_pixbuf_get_height(pixbuf);
-  const gdouble scale = pixbuf_height ? 100 /  (gdouble)pixbuf_height : 0;
+  const gdouble scale = pixbuf_height ? IMAGE_HEIGHT /  (gdouble)pixbuf_height : 0;
   clutter_actor_set_scale (texture, scale, scale);
 }
 
@@ -125,12 +130,12 @@ void add_to_ellipse_behaviour(ClutterTimeline *timeline_rotation, gdouble start_
   ClutterAlpha *alpha = clutter_alpha_new_full (timeline_rotation, CLUTTER_ALPHA_SINE_INC, NULL, NULL);
  
   item->ellipse_behaviour = clutter_behaviour_ellipse_new (alpha, 
-    300, 300, /* x, y */
-    450, 450, /* width, height */
+    320, ELLIPSE_Y, /* x, y */
+    ELLIPSE_HEIGHT, ELLIPSE_HEIGHT, /* width, height */
     CLUTTER_ROTATE_CW,
     start_angle, start_angle + 360);
   clutter_behaviour_ellipse_set_angle_tilt (CLUTTER_BEHAVIOUR_ELLIPSE (item->ellipse_behaviour), 
-    CLUTTER_X_AXIS, -70);
+    CLUTTER_X_AXIS, -90);
   g_object_unref (alpha);
 
   clutter_behaviour_apply (item->ellipse_behaviour, item->actor);
@@ -214,10 +219,10 @@ void on_timeline_rotation_completed(ClutterTimeline* timeline, gpointer user_dat
   timeline_moveup = clutter_timeline_new(60 /* frames */, 30 /* frames per second. */);
   ClutterAlpha *alpha = clutter_alpha_new_full (timeline_moveup, CLUTTER_ALPHA_SINE_INC, NULL, NULL);
  
-  /* Scale the item from its normal scale to twice the normal scale: */
+  /* Scale the item from its normal scale to approximately twice the normal scale: */
   gdouble scale_start = 0;
   clutter_actor_get_scale (actor, &scale_start, NULL);
-  const gdouble scale_end = scale_start * 2;
+  const gdouble scale_end = scale_start * 1.8;
 
   behaviour_scale = 
     clutter_behaviour_scale_new (alpha, scale_start, scale_end, CLUTTER_GRAVITY_NONE);
@@ -228,7 +233,7 @@ void on_timeline_rotation_completed(ClutterTimeline* timeline, gpointer user_dat
   knots[0].x = clutter_actor_get_x (actor);
   knots[0].y = clutter_actor_get_y (actor);
   knots[1].x = knots[0].x;
-  knots[1].y = knots[0].y - 200;
+  knots[1].y = knots[0].y - 250;
   behaviour_path = 
     clutter_behaviour_path_new  (alpha, knots, G_N_ELEMENTS(knots));
   clutter_behaviour_apply (behaviour_path, actor);
@@ -367,7 +372,7 @@ on_texture_button_press (ClutterActor *actor, ClutterEvent *event, gpointer user
 
 int main(int argc, char *argv[])
 {
-  ClutterColor stage_color = { 0x00, 0x00, 0x00, 0xff };
+  ClutterColor stage_color = { 0xB0, 0xB0, 0xB0, 0xff }; /* light gray */
 
   clutter_init (&argc, &argv);
 
@@ -383,13 +388,27 @@ int main(int argc, char *argv[])
 
   /* Create and add a label actor, hidden at first: */
   label_filename = clutter_label_new ();
-  ClutterColor label_color = { 0x60, 0x60, 0x90, 0xff };
+  ClutterColor label_color = { 0x60, 0x60, 0x90, 0xff }; /* blueish */
   clutter_label_set_color (CLUTTER_LABEL (label_filename), &label_color);
   clutter_label_set_font_name (CLUTTER_LABEL (label_filename), "Sans 24");
   clutter_actor_set_position (label_filename, 10, 10);
   clutter_actor_set_opacity (label_filename, 0);
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), label_filename);
   clutter_actor_show (label_filename);
+
+  /* Add a plane under the ellipse of images: */
+  ClutterColor rect_color = { 0xff, 0xff, 0xff, 0xff }; /* white */
+  ClutterActor *rect = clutter_rectangle_new_with_color (&rect_color);
+  clutter_actor_set_height (rect, ELLIPSE_HEIGHT + 20);
+  clutter_actor_set_width (rect, clutter_actor_get_width (stage) + 100);
+  /* Position it so that its center is under the images: */
+  clutter_actor_set_position (rect, 
+    -(clutter_actor_get_width (rect) - clutter_actor_get_width (stage)) / 2, 
+    ELLIPSE_Y + IMAGE_HEIGHT - (clutter_actor_get_height (rect) / 2));
+  /* Rotate it around its center: */
+  clutter_actor_set_rotation (rect, CLUTTER_X_AXIS, -90, 0, (clutter_actor_get_height (rect) / 2), 0);
+  clutter_container_add_actor (CLUTTER_CONTAINER (stage), rect);
+  clutter_actor_show (rect);
 
   /* Show the stage: */
   clutter_actor_show (stage);

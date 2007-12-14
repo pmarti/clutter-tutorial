@@ -1,3 +1,13 @@
+2007-12-14  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/style.css: Make the header pink with black text, to be slightly 
+	more like the default gtk-doc style.
+	* docs/tutorial/clutter-tut.xml: Full Example: Added a description of what it does.
+	* docs/tutorial/figures/Makefile.am:
+	* docs/tutorial/figures/: Added full_example.png.
+	* examples/full_example/main.c: Make the background gray. Add a white rectangle under 
+	the ellipse to give more sense of 3D. This is still rather ugly.
+
 2007-12-13  Murray Cumming  <murrayc@murrayc.com>
 
 	* examples/full_example/main.c: Gradualyl show a label with the filename 
