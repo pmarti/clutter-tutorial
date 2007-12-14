@@ -1,5 +1,11 @@
 2007-12-14  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/clutter-tut.xml: Timelines, Behaviours: Mention the 
+	ClutterTimeline::completed signal, which you should handle when you want 
+	to unref timelines and behaviours as soon as possible.
+
+2007-12-14  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Behaviours: ClutterAlpha _does_ have a a 
 	floating reference.
 	* examples/full_example/main.c: (add_to_ellipse_behaviour),
