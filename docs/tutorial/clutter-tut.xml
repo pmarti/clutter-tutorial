@@ -88,12 +88,13 @@ with this document, and would appreciate input regarding improvements. Please se
 <para>
 &clutter; is a C programming API that allows you to create simple but visually appealing and involving user interfaces.
 It offers a variety of objects (actors) which can be placed on a canvas (stage) and manipulated by the application or the user. 
-Unlike traditional 2D canvas APIs, &clutter; allows these actors to move partly in the Z dimension.</para>
+It is therefore a &quot;retained mode&quot; graphics API. Unlike traditional 2D canvas APIs, &clutter; allows these actors to move partly in the Z dimension. </para>
 <para>This 2.5D concept simplifies the creation of 3D interfaces compared to direct use of OpenGL or other 3D drawing APIs. 
 For instance, it restricts the user interaction to the 2D plane facing the user, which is appropriate for today's devices 
 allowing interaction only with a 2D plane such as a touchscreen. In addition, your application does not need to provide visual 
 context to show the user which objects are, for instance, small rather than far away.</para>
-<para>In addition, &clutter; provides timeline and behavior abstractions which simplify animation.</para> 
+<para>In addition, &clutter; provides timeline and behavior abstractions which simplify animation by allowing you to associate actor properties 
+(such as position, rotation, or opacity) with callback functions, including pre-defined functions of time such as sine waves.</para> 
 <para>&clutter; uses the popular OpenGL 3D graphics API on regular desktop PCs, allowing it access to hardware acceleration. 
 On handheld devices it can use OpenGL ES, a subset of the OpenGL API aimed at embedded devices. So, where necessary, you may also use OpenGL or OpenGL ES directly.</para> 
 <para>
@@ -282,6 +283,8 @@ positions should then be specified. All actors derive from <classname>ClutterAct
 <function>clutter_actor_set_depth()</function>, with larger values placing the actor further away from the observer. 
 <function>clutter_actor_set_size()</function> sets the width and height.
 </para>
+<para>By default, actors are hidden, so remember to call <function>clutter_actor_show</function>(). You may later call <function>clutter_actor_hide()</function> to 
+temporarily hide the object again.</para>
 <para>Like &gtk; widgets, &clutter; actors have a &quot;floating reference&quot; when they are first instantiated with a function 
 such as <function>clutter_rectangle_new()</function>. This reference is then taken when the actor is added to a container, 
 such as the stage. This means that you do not need to unreference the actor after creating it.</para>
@@ -412,6 +415,15 @@ receive event signals for an actor instead of just the stage, you must call <fun
 If you don't need the motion event signals (<literal>motion-event</literal>, <literal>enter-event</literal> and <literal>leave-event</literal>), 
 you may call the global <function>clutter_set_motion_events_enabled()</function> function with <literal>FALSE</literal> to further optimize performance.
 </para>
+<para>Your event signal handler should return <literal>true</literal> when it has fully handled the event, or <literal>false</literal> if you want the event to be sent also 
+to the next actor in the event chain. &clutter; first allows the stage to handle each event. But if the stage does not handle the event then it will be passed down to the child widget, 
+first passing through the widget's parent containers. If the event has still not been handled fully by any signal handler then the event will passed back up through the parents again, 
+ending at the stage.</para>
+
+<para>Actors usually only receive keyboard events when the actor has key focus, but you can give an actor exclusive access to any events by grabbing either the pointer or 
+the keyboard, using <function>clutter_grab_pointer</function> or <function>clutter_grab_keyboard</function>.
+</para>
+
 <para>TODO: Explain the captured-event signal, which seems to be a way to handle all events in one signal handler, before the other event 
 signals are emitted (and so you can stop them from even being emitted by returning true). 
 the.</para>
@@ -493,8 +505,8 @@ The following example demonstrates the use of a timeline to rotate a rectangle a
 <title>Using Effects</title>
 
 <para>
-&clutter; provides several simple effects functions that can be used together with a timeline to change the properties of 
-a single actor over time, using a simple numeric calculation. In many cases this is a simpler way to implement animation. 
+&clutter; provides several effects functions that can be used together with a timeline to change the properties of 
+a single actor over time, using a simple numeric calculation. In many cases this is an easier way to implement animation. 
 For instance, <function>clutter_effect_fade()</function> gradually changes the opacity of an 
 actor or <function>clutter_effect_rotate_x()</function> gradually changes the rotation of an actor, calculating the opacity or 
 rotation by calling the supplied <literal>alpha</literal> callback.
@@ -503,8 +515,9 @@ rotation by calling the supplied <literal>alpha</literal> callback.
 timeline object and a <classname>ClutterAlphaFunc</classname> callback. This callback will need to call 
 <function>clutter_alpha_get_timeline()</function> so it can return a value based on the timeline's current frame number 
 and total number of frames, using <function>clutter_timeline_get_current_frame()</function> and 
-<function>clutter_timeline_get_n_frames()</function>. Several built-in callbacks, such as 
-<function>CLUTTER_ALPHA_SINE</function>, allow you to easily specify natural movement. 
+<function>clutter_timeline_get_n_frames()</function>. The result should be between 0 and CLUTTER_ALPHA_MAX, with the meaning of 
+the result depending on the effect used. For instance, CLUTTER_ALPHA_MAX would be 100% opacity when using <function>clutter_effect_fade()</function>. 
+Several built-in callbacks, such as <function>CLUTTER_ALPHA_SINE</function>, allow you to easily specify natural movement. 
 </para>
 <para>You should then provide this <classname>ClutterEffectTemplate</classname> to one of the <function>clutter_effect</function> 
 functions, along with the actor and any extra parameters required by that function. Remember to unref the effect template after providing it to the effect function 
@@ -553,7 +566,9 @@ use behaviours directly to have more control.
 <para>
 Although the <classname>ClutterTimeline</classname>'s <literal>new-frame</literal> signal allows you to set actor 
 properties for each frame, &clutter; also provides <literal>Behaviour</literal>s which can change specific properties 
-of one specific actor over time, using a simple numeric calculation. In many cases this is a simpler way to implement animation.
+of one specific actor over time, using a simple numeric calculation. However, unlike the simplified <link linkend="sec-effects">Effects</link> 
+API, using behaviours directly allows you to combine them to control multiple actors simultaneously and allows you to change the parameters of the 
+behaviours while the timeline is running.
 </para>
 <para>For instance, <classname>ClutterBehaviourPath</classname> moves the actor along a specified path, calculating the position 
 on the path once per frame by calling a supplied <literal>alpha</literal> callback. The <classname>ClutterAlpha</classname> 

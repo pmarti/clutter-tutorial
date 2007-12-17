@@ -1,3 +1,17 @@
+2007-12-17  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Introduction: Mention that it is 
+	a retatained mode API, though that would be obvious if you already knew what 
+	that meant.
+	Mention that timelines and behaviours use callback functions of time to change actor properties. 
+	I don't see much more that we can say about these without reallying getting into the details, 
+	which we do in the relevant chapters.
+	Actors: Mention show/hide.
+	Actors: Events: Describe false/true return value and the sequence of actors that handle events.
+	Effects, Behaviours: Mention CLUTTER_ALPHA_MAX.
+	
+	These changes are based on the notes from Matthew Allum.
+
 2007-12-14  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Actor Events: 
