@@ -1,5 +1,9 @@
 2007-12-17  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/clutter-tut.xml: Actors: Added clipping sub-section, after talking to Ebassi.
+
+2007-12-17  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Corrected the events chain sections, now explaining the 
 	capture-event signal. 
 

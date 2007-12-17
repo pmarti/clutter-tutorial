@@ -334,8 +334,19 @@ returned by functions such as <function>clutter_actor_get_x()</function>.
 </sect2>
 
 <sect2>
+<title>Clipping</title>
+<para><classname>Actors</classname> may be &quot;clipped&quot; so that only one rectangular part of the actor is visible, 
+by calling <function>clutter_actor_set_clip()</function>, providing a position relative to the actor, along with the size. 
+For instance, you might implement scrolling by creating a large container actor and setting a clip rectangle so that only 
+a small part of the whole is visible at any one time. Scrolling up could then be implemented by moving the actor down while  
+moving the clip up. Clipping can be reverted by calling <function>clutter_actor_remove_clip()</function>.
+</para>
+<para>The area outside of the clip does not consume video memory and generally does not require much processing.</para>
+</sect2>
+
+<sect2>
 <title>Movement</title>
-<para><classname>Clutter</classname> does not have a translation function that behaves similarly to 
+<para>&clutter; does not have a translation function that behaves similarly to 
 <function>clutter_actor_set_scale()</function> and <function>clutter_actor_set_rotation()</function>, but you can move the actor by 
 calling <function>clutter_actor_move_by()</function> or <function>clutter_actor_set_depth</function>.
 </para>
