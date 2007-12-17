@@ -1,5 +1,10 @@
 2007-12-17  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/clutter-tut.xml: Corrected the events chain sections, now explaining the 
+	capture-event signal. 
+
+2007-12-17  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Introduction: Mention that it is 
 	a retatained mode API, though that would be obvious if you already knew what 
 	that meant.

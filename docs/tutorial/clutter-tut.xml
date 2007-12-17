@@ -416,17 +416,16 @@ If you don't need the motion event signals (<literal>motion-event</literal>, <li
 you may call the global <function>clutter_set_motion_events_enabled()</function> function with <literal>FALSE</literal> to further optimize performance.
 </para>
 <para>Your event signal handler should return <literal>true</literal> when it has fully handled the event, or <literal>false</literal> if you want the event to be sent also 
-to the next actor in the event chain. &clutter; first allows the stage to handle each event. But if the stage does not handle the event then it will be passed down to the child widget, 
-first passing through the widget's parent containers. If the event has still not been handled fully by any signal handler then the event will passed back up through the parents again, 
-ending at the stage.</para>
+to the next actor in the event chain. &clutter; first allows the stage to handle each event via the <literal>captured-event</literal> signal. But if the stage does not handle the 
+event then it will be passed down to the child widget, first passing through the widget's parent containers, giving each actor in the hierarchy a chance to handle the event via a 
+<literal>captured-event</literal> signal handler.
+If the event has still not been handled fully by any actor then the event will then be emitted via a specific signal (such as <literal>button-press-event</literal> or 
+<literal>key-press-event</literal>. These specific signals are emitted first from the child widget, then by its parent, passing all they way back up to the stage if no signal handler 
+returns <literal>true</literal> to indicate that it has handled the event fully.</para>
 
 <para>Actors usually only receive keyboard events when the actor has key focus, but you can give an actor exclusive access to any events by grabbing either the pointer or 
 the keyboard, using <function>clutter_grab_pointer</function> or <function>clutter_grab_keyboard</function>.
 </para>
-
-<para>TODO: Explain the captured-event signal, which seems to be a way to handle all events in one signal handler, before the other event 
-signals are emitted (and so you can stop them from even being emitted by returning true). 
-the.</para>
 
 <sect2 id="actor-example-events"><title>Example</title>
 <para>
