@@ -367,7 +367,7 @@ The following example demonstrates two unmoving actors in a stage, using rotatio
   </screenshot>
 </figure>
 
-<para><ulink url="&url_examples_base;actor">Source Code</ulink></para>
+<para><ulink url="&url_examples_base;actor_transformations">Source Code</ulink></para>
 </sect2>
 
 

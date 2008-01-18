@@ -1,3 +1,8 @@
+2008-01-18  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Actor transformations: Use the correct example code.
+	Thanks to Ashwin Kashyap.
+
 2007-12-17  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Effects: Mention optional timeline cloning when using effects.
