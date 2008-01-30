@@ -1,3 +1,11 @@
+2008-01-30  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Change mentions of GtkClutter to GtkClutterEmbed.
+	* examples/stage_widget/main.c: (main): Use the new GtkClutterEmbed instead of the 
+	old (removed) GtkClutter widget.
+	* examples/full_example/main.c: (on_timeline_rotation_completed):
+	Adapt to the new signature of the clutter_behaviour_scale_new() function.
+
 2008-01-18  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Actor transformations: Use the correct example code.

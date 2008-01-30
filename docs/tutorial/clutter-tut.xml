@@ -186,7 +186,7 @@ be created and how we can respond to user interaction with the stage itself.
 </para>
 <para>First make sure that you have called <function>clutter_init()</function> to initialize &clutter;. 
 You may then get the application's stage with <function>clutter_stage_get_default()</function>. This function always returns 
-the same instance, with its own window. You could instead use a <classname>GtkClutter</classname> widget inside a more 
+the same instance, with its own window. You could instead use a <classname>GtkClutterEmbed</classname> widget inside a more 
 complicated GTK+ window - see the <link linkend="sec-stage-widget">Stage Widget</link> section.
 </para>
 <para><classname>ClutterStage</classname> is derived from the <classname>ClutterActor</classname> object so many of that object's 
@@ -222,23 +222,23 @@ There are no actors yet so all you will see is a black rectangle.
 <sect1 id="sec-stage-widget">
 <title>Stage Widget</title>
 
-<para>The <classname>GtkClutter</classname> widget allows you to place a <classname>ClutterStage</classname> inside an 
+<para>The <classname>GtkClutterEmbed</classname> widget allows you to place a <classname>ClutterStage</classname> inside an 
 existing GTK+ window. For instance, the window might contain other GTK+ widgets allowing the user to affect the actors in 
-stage. Use <function>gtk_clutter_new()</function> to instantiate the widget and then add it to a container just like any 
-other GTK+ widget. Call <function>gtk_clutter_get_stage</function> to get the <classname>ClutterStage</classname> from the 
-<classname>GtkClutter</classname> widget so you can then use the main &clutter; API.
+stage. Use <function>gtk_clutter_embed_new()</function> to instantiate the widget and then add it to a container just like any 
+other GTK+ widget. Call <function>gtk_clutter_embed_get_stage</function> to get the <classname>ClutterStage</classname> from the 
+<classname>GtkClutterEmbed</classname> widget so you can then use the main &clutter; API.
 </para>
-<para>When using the <classname>GtkClutter</classname> widget you should use the regular <function>gtk_main()</function> function 
+<para>When using the <classname>GtkClutterEmbed</classname> widget you should use the regular <function>gtk_main()</function> function 
 to start the mainloop rather than <function>clutter_main()</function>.
 </para>
 <para>For simplicity, all other examples in this document will instead use <function>clutter_stage_get_default()</function>, 
-but all the techniques can also be used with a stage inside the <classname>GtkClutter</classname> widget.</para> 
+but all the techniques can also be used with a stage inside the <classname>GtkClutterEmbed</classname> widget.</para> 
 
 <para><ulink url="&url_refdocs_base_clutter_gtk;Clutter.html">Reference</ulink></para>
 
 <sect2 id="stage-widget-example"><title>Example</title>
 <para>
-The following example shows a <classname>GtkClutter</classname> GTK+ widget and changes the stage color when a button is 
+The following example shows a <classname>GtkClutterEmbed</classname> GTK+ widget and changes the stage color when a button is 
 clicked.
 </para>
 

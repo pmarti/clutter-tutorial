@@ -16,7 +16,7 @@
 
 #include <gtk/gtk.h>
 #include <clutter/clutter.h>
-#include <clutter-gtk/clutter-gtk.h>
+#include <clutter-gtk/gtk-clutter-embed.h>
 #include <stdlib.h>
 
 ClutterActor *stage = NULL;
@@ -72,12 +72,12 @@ int main(int argc, char *argv[])
                     G_CALLBACK (gtk_main_quit), NULL);
 
   /* Create the clutter widget: */
-  GtkWidget *clutter_widget = gtk_clutter_new ();
+  GtkWidget *clutter_widget = gtk_clutter_embed_new ();
   gtk_box_pack_start (GTK_BOX (vbox), clutter_widget, TRUE, TRUE, 0);
   gtk_widget_show (clutter_widget);
 
   /* Get the stage and set its size and color: */
-  stage = gtk_clutter_get_stage (GTK_CLUTTER (clutter_widget));
+  stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (clutter_widget));
   clutter_actor_set_size (stage, 200, 200);
   clutter_stage_set_color (CLUTTER_STAGE (stage), &stage_color);
 

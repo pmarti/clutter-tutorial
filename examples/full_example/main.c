@@ -225,7 +225,7 @@ void on_timeline_rotation_completed(ClutterTimeline* timeline, gpointer user_dat
   const gdouble scale_end = scale_start * 1.8;
 
   behaviour_scale = 
-    clutter_behaviour_scale_new (alpha, scale_start, scale_end, CLUTTER_GRAVITY_NONE);
+    clutter_behaviour_scale_new (alpha, scale_start, scale_start, scale_end, scale_end);
   clutter_behaviour_apply (behaviour_scale, actor);
 
   /* Move the item up the y axis: */
