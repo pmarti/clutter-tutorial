@@ -89,7 +89,7 @@ with this document, and would appreciate input regarding improvements. Please se
 &clutter; is a C programming API that allows you to create simple but visually appealing and involving user interfaces.
 It offers a variety of objects (actors) which can be placed on a canvas (stage) and manipulated by the application or the user. 
 It is therefore a &quot;retained mode&quot; graphics API. Unlike traditional 2D canvas APIs, &clutter; allows these actors to move partly in the Z dimension. </para>
-<para>This 2.5D concept simplifies the creation of 3D interfaces compared to direct use of OpenGL or other 3D drawing APIs. 
+<para>This concept simplifies the creation of 3D interfaces compared to direct use of OpenGL or other 3D drawing APIs. 
 For instance, it restricts the user interaction to the 2D plane facing the user, which is appropriate for today's devices 
 allowing interaction only with a 2D plane such as a touchscreen. In addition, your application does not need to provide visual 
 context to show the user which objects are, for instance, small rather than far away.</para>
@@ -263,7 +263,7 @@ clicked.
 
 <sect1 id = "sec-actors-basics">
 <title>Actor Basics</title>
-<para>As mentioned in the <link linkend="sec-clutter">introduction</link>, &clutter; is a &quot;2.5D&quot; canvas API. 
+<para>As mentioned in the <link linkend="sec-clutter">introduction</link>, &clutter; is a canvas API for 2D surfaces in 3D space. 
 Standard &clutter; actors have 2D shapes and can be positioned and rotated in all three dimensions, but they have no depth. 
 Theoretically, therefore, most actors would be invisible if they were exactly rotated so that only their edge faced the screen. 
 When complex 3D objects are needed, you may use the full OpenGL ES API, as mentioned in the <link linkend="appendix-using-opengl-directly">appendix</link>, 

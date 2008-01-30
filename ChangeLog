@@ -1,5 +1,10 @@
 2008-01-30  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/clutter-tut.xml: Introduction: Remove the term 2.5D.
+	Actor Basics: Change 2.5D term to 2D surfaces in 3D space.
+
+2008-01-30  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Change mentions of GtkClutter to GtkClutterEmbed.
 	* examples/stage_widget/main.c: (main): Use the new GtkClutterEmbed instead of the 
 	old (removed) GtkClutter widget.
