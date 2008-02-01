@@ -1,3 +1,8 @@
+2008-02-02  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Using Timelines: Change the X to a /
+	in the description of duration. Thanks to Ashwin Kashyap.
+
 2008-01-30  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Introduction: Remove the term 2.5D.

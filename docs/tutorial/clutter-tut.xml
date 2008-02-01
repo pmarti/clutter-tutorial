@@ -474,7 +474,7 @@ For instance, the actor might be moved and rotated over time, and its color migh
 You could even change the properties of several actors to animate the entire stage.
 </para>
 <para>The <function>clutter_timeline_new()</function> constructor function takes a number of frames, and a number 
-of frames per second, so the entire timeline will have a duration of <parameter>n_frames</parameter> X <parameter>fps</parameter>. 
+of frames per second, so the entire timeline will have a duration of <parameter>n_frames</parameter> / <parameter>fps</parameter>. 
 You might therefore choose the number of frames based on a desired duration, by dividing the duration by the desired frames per second.
 </para>
 
