@@ -48,7 +48,7 @@ on_rect_button_press (ClutterRectangle *rect, ClutterEvent *event, gpointer data
 
   g_print ("Clicked rectangle at (%d, %d)\n", x, y);
 
-  clutter_main_quit();
+  /* clutter_main_quit(); */
 
   return TRUE; /* Stop further handling of this event. */
 }
