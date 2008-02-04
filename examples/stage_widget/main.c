@@ -21,7 +21,7 @@
 
 ClutterActor *stage = NULL;
 
-static void
+static gboolean
 on_button_clicked (GtkButton *button, gpointer user_data)
 {
   static gboolean already_changed = FALSE;
@@ -37,9 +37,11 @@ on_button_clicked (GtkButton *button, gpointer user_data)
   }
 
   already_changed = !already_changed;
+
+  return TRUE; /* Stop further handling of this event. */
 }
 
-static void
+static gboolean
 on_stage_button_press (ClutterStage *stage, ClutterEvent *event, gpointer user_data)
 {
   gint x = 0;
@@ -47,6 +49,8 @@ on_stage_button_press (ClutterStage *stage, ClutterEvent *event, gpointer user_d
   clutter_event_get_coords (event, &x, &y);
 
   g_print ("Stage clicked at (%d, %d)\n", x, y);
+
+  return TRUE; /* Stop further handling of this event. */
 }
 
 int main(int argc, char *argv[])

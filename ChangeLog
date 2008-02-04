@@ -1,3 +1,15 @@
+2008-02-04  Murray Cumming  <murrayc@murrayc.com>
+
+	* examples/actor_events/main.c: (on_stage_button_press),
+	(on_rect_button_press), (on_rect_button_release), (on_rect_motion),
+	(on_rect_enter), (on_rect_leave):
+	* examples/full_example/main.c: (on_texture_button_press):
+	* examples/stage/main.c: (on_stage_button_press):
+	* examples/stage_widget/main.c: (on_button_clicked),
+	(on_stage_button_press):
+	Correct the event signal handlers: They should return gboolean instead 
+	of void. C is overly tolerant of my mistakes.
+
 2008-02-02  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Using Timelines: Change the X to a /

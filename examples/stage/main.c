@@ -17,7 +17,7 @@
 #include <clutter/clutter.h>
 #include <stdlib.h>
 
-static void
+static gboolean
 on_stage_button_press (ClutterStage *stage, ClutterEvent *event, gpointer data)
 {
   gint x = 0;
@@ -25,6 +25,8 @@ on_stage_button_press (ClutterStage *stage, ClutterEvent *event, gpointer data)
   clutter_event_get_coords (event, &x, &y);
 
   g_print ("Stage clicked at (%d, %d)\n", x, y);
+
+  return TRUE; /* Stop further handling of this event. */
 }
 
 int main(int argc, char *argv[])

@@ -17,7 +17,7 @@
 #include <clutter/clutter.h>
 #include <stdlib.h>
 
-static void
+static gboolean
 on_stage_button_press (ClutterStage *stage, ClutterEvent *event, gpointer data)
 {
   gint x = 0;
@@ -35,9 +35,11 @@ on_stage_button_press (ClutterStage *stage, ClutterEvent *event, gpointer data)
 
   if (CLUTTER_IS_RECTANGLE (rect))
     g_print ("  A rectangle is at that position.\n");
+
+  return TRUE; /* Stop further handling of this event. */
 }
 
-static void
+static gboolean
 on_rect_button_press (ClutterRectangle *rect, ClutterEvent *event, gpointer data)
 {
   gint x = 0;
@@ -46,10 +48,12 @@ on_rect_button_press (ClutterRectangle *rect, ClutterEvent *event, gpointer data
 
   g_print ("Clicked rectangle at (%d, %d)\n", x, y);
 
-  /* clutter_main_quit(); */
+  clutter_main_quit();
+
+  return TRUE; /* Stop further handling of this event. */
 }
 
-static void
+static gboolean
 on_rect_button_release (ClutterRectangle *rect, ClutterEvent *event, gpointer data)
 {
   gint x = 0;
@@ -57,24 +61,32 @@ on_rect_button_release (ClutterRectangle *rect, ClutterEvent *event, gpointer da
   clutter_event_get_coords (event, &x, &y);
 
   g_print ("Click-release on rectangle at (%d, %d)\n", x, y);
+
+  return TRUE; /* Stop further handling of this event. */
 }
 
-static void
+static gboolean
 on_rect_motion (ClutterRectangle *rect, ClutterEvent *event, gpointer data)
 {
   g_print ("Motion in the rectangle.\n");
+
+  return TRUE; /* Stop further handling of this event. */
 }
 
-static void
+static gboolean
 on_rect_enter (ClutterRectangle *rect, ClutterEvent *event, gpointer data)
 {
   g_print ("Entered rectangle.\n");
+
+  return TRUE; /* Stop further handling of this event. */
 }
 
-static void
+static gboolean
 on_rect_leave (ClutterRectangle *rect, ClutterEvent *event, gpointer data)
 {
   g_print ("Left rectangle.\n");
+
+  return TRUE; /* Stop further handling of this event. */
 }
 
 

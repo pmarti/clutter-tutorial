@@ -36,7 +36,7 @@ const gint ELLIPSE_Y = 390;
 const gint ELLIPSE_HEIGHT = 450; /* The distance from front to back when it's rotated 90 degrees. */
 const gint IMAGE_HEIGHT = 100;
 
-static void
+static gboolean
 on_texture_button_press (ClutterActor *actor, ClutterEvent *event, gpointer data);
 
 const double angle_step = 30;
@@ -352,7 +352,7 @@ void rotate_all_until_item_is_at_front(Item *item)
   clutter_timeline_start (timeline_rotation);
 }
 
-static void
+static gboolean
 on_texture_button_press (ClutterActor *actor, ClutterEvent *event, gpointer user_data)
 {
   /* Ignore the events if the timeline_rotation is running (meaning, if the objects are moving),
@@ -361,13 +361,15 @@ on_texture_button_press (ClutterActor *actor, ClutterEvent *event, gpointer user
   if(timeline_rotation && clutter_timeline_is_playing (timeline_rotation))
   {
     printf("on_texture_button_press(): ignoring\n");
-    return;
+    return FALSE;
   }
   else
     printf("on_texture_button_press(): handling\n");
 
   Item *item = (Item*)user_data;
   rotate_all_until_item_is_at_front (item);
+
+  return TRUE;
 }
 
 int main(int argc, char *argv[])
