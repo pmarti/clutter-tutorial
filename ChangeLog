@@ -1,3 +1,11 @@
+2008-02-20  Murray Cumming  <murrayc@murrayc.com>
+
+	* examples/stage_widget/main.c: (main):
+	Use gtk_widget_set_size_request(gtkclutterembed) instead of 
+	clutter_actor_set_size(stage) because the latter is not supported 
+	with GtkClutterEmbed.
+	See http://bugzilla.openedhand.com/show_bug.cgi?id=740
+
 2008-02-04  Murray Cumming  <murrayc@murrayc.com>
 
 	* examples/actor_events/main.c: (on_stage_button_press),

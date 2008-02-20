@@ -80,9 +80,13 @@ int main(int argc, char *argv[])
   gtk_box_pack_start (GTK_BOX (vbox), clutter_widget, TRUE, TRUE, 0);
   gtk_widget_show (clutter_widget);
 
+  /* Set the size of the widget, 
+   * because we should not set the size of its stage when using GtkClutterEmbed.
+   */ 
+  gtk_widget_set_size_request (clutter_widget, 200, 200);
+
   /* Get the stage and set its size and color: */
   stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (clutter_widget));
-  clutter_actor_set_size (stage, 200, 200);
   clutter_stage_set_color (CLUTTER_STAGE (stage), &stage_color);
 
   /* Show the stage: */
