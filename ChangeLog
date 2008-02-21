@@ -1,5 +1,10 @@
 2008-02-21  Murray Cumming  <murrayc@murrayc.com>
 
+	* configure.ac: Depend on clutter-0.6 and clutter-gtk-0.6 instead 
+	of the -0.5 APIs.
+
+2008-02-21  Murray Cumming  <murrayc@murrayc.com>
+
 	* configure.ac:
 	* docs/tutorial/clutter-tut.xml:
 	* docs/tutorial/figures/Makefile.am:
