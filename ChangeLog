@@ -1,3 +1,12 @@
+2008-02-21  Murray Cumming  <murrayc@murrayc.com>
+
+	* configure.ac:
+	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/figures/Makefile.am:
+	* examples/Makefile.am:
+	* examples/score/main.c: Added a Timelines/Score sub-section and 
+	example. The example is quite stupid.
+
 2008-02-20  Murray Cumming  <murrayc@murrayc.com>
 
 	* examples/stage_widget/main.c: (main):

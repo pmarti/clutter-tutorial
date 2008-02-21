@@ -7,7 +7,7 @@
  <!ENTITY gtk "<application>GTK+</application>">
  <!ENTITY url_figures_base "../figures/">
  <!ENTITY url_examples_base "../../../examples/">
- <!ENTITY url_refdocs_base_clutter "http://www.clutter-project.org/docs/clutter-Clutter">
+ <!ENTITY url_refdocs_base_clutter "http://clutter-project.org/docs/clutter/0.6/Clutter">
  <!ENTITY url_refdocs_base_clutter_gtk "http://www.clutter-project.org/docs/clutter-Clutter">
 ]>
 
@@ -503,6 +503,37 @@ The following example demonstrates the use of a timeline to rotate a rectangle a
 </figure>
 
 <para><ulink url="&url_examples_base;timeline">Source Code</ulink></para>
+</sect1>
+
+<sect1>
+<title>Grouping TimeLines in a Score</title>
+<para>
+A <classname>ClutterScore</classname> allows you to start and stop several timelines at once, or run them in sequence one after the other.</para> 
+
+<para>To add a timeline that should start first, call <function>clutter_score_append()</function> with NULL for the parent argument. 
+All such timelines will be started when you call <function>clutter_score_start()</function>.</para>
+<para>To add a timeline that should be started when a previously added timeline stops, call <function>clutter_score_append()</function> with the first 
+timeline for the parent argument.</para>
+
+<para><ulink url="&url_refdocs_base_clutter;Score.html">Reference</ulink></para>
+</sect1>
+
+<sect1 id="score-example"><title>Example</title>
+<para>
+The following example demonstrates the use of a score containing two timelines, 
+with one starting when the other ends, and the whole score running as a loop. 
+The first timeline rotates the rectangle as in the previous example, and the 
+second timeline moves the rectangle horizontally.
+</para>
+
+<figure id="figure-score">
+  <title>Score</title>
+  <screenshot>
+    <graphic format="PNG" fileref="&url_figures_base;score.png"/>
+  </screenshot>
+</figure>
+
+<para><ulink url="&url_examples_base;score">Source Code</ulink></para>
 </sect1>
 
 </chapter>

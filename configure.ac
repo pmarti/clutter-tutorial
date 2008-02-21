@@ -115,6 +115,7 @@ AC_OUTPUT([
     examples/effects/Makefile
     examples/full_example/Makefile
       examples/full_example/images/Makefile
+    examples/score/Makefile
     examples/stage/Makefile
     examples/stage_widget/Makefile
     examples/timeline/Makefile
