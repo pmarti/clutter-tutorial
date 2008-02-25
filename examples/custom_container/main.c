@@ -41,14 +41,12 @@ int main(int argc, char *argv[])
 
   /* Add some actors to our container: */
   ClutterActor *actor = clutter_rectangle_new_with_color (&actor_color);
-  clutter_actor_set_size (actor, 50, 100);
-  clutter_actor_set_position (actor, 20, 20);
+  clutter_actor_set_size (actor, 75, 75);
   clutter_container_add_actor (CLUTTER_CONTAINER (box), actor);
   clutter_actor_show (actor);
 
   ClutterActor *actor2 = clutter_rectangle_new_with_color (&actor_color2);
-  clutter_actor_set_size (actor2, 50, 100);
-  clutter_actor_set_position (actor2, 20, 20);
+  clutter_actor_set_size (actor2, 75, 75);
   clutter_container_add_actor (CLUTTER_CONTAINER (box), actor2);
   clutter_actor_show (actor2);
 

@@ -1,5 +1,14 @@
 2008-02-25  Murray Cumming  <murrayc@murrayc.com>
 
+	* examples/custom_container/examplebox.c:
+	* examples/custom_container/main.c:
+	Improve the implementation, iterating over the children every time we 
+	should relayout the children.
+	But the position of the container itself always seems to be 0. Possibly 
+	I do not understand allocation/position or both.
+
+2008-02-25  Murray Cumming  <murrayc@murrayc.com>
+
 	* configure.ac:
 	* docs/tutorial/clutter-tut.xml:
 	* docs/tutorial/figures/Makefile.am:

@@ -18,12 +18,6 @@
 
 
 static void
-example_box_pack_child (ExampleBox *box, ExampleBoxChild *child);
-
-static void
-example_box_unpack_child (ExampleBox *box, ExampleBoxChild *child);
-
-static void
 layout_children (ExampleBox *box);
 
 /**
@@ -74,8 +68,6 @@ example_box_remove (ClutterContainer *container,
 
       if (child->actor == actor)
         {
-          example_box_unpack_child (box, child);
-
           clutter_actor_unparent (actor);
           
           box->children = g_list_remove_link (box->children, l);
@@ -83,6 +75,8 @@ example_box_remove (ClutterContainer *container,
           g_slice_free (ExampleBoxChild, child);
 
           g_signal_emit_by_name (container, "actor-removed", actor);
+
+          layout_children (box);
 
           if (CLUTTER_ACTOR_IS_VISIBLE (CLUTTER_ACTOR (box)))
             clutter_actor_queue_redraw (CLUTTER_ACTOR (box));
@@ -246,41 +240,6 @@ example_box_request_coords (ClutterActor    *actor,
   layout_children (EXAMPLE_BOX (actor));
 }
 
-static void
-example_box_pack_child (ExampleBox      *box,
-                         ExampleBoxChild *child)
-{
-  ClutterGeometry box_geom, child_geom;
-
-  /* Reset the saved allocation,
-     so that it will be recalculated: */
-  box->allocation.x2 = box->allocation.y2 = -1;
-
-  clutter_actor_get_geometry (CLUTTER_ACTOR (box), &box_geom);
-  clutter_actor_get_geometry (child->actor, &child_geom);
-  
-  child_geom.x = box_geom.width;
-  child_geom.y = 0;
-
-  child->child_coords.x1 = CLUTTER_UNITS_FROM_INT (child_geom.x);
-  child->child_coords.y1 = CLUTTER_UNITS_FROM_INT (child_geom.y);
-  child->child_coords.x2 = CLUTTER_UNITS_FROM_INT (child_geom.x)
-                           + CLUTTER_UNITS_FROM_INT (child_geom.width);
-  child->child_coords.y2 = CLUTTER_UNITS_FROM_INT (child_geom.y)
-                           + CLUTTER_UNITS_FROM_INT (child_geom.height);
-
-  clutter_actor_set_geometry (child->actor, &child_geom);
-
-  layout_children (EXAMPLE_BOX (box));
-}
-
-static void
-example_box_unpack_child (ExampleBox      *box,
-                           ExampleBoxChild *child)
-{
-  layout_children (EXAMPLE_BOX (box));
-}
-
 
 static void
 example_box_dispose (GObject *gobject)
@@ -331,27 +290,12 @@ example_box_init (ExampleBox *box)
 static void
 layout_children (ExampleBox *box)
 {
-/*
-  TidyFramePrivate *priv = frame->priv;
-  TidyPadding padding = { 0, };
-  ClutterFixed x_align, y_align;
-  ClutterUnit width, height;
-  ClutterUnit child_width, child_height;
+  /* Get the size requested by this container: */
   ClutterActorBox allocation = { 0, };
-  ClutterActorBox child_req = { 0, };
-  ClutterActorBox child_box = { 0, };
+  clutter_actor_query_coords (CLUTTER_ACTOR (box), &allocation);
 
-  tidy_actor_get_padding (TIDY_ACTOR (frame), &padding);
-  tidy_actor_get_alignmentx (TIDY_ACTOR (frame), &x_align, &y_align);
-
-  clutter_actor_query_coords (CLUTTER_ACTOR (frame), &allocation);
-
-  width = allocation.x2 - allocation.x1
-          - padding.left
-          - padding.right;
-  height = allocation.y2 - allocation.y1
-           - padding.top
-           - padding.bottom;
+  ClutterUnit width = allocation.x2 - allocation.x1;
+  ClutterUnit height = allocation.y2 - allocation.y1;
 
   if (width < 0)
     width = 0;
@@ -359,21 +303,35 @@ layout_children (ExampleBox *box)
   if (height < 0)
     height = 0;
 
-  clutter_actor_query_coords (priv->child, &child_req);
+  /* Look at each child actor: */
+  ClutterUnit child_x = 0;
+  GList *l = NULL;
+  for (l = box->children; l; l = l->next)
+    {
+      ExampleBoxChild *child = l->data;
 
-  child_width = child_req.x2 - child_req.x1;
-  child_height = child_req.y2 - child_req.y1;
+      /* Discover what size the child wants: */
+      ClutterActorBox child_req = { 0, };
+      clutter_actor_query_coords (child->actor, &child_req);
 
-  child_box.x1 = CLUTTER_FIXED_MUL ((width - child_width), x_align)
-                 + padding.left;
-  child_box.y1 = CLUTTER_FIXED_MUL ((height - child_height), y_align)
-                 + padding.top;
+      const ClutterUnit child_width = child_req.x2 - child_req.x1;
+      const ClutterUnit child_height = child_req.y2 - child_req.y1;
 
-  child_box.x2 = child_box.x1 + child_width + 1;
-  child_box.y2 = child_box.y1 + child_height + 1;
+      /* Calculate the position and size that the child may actually have: */
 
-  clutter_actor_request_coords (priv->child, &child_box);
-*/
+      /* Position the child just after the previous child, horizontally: */
+      ClutterActorBox child_box = { 0, };
+      child_box.x1 = child_x;
+      child_box.x2 = child_x + child_width;
+      child_x = child_box.x2;
+
+      /* Position the child at the top of the container: */
+      child_box.y1 = 0;
+      child_box.y2 = child_height;
+
+      /* Tell the child what position and size it may actually have: */
+      clutter_actor_request_coords (child->actor, &child_box);
+   }
 }
 
 /*
@@ -398,11 +356,15 @@ example_box_pack (ExampleBox           *box,
 
   child = g_slice_new (ExampleBoxChild);
   child->actor = actor;
-
-  example_box_pack_child (box, child);
   
   box->children = g_list_prepend (box->children, child);
   clutter_actor_set_parent (actor, CLUTTER_ACTOR (box));
+
+  /* Reset the saved allocation,
+     so that it will be recalculated: */
+  box->allocation.x2 = box->allocation.y2 = -1;
+
+  layout_children (EXAMPLE_BOX (box));
 
   if (CLUTTER_ACTOR_IS_VISIBLE (CLUTTER_ACTOR (box)))
     clutter_actor_queue_redraw (CLUTTER_ACTOR (box));
