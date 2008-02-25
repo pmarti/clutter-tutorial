@@ -1,3 +1,27 @@
+2008-02-25  Murray Cumming  <murrayc@murrayc.com>
+
+	* configure.ac:
+	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/figures/Makefile.am:
+	* examples/custom_container/Makefile.am:
+	* examples/custom_container/examplebox.c:
+	* examples/custom_container/examplebox.h:
+	* examples/custom_container/main.c: Very cut-down version of 
+	the old ClutterHBox container. Needs more work to make it behave 
+	properly and be easier to understand.
+
+2008-02-22  Murray Cumming  <murrayc@murrayc.com>
+
+	* configure.ac:
+	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/figures/Makefile.am:
+	* examples/Makefile.am:
+	* examples/actor_group/: Added actors/containers sub-section, 
+	mentioning ClutterGroup.
+
+	* examples/custom_container/: Added placeholder for a custom 
+	containers section and example.
+
 2008-02-21  Murray Cumming  <murrayc@murrayc.com>
 
 	* configure.ac: Depend on clutter-0.6 and clutter-gtk-0.6 instead 

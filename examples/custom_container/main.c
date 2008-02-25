@@ -15,7 +15,7 @@
  */
 
 #include <clutter/clutter.h>
-#include "triangle_actor.h"
+#include "examplebox.h"
 #include <stdlib.h>
 
 
@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
 {
   ClutterColor stage_color = { 0x00, 0x00, 0x00, 0xff };
   ClutterColor actor_color = { 0xff, 0xff, 0xff, 0x99 };
+  ClutterColor actor_color2 = { 0x10, 0x40, 0x90, 0xff };
 
   clutter_init (&argc, &argv);
 
@@ -31,12 +32,25 @@ int main(int argc, char *argv[])
   clutter_actor_set_size (stage, 200, 200);
   clutter_stage_set_color (CLUTTER_STAGE (stage), &stage_color);
 
-  /* Add our custom actor to the stage: */
-  ClutterActor *actor = clutter_triangle_new_with_color (&actor_color);
-  clutter_actor_set_size (actor, 100, 100);
+  /* Add our custom container to the stage: */
+  ClutterActor *box = example_box_new ();
+  clutter_actor_set_size (box, 100, 100);
+  clutter_actor_set_position (box, 20, 20);
+  clutter_container_add_actor (CLUTTER_CONTAINER (stage), box);
+  clutter_actor_show (box);
+
+  /* Add some actors to our container: */
+  ClutterActor *actor = clutter_rectangle_new_with_color (&actor_color);
+  clutter_actor_set_size (actor, 50, 100);
   clutter_actor_set_position (actor, 20, 20);
-  clutter_container_add_actor (CLUTTER_CONTAINER (stage), actor);
+  clutter_container_add_actor (CLUTTER_CONTAINER (box), actor);
   clutter_actor_show (actor);
+
+  ClutterActor *actor2 = clutter_rectangle_new_with_color (&actor_color2);
+  clutter_actor_set_size (actor2, 50, 100);
+  clutter_actor_set_position (actor2, 20, 20);
+  clutter_container_add_actor (CLUTTER_CONTAINER (box), actor2);
+  clutter_actor_show (actor2);
 
   /* Show the stage: */
   clutter_actor_show (stage);

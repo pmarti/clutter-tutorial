@@ -3,6 +3,7 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
  <!ENTITY path_examples_base "../../examples">
  <!ENTITY clutter "<application>Clutter</application>">
+ <!ENTITY tidy "<application>Tidy</application>">
  <!ENTITY clutterversion "0.6">
  <!ENTITY gtk "<application>GTK+</application>">
  <!ENTITY url_figures_base "../figures/">
@@ -375,31 +376,41 @@ The following example demonstrates two unmoving actors in a stage, using rotatio
 
 <sect1 id = "sec-containers">
 <title>Containers</title>
-<para>TODO: Write this when the containers have found their home in the new high-level library.</para>
-
-<para>
-<literallayout>
-TODO:
-- Containers (groups)
-  Simple example, putting two unmoving actors in one container.
-- Interaction (events: clicking, moving, dragging, etc)
-  Simple example, handling a click on an actor.
-</literallayout>
+<para>Some clutter actors implement the <classname>ClutterContainer</classname> 
+interface. These actors can contain child actors and may position them in 
+relation to each other, for instance in a list or a table formation. In addition, 
+transformations or property changes may be applied to all children. Child actors 
+can be added to a container with the <function>clutter_container_add()</function> 
+function.</para>
+<para>The main <classname>ClutterStage</classname> is itself a container, allowing 
+it to contain all the child actors. The only other container in Core &clutter; 
+is <classname>ClutterGroup</classname>, which can contain child actors, with 
+positions relative to the parent <classname>ClutterGroup</classname>. Scaling, 
+rotation and clipping of the group applies to the child actors, which can 
+simplify your code.
 </para>
+<para>Additional &clutter; containers can be found in the &tidy; toolkit library. 
+See also the <link linkend="appendix-implementing-actors-containers">Implementing Containers</link> section.
+</para>
+<!-- Add a link to a Tidy web page when one exists. -->
+
+<para><ulink url="&url_refdocs_base_clutter;Container.html">ClutterContainer Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_clutter;Container.html">ClutterGroup Reference</ulink></para>
 
 <sect2 id="actor-example-containers"><title>Example</title>
 <para>
-The following example shows the use of container actors:
+The following example shows the use of the <classname>ClutterGroup</classname> 
+container, with two child actors being rotated together.
 </para>
 
 <figure id="figure-actor-containers">
-  <title>Containers</title>
+  <title>Group</title>
   <screenshot>
-    <graphic format="PNG" fileref="&url_figures_base;actor_containers.png"/>
+    <graphic format="PNG" fileref="&url_figures_base;actor_group.png"/>
   </screenshot>
 </figure>
 
-<para><ulink url="&url_examples_base;containers">Source Code</ulink></para>
+<para><ulink url="&url_examples_base;actor_group">Source Code</ulink></para>
 </sect2>
 </sect1>
 
@@ -696,8 +707,8 @@ TODO: Make this prettier. Use containers to do that.
 <appendix id="appendix-implementing-actors">
 <title>Implementing Actors</title>
 
-<sect1>
-<title>Implementing Actors</title>
+<sect1 id="appendix-implementing-actors-simple">
+<title>Implementing Simple Actors</title>
 <para>
 If the standard &clutter; actors don't meet all your needs then you may create your own custom actor objects. 
 Implementing a custom actor is much like implementing any new GObject type. You may use the <function>G_DEFINE_TYPE</function> 
@@ -752,6 +763,43 @@ The following example demonstrates the implementation of a new triangle Actor ty
 
 <para><ulink url="&url_examples_base;custom_actor">Source Code</ulink></para>
 </sect1>
+
+
+<sect1 id="appendix-implementing-actors-containers">
+<title>Implementing Container Actors</title>
+<para>
+You can create container actors that arrange child actors by implementing the 
+ClutterContainer interface in your actor. You may use the <function>G_DEFINE_TYPE_WITH_CODE</function> 
+macro to specify that the type is derived from <classname>ClutterActor</classname>. For instance:
+<programlisting>
+static void clutter_container_iface_init (ClutterContainerIface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (ExampleContainer, example_container, CLUTTER_TYPE_ACTOR,
+                         G_IMPLEMENT_INTERFACE (CLUTTER_TYPE_CONTAINER,
+                                                clutter_container_iface_init));
+</programlisting>
+</para>
+
+<para>TODO: Describe vfuncs that need to be overriden.
+</para>
+
+</sect1>
+
+<sect1 id="custom-container-example"><title>Example</title>
+<para>
+The following example demonstrates the implementation of a new Container type.
+</para>
+
+<figure id="figure-custom-container">
+  <title>Behaviour</title>
+  <screenshot>
+    <graphic format="PNG" fileref="&url_figures_base;custom_container.png"/>
+  </screenshot>
+</figure>
+
+<para><ulink url="&url_examples_base;custom_container">Source Code</ulink></para>
+</sect1>
+
 
 </appendix>
 

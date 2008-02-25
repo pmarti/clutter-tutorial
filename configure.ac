@@ -108,8 +108,10 @@ AC_OUTPUT([
   examples/Makefile
     examples/actor/Makefile
     examples/actor_events/Makefile
+    examples/actor_group/Makefile
     examples/actor_transformations/Makefile
     examples/custom_actor/Makefile
+    examples/custom_container/Makefile
     examples/behaviour/Makefile
     examples/container/Makefile
     examples/effects/Makefile
