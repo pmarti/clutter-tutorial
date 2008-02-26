@@ -21,7 +21,6 @@
 #include <clutter/clutter-container.h>
 
 #include <string.h>
-#include <stdio.h>
 
 /**
  * SECTION:example-box
@@ -168,7 +167,7 @@ example_box_hide_all (ClutterActor *actor)
     }
 }
 
-/* An implementation for the ClutterActor::show_all() vfunc,
+/* An implementation for the ClutterActor::paint() vfunc,
    painting all the child actors: */
 static void
 example_box_paint (ClutterActor *actor)
@@ -187,15 +186,6 @@ example_box_paint (ClutterActor *actor)
     }
 
   cogl_pop_matrix ();
-}
-
-/* An implementation for the ClutterActor::pick() vfunc: */
-static void
-example_box_pick (ClutterActor       *actor,
-                  const ClutterColor *color)
-{
-  /* just repaint; in the future we might enter in a "focused" status here */
-  example_box_paint (actor);
 }
 
 /* An implementation for the ClutterActor::query_coords() vfunc: */
@@ -249,8 +239,6 @@ static void
 example_box_request_coords (ClutterActor    *actor,
                              ClutterActorBox *coords)
 {
-  printf("example_box_request_coords(): coords: x1=%d, y1=%d, x2=%d, y2=%d\n", coords->x1, coords->y1, coords->x2, coords->y2);
-
   ExampleBox *box = EXAMPLE_BOX (actor);
 
   /* Store the provided allocation.
@@ -299,7 +287,6 @@ example_box_class_init (ExampleBoxClass *klass)
   actor_class->show_all = example_box_show_all;
   actor_class->hide_all = example_box_hide_all;
   actor_class->paint = example_box_paint;
-  actor_class->pick = example_box_pick;
   actor_class->query_coords = example_box_query_coords;
   actor_class->request_coords = example_box_request_coords;
 }
@@ -318,8 +305,6 @@ layout_children (ExampleBox *box)
   /* Get the size requested by this container: */
   ClutterActorBox allocation = { 0, };
   clutter_actor_query_coords (CLUTTER_ACTOR (box), &allocation);
-  printf("layout_children(): allocation: x1=%d, y1=%d, x2=%d, y2=%d\n", allocation.x1, allocation.y1, allocation.x2, allocation.y2);
-
 
   ClutterUnit width = allocation.x2 - allocation.x1;
   ClutterUnit height = allocation.y2 - allocation.y1;

@@ -1,3 +1,12 @@
+2008-02-26  Murray Cumming, <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Custom containers section:
+	Mentioned overriding ClutterActor::paint() to paint children.
+	* docs/tutorial/figures/Makefile.am: Added a screenshot of the custom 
+	container.
+	* examples/custom_container/examplebox.c: Do not implement 
+	ClutterActor::pick() because it is not necessary for a simple example.
+
 2008-02-26  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Custom Containers section:

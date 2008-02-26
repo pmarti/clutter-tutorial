@@ -800,6 +800,9 @@ container, this might be dependent on the child actors. For instance, your conta
 might increase in size when it contains more child actors, ignoring any calls 
 to <function>clutter_actor_set_size()</function>. Alternatively, your container 
 might change the size of its child actors to fit the specified size.</para>
+
+<para>You should also implement the <function>paint()</function> function, usually 
+calling <function>clutter_actor_paint()</function> on the child actors.</para>
 </sect2>
 
 <sect2>
