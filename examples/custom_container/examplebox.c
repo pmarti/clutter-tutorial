@@ -1,9 +1,27 @@
+/* Copyright 2008 Openismus GmbH, 
+ * based on ClutterBox and ClutterHBox from Clutter 0.4
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ */
+
 #include "clutter/cogl.h" /* For some helper functions. */
 
 #include "examplebox.h"
 #include <clutter/clutter-container.h>
 
 #include <string.h>
+#include <stdio.h>
 
 /**
  * SECTION:example-box
@@ -189,15 +207,17 @@ example_box_query_coords (ClutterActor    *actor,
   GList *l;
   gint width, height;
 
-  /* Return the existing allocation if any: */
-  if (box->allocation.x2 != -1 && box->allocation.y2 != -1)
-    {
-      coords->x2 = box->allocation.x2;
-      coords->y2 = box->allocation.y2;
-      return;
-    }
+  /* For this container, 
+   * x1 and y1 will just be whatever was provided to request_coords(),
+   * but the (desired) height and width (via x2 and y2) will be based 
+   * on the height and width desired by the child actors.
+   * Other containers might instead decide to reduce the size of the child actors 
+   * to fit inside the container's specified height/width.
+   */
+  coords->x1 = box->allocation.x1;
+  coords->y1 = box->allocation.y1;
   
-  /* Calculate the allocation for this container, 
+  /* Calculate the x2 and y2 allocation for this container, 
    * based on the allocations requested by the children: */
   width = 0;
   height = 0;
@@ -229,14 +249,19 @@ static void
 example_box_request_coords (ClutterActor    *actor,
                              ClutterActorBox *coords)
 {
+  printf("example_box_request_coords(): coords: x1=%d, y1=%d, x2=%d, y2=%d\n", coords->x1, coords->y1, coords->x2, coords->y2);
+
   ExampleBox *box = EXAMPLE_BOX (actor);
 
-  /* we reset the allocation here */
+  /* Store the provided allocation.
+     But we only store x1 and y1 because the width and height are 
+     dependent on on the children. */
   box->allocation.x1 = coords->x1;
   box->allocation.y1 = coords->y1;
   box->allocation.x2 = -1;
   box->allocation.y2 = -1;
 
+  /* Make sure that the children adapt their positions: */
   layout_children (EXAMPLE_BOX (actor));
 }
 
@@ -293,6 +318,8 @@ layout_children (ExampleBox *box)
   /* Get the size requested by this container: */
   ClutterActorBox allocation = { 0, };
   clutter_actor_query_coords (CLUTTER_ACTOR (box), &allocation);
+  printf("layout_children(): allocation: x1=%d, y1=%d, x2=%d, y2=%d\n", allocation.x1, allocation.y1, allocation.x2, allocation.y2);
+
 
   ClutterUnit width = allocation.x2 - allocation.x1;
   ClutterUnit height = allocation.y2 - allocation.y1;

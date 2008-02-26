@@ -780,8 +780,47 @@ G_DEFINE_TYPE_WITH_CODE (ExampleContainer, example_container, CLUTTER_TYPE_ACTOR
 </programlisting>
 </para>
 
-<para>TODO: Describe vfuncs that need to be overriden.
+<sect2>
+<title>ClutterActor virtual functions to implement</title>
+<para>If your container should control the position or size of its chidlren then 
+it should implement the <classname>ClutterActor</classname>'s 
+<function>request_coords()</function> and <function>query_coords()</function> 
+virtual functions.</para>
+
+<para>For instance, your <function>request_coords()</function> implementation should 
+store the provided allocation and maybe use it to layout its child widgets, by 
+calling <function>clutter_actor_request_coords()</function> on them with appropriate 
+allocations.
 </para>
+
+<para>Your <function>query_coords()</function> implementation should 
+return the position and size desired by your coordinator, by setting the coordinates 
+in the <classname>ClutterActorBox</classname> output parameter. Depending on your 
+container, this might be dependent on the child actors. For instance, your container 
+might increase in size when it contains more child actors, ignoring any calls 
+to <function>clutter_actor_set_size()</function>. Alternatively, your container 
+might change the size of its child actors to fit the specified size.</para>
+</sect2>
+
+<sect2>
+<title>ClutterContainer virtual functions to implement</title>
+<para>Your container implementation should also implement some of the 
+<classname>ClutterContainer</classname> virtual functions so that the container's 
+children will be affected appropriately when functions are called on the container.  
+</para>
+
+<para>For instance, your <function>add()</function> and 
+<function>remove()</function> implementions should manage your container's 
+internal list of child actors and might need to trigger repositioning or 
+resizing of the child actors. This repositioning would usually reuse the same 
+algorithm that you used in your <function>request_coords()</function> implementation.
+</para>
+<para>Your <function>foreach</function> implementation would simply call the 
+provide callback on your container's list of child actors. Note that your container 
+could actually contain additional actors that are not considered to be child 
+actors for the purposes of add(), remove(), and foreach().</para>
+
+</sect2>
 
 </sect1>
 

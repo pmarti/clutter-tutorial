@@ -1,3 +1,14 @@
+2008-02-26  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Custom Containers section:
+	mention vfuncs for doing layout of children.
+	* examples/custom_container/examplebox.c:
+	(example_box_query_coords), (example_box_request_coords),
+	(layout_children):
+	* examples/custom_container/examplebox.h:
+	* examples/custom_container/main.c: Do not ignore the provided x1 and 
+	y1 for the container.
+
 2008-02-25  Murray Cumming  <murrayc@murrayc.com>
 
 	* examples/custom_container/examplebox.c:
