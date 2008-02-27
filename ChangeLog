@@ -1,3 +1,10 @@
+2008-02-27  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Custom containers section: 
+	Mention that pick() should pick each of its children, and refer to 
+	the Custom Actor section for more details. However, I do not actually 
+	have those details yet.
+
 2008-02-26  Murray Cumming, <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Custom containers section:
