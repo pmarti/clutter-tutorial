@@ -20,7 +20,7 @@ desired (e.g. boldface, monospace, etc) to make it stand out as the project
 name
 -->
 
-<book xmlns:xi="http://www.w3.org/2001/XInclude">
+<book>
 
   <bookinfo>
 
@@ -76,7 +76,7 @@ This document covers the API in &clutter; version &clutterversion;.</para>
 <para>Each chapter contains very simple examples. These are meant to show the use of the API rather than show an impressive visual result. 
 However, the <link linkend="sec-full-example">full example</link> should give some idea of what can be achieved with &clutter;</para>
  
-<para>The &clutter; platform uses techniques found in the <ulink url="http://www.gtk.org">gtk</ulink> platform, so you will sometimes wish to refer to the &gtk; documentation.</para>
+<para>The &clutter; platform uses techniques found in the <ulink url="http://www.gtk.org">GTK+</ulink> platform, so you will sometimes wish to refer to the &gtk; documentation.</para>
 
 <para>
 We would very much like to hear of any problems you have learning &clutter; 
@@ -114,7 +114,7 @@ user interaction.</para>
 <title>Prebuilt Packages</title>
 
 <para>&clutter; packages are probably available from your Linux distribution. 
-For instance, on Ubuntu Linux or Debian you can install the <literal>libclutter-0.4-dev</literal> package.
+For instance, on Ubuntu Linux or Debian you can install the <literal>libclutter-0.6-dev</literal> package.
 </para>
 
 </sect1>
@@ -267,7 +267,7 @@ clicked.
 <para>As mentioned in the <link linkend="sec-clutter">introduction</link>, &clutter; is a canvas API for 2D surfaces in 3D space. 
 Standard &clutter; actors have 2D shapes and can be positioned and rotated in all three dimensions, but they have no depth. 
 Theoretically, therefore, most actors would be invisible if they were exactly rotated so that only their edge faced the screen. 
-When complex 3D objects are needed, you may use the full OpenGL ES API, as mentioned in the <link linkend="appendix-using-opengl-directly">appendix</link>, 
+When complex 3D objects are needed, you may use the full OpenGL ES API, as mentioned in the <link linkend="appendix-implementing-actors">Implementing Actors</link> appendix, 
 but let's look at the standard actors for now:
 <itemizedlist>
 <listitem><para><ulink url="&url_refdocs_base_clutter;Stage.html">ClutterStage</ulink>: The stage itself, mentioned already</para></listitem>
@@ -757,7 +757,8 @@ by calling <function>clutter_actor_get_geometry()</function> and <function>clutt
 
 <para>To make your code work with both OpenGL ES and regular OpenGL (and maybe even future &clutter; backends), you may wish 
 to use &clutter;'s <literal>cogl</literal> abstraction API which provides functions such as <function>cogl_rectangle()</function> 
-and <function>cogl_push_matrix()</function>.
+and <function>cogl_push_matrix()</function>. You can also detect whether the platform has support for either the OpenGL or OpenGL ES API by ifdefing for 
+<literal>CLUTTER_COGL_HAS_GL</literal> or <literal>CLUTTER_COGL_HAS_GLES</literal>.
 </para>
 
 <para>You should also implement the <function>ClutterActor::pick()</function> virtual function, painting a silhouette of your actor 
@@ -829,7 +830,7 @@ might change the size of its child actors to fit the specified size.</para>
 calling <function>clutter_actor_paint()</function> on the child actors. All 
 containers should also implement the <function>pick()</function> function, calling 
 <function>clutter_actor_pick()</function> on each child actor.</para>
-<para>See the <link linkend="appendix-implementing-actorst">Custom Actor</link> 
+<para>See the <link linkend="appendix-implementing-actors">Custom Actor</link> 
 section for more details these virtual functions.</para>
 </sect2>
 
@@ -906,20 +907,6 @@ their application.
 </para>
 </appendix>
 
-
-<appendix id="appendix-using-opengl-directly">
-<title>Using OpenGLDirectly</title>
-<para>You can conveniently detect whether the platform has support for either the OpenGL or OpenGL ES API by ifdefing for 
-<literal>CLUTTER_COGL_HAS_GL</literal> or <literal>CLUTTER_COGL_HAS_GLES</literal>. This allows you to write code for both.
-</para>
-
-<para>
-TODO:
-How to get the appropriate OpenGL resources so that you can use OpenGL calls directly, to use features not 
-supported by the pure Clutter API. For instance, creating true 3D objects. This section will advise that these 
-effects should be used sparingly, to avoid breaking the familiar interaction conventions of the 2D UI.
-</para>
-</appendix>
 
 <chapter id="sec-Contributing">
 <title>Contributing</title>

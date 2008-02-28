@@ -39,17 +39,41 @@ validate: clutter-tut-with-examples.xml
 	xmllint --xinclude --valid --noout --catalogs $(DOCBOOK_STYLESHEET) $<
 
 
-post-html: html/index.html style.css
+post-html: html/index.html style.css pdf
 	rsync $(rsync_args) figures/*.png $$USER@$(web_host):$(clutter_tut_path)/figures/
 	rsync $(rsync_args) icons/*.png $$USER@$(web_host):$(clutter_tut_path)/icons/
 	rsync $(rsync_args) -r html/ $$USER@$(web_host):$(clutter_tut_path)/html/
 	rsync $(rsync_args) *.css $$USER@$(web_host):$(clutter_tut_path)/html/
+	rsync $(rsync_args) -r pdf/ $$USER@$(web_host):$(clutter_tut_path)/pdf/
+
+
+# PDF Generation:
+
+XMLLINT = xmllint
+DB2PDF = docbook2pdf
+
+# we need to produce a version with full examples with all of the XIncludes done so that it
+# can processed for PDF
+programming-with-clutter.xml: clutter-tut-with-examples.xml
+	rm -rf html
+	$(mkinstalldirs) html
+	$(XMLLINT) --xinclude --postvalid $< -o $@
+
+# We have to generate the pdf in a subdirectory (e.g. pdf/) because the tutorial
+# specifies the path to the figures as '../figures' so if we build it in this
+# directory, it won't find the images.
+pdf/programming-with-clutter.pdf: programming-with-clutter.xml
+	$(DB2PDF) --output pdf $<
+
+pdf : pdf/programming-with-clutter.pdf
+
 
 
 doc-clean:
 	-rm -rf html
 	-rm -rf html_withcomments
 	-rm -f clutter-tut-with-examples.xml
+	-rm -r pdf
 
 tutorialdir = $(clutter_docdir)/tutorial/html
 

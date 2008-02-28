@@ -1,5 +1,12 @@
 2008-02-28  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/clutter-tut.xml: Removed the Using OpenGL Directly 
+	appendix because it is covered by the Custom Actor section.
+
+	* docs/tutorial/Makefile.am: Generate a PDF.
+
+2008-02-28  Murray Cumming  <murrayc@murrayc.com>
+
 	* configure.ac:
 	* examples/custom_actor/Makefile.am: distcheck fixes.
 	* docs/tutorial/clutter-tut.xml: Actor sections: Mention the anchor 
