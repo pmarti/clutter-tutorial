@@ -1,5 +1,26 @@
 2008-02-28  Murray Cumming  <murrayc@murrayc.com>
 
+	* configure.ac:
+	* examples/custom_actor/Makefile.am: distcheck fixes.
+	* docs/tutorial/clutter-tut.xml: Actor sections: Mention the anchor 
+	point.
+	Effects section: Show the AlphaFunc diagram from the API reference.
+	Behaviour section: Show the AlphaFunc+Path diagram from the API 
+	reference.
+	* docs/tutorial/figures/Makefile.am: Added the diagrams from 
+	the API reference.
+
+2008-02-28  Murray Cumming,,,  <murrayc@murrayc.com>
+
+	reviewed by: <delete if not using a buddy>
+
+	* configure.ac:
+	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/figures/Makefile.am:
+	* examples/custom_actor/Makefile.am:
+
+2008-02-28  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Correct some mentions of widgets to 
 	mentions of actors.
 	Custom Actor section: Explain pick().

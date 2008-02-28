@@ -280,10 +280,12 @@ but let's look at the standard actors for now:
 
 <para>Each actor should be added to the stage with <function>clutter_container_add()</function> and its 
 positions should then be specified. All actors derive from <classname>ClutterActor</classname> so you can call 
-<function>clutter_actor_set_position()</function> to set the x and y coordinates, using the top-left as the 0, 0 origin, and the z coordinate can be set with 
+<function>clutter_actor_set_position()</function> to set the x and y coordinates, and the z coordinate can be set with 
 <function>clutter_actor_set_depth()</function>, with larger values placing the actor further away from the observer. 
 <function>clutter_actor_set_size()</function> sets the width and height.
 </para>
+<para>The actor's position is relative to the top-left (0, 0) of the parent container (such as the stage), but this origin can be changed by 
+calling <function>clutter_actor_set_anchor_point()</function>.</para>
 <para>By default, actors are hidden, so remember to call <function>clutter_actor_show</function>(). You may later call <function>clutter_actor_hide()</function> to 
 temporarily hide the object again.</para>
 <para>Like &gtk; widgets, &clutter; actors have a &quot;floating reference&quot; when they are first instantiated with a function 
@@ -571,6 +573,14 @@ and total number of frames, using <function>clutter_timeline_get_current_frame()
 the result depending on the effect used. For instance, CLUTTER_ALPHA_MAX would be 100% opacity when using <function>clutter_effect_fade()</function>. 
 Several built-in callbacks, such as <function>CLUTTER_ALPHA_SINE</function>, allow you to easily specify natural movement. 
 </para>
+
+<figure id="figure-alpha-func">
+  <title>Graphic representation of some alpha functions.</title>
+  <screenshot>
+    <graphic format="PNG" fileref="&url_figures_base;alpha-func.png"/>
+  </screenshot>
+</figure>
+
 <para>You should then provide this <classname>ClutterEffectTemplate</classname> to one of the <function>clutter_effect</function> 
 functions, along with the actor and any extra parameters required by that function. Remember to unref the effect template after providing it to the effect function 
 (which will take a reference). Unlike actors, these do not have &quot;floating references&quot;.
@@ -629,6 +639,13 @@ behaviours while the timeline is running.
 on the path once per frame by calling a supplied <literal>alpha</literal> callback. The <classname>ClutterAlpha</classname> 
 object is constructed with this callback and a <classname>ClutterTimeline</classname> which tells it when a new frame needs a 
 new value to be calculated.</para>
+
+<figure id="figure-path-alpha-func">
+  <title>Effects of alpha functions on a path.</title>
+  <screenshot>
+    <graphic format="PNG" fileref="&url_figures_base;path-alpha-func.png"/>
+  </screenshot>
+</figure>
 
 <para>Your <literal>alpha</literal> callback will need to call <function>clutter_alpha_get_timeline()</function> so it can return 
 a value based on the timeline's current frame number and total number of frames, using 
