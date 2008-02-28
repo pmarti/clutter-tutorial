@@ -47,17 +47,6 @@ struct _ExampleBox
   GList *children;
 };
 
-/**
- * ExampleBoxClass:
- * @pack_child: virtual function, called when packing a new child. All
- *   #ExampleBox subclasses must implement this function
- * @unpack_child: virtual function, called when unpacking a child. All
- *   #ExampleBox subclasses must implement this function
- *
- * Base class for layout containers
- *
- * Since: 0.4
- */
 struct _ExampleBoxClass
 {
   /*< private >*/
@@ -65,13 +54,11 @@ struct _ExampleBoxClass
 };
 
 
-GType    example_box_get_type            (void) G_GNUC_CONST;
+GType example_box_get_type (void) G_GNUC_CONST;
 
-ClutterActor *example_box_new           (void);
-
-void     example_box_pack                (ExampleBox           *box,
-                                          ClutterActor         *actor);
-void     example_box_remove_all          (ExampleBox           *box);
+ClutterActor *example_box_new (void);
+void example_box_pack (ExampleBox*box, ClutterActor *actor);
+void example_box_remove_all (ExampleBox *box);
 
 G_END_DECLS
 

@@ -1,5 +1,19 @@
 2008-02-28  Murray Cumming  <murrayc@murrayc.com>
 
+	* configure.ac:
+	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/figures/Makefile.am:
+	Added text to the Scrolling appendix.
+	* examples/Makefile.am:
+	* examples/scrolling/Makefile.am:
+	* examples/scrolling/main.c:
+	* examples/scrolling/scrollingcontainer.c:
+	* examples/scrolling/scrollingcontainer.h:
+	A simple scrolling example. This is very possibly horribly wrong, 
+	but this is how I will find out.
+
+2008-02-28  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Removed the Using OpenGL Directly 
 	appendix because it is covered by the Custom Actor section.
 
@@ -16,15 +30,6 @@
 	reference.
 	* docs/tutorial/figures/Makefile.am: Added the diagrams from 
 	the API reference.
-
-2008-02-28  Murray Cumming,,,  <murrayc@murrayc.com>
-
-	reviewed by: <delete if not using a buddy>
-
-	* configure.ac:
-	* docs/tutorial/clutter-tut.xml:
-	* docs/tutorial/figures/Makefile.am:
-	* examples/custom_actor/Makefile.am:
 
 2008-02-28  Murray Cumming  <murrayc@murrayc.com>
 

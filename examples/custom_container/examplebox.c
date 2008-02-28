@@ -37,21 +37,6 @@
 static void
 layout_children (ExampleBox *box);
 
-/**
- * ExampleBoxChild:
- * @actor: the child #ClutterActor
- * @child_coords: the original coordinates of the child
- *
- * Packing data for children of a #ExampleBox.
- *
- * Since: 0.4
- */
-struct _ExampleBoxChild
-{
-  ClutterActor *actor;
-  ClutterActorBox child_coords;
-};
-
 static void clutter_container_iface_init (ClutterContainerIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (ExampleBox,
@@ -81,15 +66,14 @@ example_box_remove (ClutterContainer *container,
 
   for (l = box->children; l; l = l->next)
     {
-      ExampleBoxChild *child = l->data;
+      ClutterActor *child = l->data;
 
-      if (child->actor == actor)
+      if (child == actor)
         {
-          clutter_actor_unparent (actor);
+          clutter_actor_unparent (child);
           
           box->children = g_list_remove_link (box->children, l);
           g_list_free (l);
-          g_slice_free (ExampleBoxChild, child);
 
           g_signal_emit_by_name (container, "actor-removed", actor);
 
@@ -116,9 +100,9 @@ example_box_foreach (ClutterContainer *container,
 
   for (l = box->children; l; l = l->next)
     {
-      ExampleBoxChild *child = l->data;
+      ClutterActor *child = l->data;
 
-      (* callback) (child->actor, user_data);
+      (* callback) (child, user_data);
     }
 }
 
@@ -141,9 +125,9 @@ example_box_show_all (ClutterActor *actor)
 
   for (l = box->children; l; l = l->next)
     {
-      ExampleBoxChild *child = l->data;
+      ClutterActor *child = l->data;
 
-      clutter_actor_show (child->actor);
+      clutter_actor_show (child);
     }
 
   clutter_actor_show (actor);
@@ -161,9 +145,9 @@ example_box_hide_all (ClutterActor *actor)
 
   for (l = box->children; l; l = l->next)
     {
-      ExampleBoxChild *child = l->data;
+      ClutterActor *child = l->data;
 
-      clutter_actor_hide (child->actor);
+      clutter_actor_hide (child);
     }
 }
 
@@ -179,10 +163,10 @@ example_box_paint (ClutterActor *actor)
 
   for (l = box->children; l; l = l->next)
     {
-      ExampleBoxChild *child = l->data;
+      ClutterActor *child = l->data;
 
-      if (CLUTTER_ACTOR_IS_MAPPED (child->actor))
-        clutter_actor_paint (child->actor);
+      if (CLUTTER_ACTOR_IS_MAPPED (child))
+        clutter_actor_paint (child);
     }
 
   cogl_pop_matrix ();
@@ -199,10 +183,10 @@ example_box_pick (ClutterActor *actor,
 
   for (l = box->children; l; l = l->next)
     {
-      ExampleBoxChild *child = l->data;
+      ClutterActor *child = l->data;
 
-      if (CLUTTER_ACTOR_IS_MAPPED (child->actor))
-        clutter_actor_pick (child->actor, color);
+      if (CLUTTER_ACTOR_IS_MAPPED (child))
+        clutter_actor_pick (child, color);
     }
 }
 
@@ -232,13 +216,13 @@ example_box_query_coords (ClutterActor    *actor,
 
   for (l = box->children; l; l = l->next)
     {
-      ExampleBoxChild *child = l->data;
+      ClutterActor *child = l->data;
       
-      if (CLUTTER_ACTOR_IS_VISIBLE (child->actor))
+      if (CLUTTER_ACTOR_IS_VISIBLE (child))
         {
           guint child_width, child_height;
 
-          clutter_actor_get_size (child->actor, &child_width, &child_height);
+          clutter_actor_get_size (child, &child_width, &child_height);
 
           width = width + child_width;
 
@@ -281,10 +265,9 @@ example_box_dispose (GObject *gobject)
 
   for (l =  box->children; l; l = l->next)
     {
-      ExampleBoxChild *child = l->data;
+      ClutterActor *child = l->data;
 
-      clutter_actor_destroy (child->actor);
-      g_slice_free (ExampleBoxChild, child);
+      clutter_actor_destroy (child);
     }
 
   g_list_free (box->children);
@@ -339,11 +322,11 @@ layout_children (ExampleBox *box)
   GList *l = NULL;
   for (l = box->children; l; l = l->next)
     {
-      ExampleBoxChild *child = l->data;
+      ClutterActor *child = l->data;
 
       /* Discover what size the child wants: */
       ClutterActorBox child_req = { 0, };
-      clutter_actor_query_coords (child->actor, &child_req);
+      clutter_actor_query_coords (child, &child_req);
 
       const ClutterUnit child_width = child_req.x2 - child_req.x1;
       const ClutterUnit child_height = child_req.y2 - child_req.y1;
@@ -361,7 +344,7 @@ layout_children (ExampleBox *box)
       child_box.y2 = child_height;
 
       /* Tell the child what position and size it may actually have: */
-      clutter_actor_request_coords (child->actor, &child_box);
+      clutter_actor_request_coords (child, &child_box);
    }
 }
 
@@ -380,15 +363,11 @@ void
 example_box_pack (ExampleBox           *box,
                   ClutterActor         *actor)
 {
-  ExampleBoxChild *child;
 
   g_return_if_fail (EXAMPLE_IS_BOX (box));
   g_return_if_fail (CLUTTER_IS_ACTOR (actor));
 
-  child = g_slice_new (ExampleBoxChild);
-  child->actor = actor;
-  
-  box->children = g_list_prepend (box->children, child);
+  box->children = g_list_prepend (box->children, actor);
   clutter_actor_set_parent (actor, CLUTTER_ACTOR (box));
 
   /* Reset the saved allocation,
@@ -418,10 +397,10 @@ example_box_remove_all (ExampleBox *box)
   children = box->children;
   while (children)
     {
-      ExampleBoxChild *child = children->data;
+      ClutterActor *child = children->data;
       children = children->next;
 
-      clutter_container_remove_actor (CLUTTER_CONTAINER (box), child->actor);
+      clutter_container_remove_actor (CLUTTER_CONTAINER (box), child);
     }
 }
 

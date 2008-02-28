@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
   /* Show the stage: */
   clutter_actor_show (stage);
 
-  /* Create a stage and add two timelines to it,
+  /* Create a score and add two timelines to it,
    * so the second timeline starts when the first one stops: */
   ClutterScore *score = clutter_score_new ();
   clutter_score_set_loop (score, TRUE);

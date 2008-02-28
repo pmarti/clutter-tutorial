@@ -31,7 +31,7 @@ on_stage_button_press (ClutterStage *stage, ClutterEvent *event, gpointer data)
    */
   ClutterActor *rect = clutter_stage_get_actor_at_pos (stage, x, y);
   if (!rect)
-    return;
+    return FALSE;
 
   if (CLUTTER_IS_RECTANGLE (rect))
     g_print ("  A rectangle is at that position.\n");

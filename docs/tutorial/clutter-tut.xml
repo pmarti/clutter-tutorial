@@ -880,19 +880,45 @@ space, or align differently inside the container.
 
 <appendix id="appendix-implementing-scrolling">
 <title>Implementing Scrolling in a Window-like Actor</title>
-<para>
-TODO:
-There is no built-in API or actor to assist with this, so this section will 
-show an example implementation of a simple scrolled, based on the scrolled track listing in 
-the woohaa example application.
 
-Scrolling will be triggered by either a key press or a mouse drag.
+<sect1>
+<title>The Technique</title>
 
-This will make clear that real-world applications will probably want to implement 
-more specific behaviour not mentioned here, depending on their needs. For instance, 
-adding scrollbars that show accurate scroll positions, efficiently drawing only objects 
-that should be visible when dealing with large numbers of rows, and implementing "kinetic" scrolling.
+<para>There is not yet a standard container in &clutter; to show and scroll through 
+a small part of a set of widgets, like the 
+<classname>GtkScrolledWindow</classname> widget in the GTK+ toolkit, so you may 
+need to implement this functionality in your application.
 </para>
+<para>The &tidy; project 
+contains some suggested implementations for such actors, but here is a simpler example 
+of the general technique. It creates the impression of scrolling by clipping a 
+container so that it only shows a small area of the screen, while moving the child 
+widgets in that container.
+</para>
+</sect1>
+
+<sect1 id="scrolling-container-example"><title>Example</title>
+<para>
+This example places three rectangles in a custom container which scrolls its 
+child widgets to the left when the user clicks on the stage.
+</para>
+
+<para>
+Real-world applications will of course want to implement more specific behaviour, depending on their needs. For instance, 
+adding scrollbars that show accurate scroll positions, scrolling smoothly with animation, efficiently drawing only objects 
+that should be visible when dealing with large numbers of rows.
+</para>
+
+<figure id="figure-scrolling-container">
+  <title>Behaviour</title>
+  <screenshot>
+    <graphic format="PNG" fileref="&url_figures_base;scrolling.png"/>
+  </screenshot>
+</figure>
+
+<para><ulink url="&url_examples_base;scrolling">Source Code</ulink></para>
+</sect1>
+
 </appendix>
 
 
