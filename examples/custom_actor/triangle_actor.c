@@ -37,12 +37,11 @@ struct _ClutterTrianglePrivate
 };
 
 static void
-clutter_triangle_paint (ClutterActor *self)
+do_triangle_paint (ClutterActor *self, const ClutterColor *color)
 {
   ClutterTriangle        *triangle = CLUTTER_TRIANGLE(self);
   ClutterTrianglePrivate *priv;
   ClutterGeometry          geom;
-  ClutterColor             tmp_col;
 
   triangle = CLUTTER_TRIANGLE(self);
   priv = triangle->priv;
@@ -53,17 +52,13 @@ clutter_triangle_paint (ClutterActor *self)
 
   clutter_actor_get_geometry (self, &geom);
 
-  /* parent paint call will have translated us into position so
-   * paint from 0, 0
-   */
-  tmp_col.red   = priv->color.red;
-  tmp_col.green = priv->color.green;
-  tmp_col.blue  = priv->color.blue;
-  tmp_col.alpha = clutter_actor_get_opacity (self);
-
-  cogl_color (&tmp_col);
+  cogl_color (color);
 
   /* Paint a triangle:
+   *
+   * The parent paint call will have translated us into position so
+   * paint from 0, 0
+   *
    * Note that we should really check that glGetError()) != GL_NO_ERROR
    * after each gl call, but that would complicate this example. */
   glBegin(GL_POLYGON);
@@ -73,6 +68,31 @@ clutter_triangle_paint (ClutterActor *self)
   glEnd();
 
   cogl_pop_matrix();
+}
+
+static void
+clutter_triangle_paint (ClutterActor *self)
+{
+  ClutterTriangle *triangle = CLUTTER_TRIANGLE(self);
+  ClutterTrianglePrivate *priv = triangle->priv;
+
+  /* Paint the triangle with the actor's color: */
+  ClutterColor color;
+  color.red   = priv->color.red;
+  color.green = priv->color.green;
+  color.blue  = priv->color.blue;
+  color.alpha = clutter_actor_get_opacity (self);
+
+  do_triangle_paint (self, &color);
+}
+
+static void
+clutter_triangle_pick (ClutterActor *self, const ClutterColor *color)
+{
+  /* Paint the triangle with the pick color, offscreen.
+     This is used by Clutter to detect the actor under the cursor 
+     by identifying the unique color under the cursor. */
+  do_triangle_paint (self, color);
 }
 
 static void
@@ -135,7 +155,9 @@ clutter_triangle_class_init (ClutterTriangleClass *klass)
   GObjectClass        *gobject_class = G_OBJECT_CLASS (klass);
   ClutterActorClass *actor_class = CLUTTER_ACTOR_CLASS (klass);
 
+  /* Provide implementations for ClutterActor vfuncs: */
   actor_class->paint = clutter_triangle_paint;
+  actor_class->pick = clutter_triangle_pick;
 
   gobject_class->finalize     = clutter_triangle_finalize;
   gobject_class->dispose      = clutter_triangle_dispose;

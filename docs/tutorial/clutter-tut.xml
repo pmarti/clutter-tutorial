@@ -439,10 +439,10 @@ you may call the global <function>clutter_set_motion_events_enabled()</function>
 </para>
 <para>Your event signal handler should return <literal>true</literal> when it has fully handled the event, or <literal>false</literal> if you want the event to be sent also 
 to the next actor in the event chain. &clutter; first allows the stage to handle each event via the <literal>captured-event</literal> signal. But if the stage does not handle the 
-event then it will be passed down to the child widget, first passing through the widget's parent containers, giving each actor in the hierarchy a chance to handle the event via a 
+event then it will be passed down to the child actor, first passing through the actor's parent containers, giving each actor in the hierarchy a chance to handle the event via a 
 <literal>captured-event</literal> signal handler.
 If the event has still not been handled fully by any actor then the event will then be emitted via a specific signal (such as <literal>button-press-event</literal> or 
-<literal>key-press-event</literal>. These specific signals are emitted first from the child widget, then by its parent, passing all they way back up to the stage if no signal handler 
+<literal>key-press-event</literal>. These specific signals are emitted first from the child actor, then by its parent, passing all they way back up to the stage if no signal handler 
 returns <literal>true</literal> to indicate that it has handled the event fully.</para>
 
 <para>Actors usually only receive keyboard events when the actor has key focus, but you can give an actor exclusive access to any events by grabbing either the pointer or 
@@ -743,12 +743,15 @@ to use &clutter;'s <literal>cogl</literal> abstraction API which provides functi
 and <function>cogl_push_matrix()</function>.
 </para>
 
+<para>You should also implement the <function>ClutterActor::pick()</function> virtual function, painting a silhouette of your actor 
+in the provided color. &clutter; uses this to draw each actor's silhouette offscreen in a unique color, using the color to quickly 
+identify the actor under the cursor. If your actor is simple then you can probably reuse the code from your paint() implementation.</para>
+
 <para>Most of the rest of <classname>ClutterActor</classname>'s virtual functions don't need to be reimplemented, because a suitable default implemention exists in 
 <classname>ClutterActor</classname>. For instance, 
-<function>show()</function>, <function>show_all()</function>, <function>hide()</function>, <function>hide_all()</function>, <function>pick()</function>, 
+<function>show()</function>, <function>show_all()</function>, <function>hide()</function>, <function>hide_all()</function>, 
 <function>request_coord()</function>.
 
-<para>TODO: Explain what paint() should do.</para>
 </para>
 </sect1>
 
@@ -792,7 +795,7 @@ it should implement the <classname>ClutterActor</classname>'s
 virtual functions.</para>
 
 <para>For instance, your <function>request_coords()</function> implementation should 
-store the provided allocation and maybe use it to layout its child widgets, by 
+store the provided allocation and maybe use it to layout its child actors, by 
 calling <function>clutter_actor_request_coords()</function> on them with appropriate 
 allocations.
 </para>
@@ -837,7 +840,11 @@ actors for the purposes of add(), remove(), and foreach().</para>
 
 <sect1 id="custom-container-example"><title>Example</title>
 <para>
-The following example demonstrates the implementation of a new Container type.
+The following example demonstrates the implementation of a box container that 
+lays its child actors out horizontally. A real container should probably allow 
+optional padding around the container and spacing between the child actors. 
+You might also want to allow some child actors to expand to fill the available 
+space, or align differently inside the container.
 </para>
 
 <figure id="figure-custom-container">

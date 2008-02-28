@@ -188,10 +188,28 @@ example_box_paint (ClutterActor *actor)
   cogl_pop_matrix ();
 }
 
+/* An implementation for the ClutterActor::pick() vfunc,
+   picking all the child actors: */
+static void
+example_box_pick (ClutterActor *actor, 
+                  const ClutterColor *color)
+{
+  ExampleBox *box = EXAMPLE_BOX (actor);
+  GList *l;
+
+  for (l = box->children; l; l = l->next)
+    {
+      ExampleBoxChild *child = l->data;
+
+      if (CLUTTER_ACTOR_IS_MAPPED (child->actor))
+        clutter_actor_pick (child->actor, color);
+    }
+}
+
 /* An implementation for the ClutterActor::query_coords() vfunc: */
 static void
 example_box_query_coords (ClutterActor    *actor,
-                           ClutterActorBox *coords)
+                          ClutterActorBox *coords)
 {
   ExampleBox *box = EXAMPLE_BOX (actor);
   GList *l;
@@ -237,7 +255,7 @@ example_box_query_coords (ClutterActor    *actor,
 /* An implementation for the ClutterActor::request_coords() vfunc: */
 static void
 example_box_request_coords (ClutterActor    *actor,
-                             ClutterActorBox *coords)
+                            ClutterActorBox *coords)
 {
   ExampleBox *box = EXAMPLE_BOX (actor);
 
@@ -287,6 +305,7 @@ example_box_class_init (ExampleBoxClass *klass)
   actor_class->show_all = example_box_show_all;
   actor_class->hide_all = example_box_hide_all;
   actor_class->paint = example_box_paint;
+  actor_class->pick = example_box_pick;
   actor_class->query_coords = example_box_query_coords;
   actor_class->request_coords = example_box_request_coords;
 }

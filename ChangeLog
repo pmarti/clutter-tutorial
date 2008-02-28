@@ -1,3 +1,13 @@
+2008-02-28  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Correct some mentions of widgets to 
+	mentions of actors.
+	Custom Actor section: Explain pick().
+	Custom Container section: Say what the example does and say what a 
+	real container should probably offer.
+	* examples/custom_actor/triangle_actor.c: 
+	* examples/custom_container/examplebox.c: Implement pick().
+
 2008-02-27  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Custom containers section: 
