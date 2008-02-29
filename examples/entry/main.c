@@ -17,49 +17,42 @@
 #include <clutter/clutter.h>
 #include <stdlib.h>
 
+ClutterActor *entry = NULL;
+
+static gboolean
+on_stage_key_press (ClutterStage *stage, ClutterKeyEvent *event, gpointer data)
+{
+  clutter_entry_handle_key_event (entry, event);
+
+  return TRUE; /* Stop further handling of this event. */
+}
 
 int main(int argc, char *argv[])
 {
   ClutterColor stage_color = { 0x00, 0x00, 0x00, 0xff };
-  ClutterColor actor_color = { 0xff, 0xff, 0xff, 0x99 };
+  ClutterColor actor_color = { 0xff, 0xff, 0xcc, 0xff };
 
   clutter_init (&argc, &argv);
 
   /* Get the stage and set its size and color: */
   ClutterActor *stage = clutter_stage_get_default ();
-  clutter_actor_set_size (stage, 200, 200);
+  clutter_actor_set_size (stage, 600, 200);
   clutter_stage_set_color (CLUTTER_STAGE (stage), &stage_color);
 
-  /* Add a rectangle to the stage: */
-  ClutterActor *rect = clutter_rectangle_new_with_color (&actor_color);
-  clutter_actor_set_size (rect, 100, 100);
-  clutter_actor_set_position (rect, 20, 20);
-  clutter_container_add_actor (CLUTTER_CONTAINER (stage), rect);
-  clutter_actor_show (rect);
+  /* Add an entry to the stage: */
+  entry = clutter_entry_new ();
+  clutter_entry_set_color (CLUTTER_ENTRY (entry), &actor_color);
+  clutter_entry_set_text (CLUTTER_ENTRY (entry), 
+    "Wizard imps and sweat sock pimps, interstellar mongrel nymphs.");
+  clutter_entry_set_font_name  (CLUTTER_ENTRY (entry), "Sans 12");
+  clutter_actor_set_size (entry, 590, 100);
+  clutter_actor_set_position (entry, 5, 5);
+  clutter_container_add_actor (CLUTTER_CONTAINER (stage), entry);
+  clutter_actor_show (entry);
 
-  /* Rotate it 20 degrees away from us around the x axis
-   * (around its top edge)
-   */
-  clutter_actor_set_rotation (rect, CLUTTER_X_AXIS, -20, 0, 0, 0);
-
-
-  /* Add a label to the stage: */
-  ClutterActor *label = clutter_label_new_full ("Sans 12", "Some Text", &actor_color);
-  clutter_actor_set_size (label, 500, 500);
-  clutter_actor_set_position (label, 20, 150);
-  clutter_container_add_actor (CLUTTER_CONTAINER (stage), label);
-  clutter_actor_show (label);
-
-  /* Scale it 300% along the x axis:
-   */
-  clutter_actor_set_scale (label, 3.00, 1.0);
-
-  /* Move it up and to the right: */
-  clutter_actor_move_by (label, 10, -10);
-
-  /* Move it along the z axis, further from the viewer: */
-  clutter_actor_set_depth (label, -20);
-
+  /* Connect signal handlers to handle key presses on the stage: */ 
+  g_signal_connect (stage, "key-press-event",
+    G_CALLBACK (on_stage_key_press), NULL);
 
   /* Show the stage: */
   clutter_actor_show (stage);

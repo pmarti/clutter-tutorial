@@ -1,3 +1,12 @@
+2008-02-29  Murray Cumming  <murrayc@murrayc.com>
+
+	* configure.ac:
+	* examples/Makefile.am:
+	* examples/entry/: Added an example of ClutterEntry, though there 
+	is no text about this yet.
+	* examples/multiline_text_entry/: Added the start of a multi-line 
+	example for the appendix, by cutting down ClutterEntry.
+
 2008-02-28  Murray Cumming  <murrayc@murrayc.com>
 
 	* configure.ac:

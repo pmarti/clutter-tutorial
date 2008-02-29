@@ -27,7 +27,9 @@
 
 /**
  * SECTION:example-scrolling-container
- * @short_description: TODO
+ * @short_description: This container shows only a small area
+ * of its child actors, and the child actors can be scrolled 
+ * left under that area.
  */
 
 

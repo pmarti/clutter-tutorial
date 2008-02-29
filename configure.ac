@@ -113,9 +113,11 @@ AC_OUTPUT([
     examples/custom_actor/Makefile
     examples/custom_container/Makefile
     examples/behaviour/Makefile
+    examples/entry/Makefile
     examples/effects/Makefile
     examples/full_example/Makefile
       examples/full_example/images/Makefile
+    examples/multiline_text_entry/Makefile
     examples/score/Makefile
     examples/scrolling/Makefile
     examples/stage/Makefile
