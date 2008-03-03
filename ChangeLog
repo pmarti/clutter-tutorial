@@ -2,6 +2,10 @@
 
 2008-03-03  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/clutter-tut.xml: Fixed some typos.
+
+2008-03-03  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Multiline Text Entry appendix: 
 	Briefly describe use of PangoLayout and 
 	pango_clutter_render_layout().

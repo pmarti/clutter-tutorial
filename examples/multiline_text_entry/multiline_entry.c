@@ -922,7 +922,6 @@ example_multiline_entry_handle_key_event (ExampleMultilineEntry    *entry,
  * Insert a character to the right of the current position of the cursor,
  * and updates the position of the cursor.
  *
-
  */
 static void
 example_multiline_entry_insert_unichar (ExampleMultilineEntry *entry,
@@ -1020,7 +1019,6 @@ example_multiline_entry_delete_chars (ExampleMultilineEntry *entry,
  * @end_pos. If @end_pos is negative, then the characters deleted will be
  * those characters from @start_pos to the end of the text.
  *
-
  */
 void
 example_multiline_entry_delete_text (ExampleMultilineEntry       *entry,

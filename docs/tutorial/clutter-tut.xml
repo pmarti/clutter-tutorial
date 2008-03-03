@@ -910,7 +910,7 @@ that should be visible when dealing with large numbers of rows.
 </para>
 
 <figure id="figure-scrolling-container">
-  <title>Behaviour</title>
+  <title>Scrolling Container</title>
   <screenshot>
     <graphic format="PNG" fileref="&url_figures_base;scrolling.png"/>
   </screenshot>
@@ -958,13 +958,13 @@ sections of text, the ability to show and manipulate right-to-left text, etc.
 </para>
 
 <figure id="figure-multiline-text-entry">
-  <title>Behaviour</title>
+  <title>Multiline Text Entry</title>
   <screenshot>
-    <graphic format="PNG" fileref="&url_figures_base;scrolling.png"/>
+    <graphic format="PNG" fileref="&url_figures_base;multiline_text_entry.png"/>
   </screenshot>
 </figure>
 
-<para><ulink url="&url_examples_base;scrolling">Source Code</ulink></para>
+<para><ulink url="&url_examples_base;multiline_text_entry">Source Code</ulink></para>
 </sect1>
 
 </appendix>
