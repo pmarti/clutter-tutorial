@@ -33,7 +33,7 @@ AC_CONFIG_AUX_DIR(scripts)
 
 dnl For automake.
 VERSION=$CLUTTER_DOC_VERSION
-PACKAGE=clutter-documentation
+PACKAGE=clutter-tutorial
 
 dnl Initialize automake stuff
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
