@@ -1,3 +1,16 @@
+0.2.0:
+
+2008-03-03  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Multiline Text Entry appendix: 
+	Briefly describe use of PangoLayout and 
+	pango_clutter_render_layout().
+	* docs/tutorial/figures/Makefile.am: Added multiline screenshot.
+	* examples/multiline_text_entry/multiline_entry.c:
+	* examples/multiline_text_entry/multiline_entry.h: Simplified some more,
+ 	and added some comments. Did not find a way to implement up/down 
+	cursor navigation.
+
 2008-02-29  Murray Cumming  <murrayc@murrayc.com>
 
 	* configure.ac:

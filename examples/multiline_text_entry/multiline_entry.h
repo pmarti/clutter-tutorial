@@ -97,21 +97,9 @@ void                  example_multiline_entry_set_color           (ExampleMultil
 						         const ClutterColor *color);
 void                  example_multiline_entry_get_color           (ExampleMultilineEntry       *entry,
 						         ClutterColor       *color);
-void                  example_multiline_entry_set_cursor_position (ExampleMultilineEntry       *entry,
-                                                         gint                position);
-gint                  example_multiline_entry_get_cursor_position (ExampleMultilineEntry       *entry);
+
 void                  example_multiline_entry_handle_key_event    (ExampleMultilineEntry       *entry,
                                                          ClutterKeyEvent    *kev);
-void                  example_multiline_entry_insert_unichar      (ExampleMultilineEntry       *entry,
-                                                         gunichar            wc);
-void                  example_multiline_entry_delete_chars        (ExampleMultilineEntry       *entry,
-                                                         guint               len);
-void                  example_multiline_entry_insert_text         (ExampleMultilineEntry       *entry,
-                                                         const gchar        *text,
-                                                         gssize              position);
-void                  example_multiline_entry_delete_text         (ExampleMultilineEntry       *entry,
-                                                         gssize              start_pos,
-                                                         gssize              end_pos);
 
 G_END_DECLS
 

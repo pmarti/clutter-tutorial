@@ -1,5 +1,5 @@
 /* Copyright 2008 Openismus GmbH,
- * based on ExampleMultilineEntry in Clutter, Copyright OpenedHand
+ * based on ClutterEntry in Clutter, Copyright OpenedHand
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2
@@ -17,10 +17,9 @@
 
 /**
  * SECTION:clutter-entry
- * @short_description: TODO
+ * @short_description: Example of a multi-line text entry actor, 
+ * based on ClutterEntry.
  */
-
-
 
 #include "multiline_entry.h"
 
@@ -35,11 +34,10 @@
 
 #define DEFAULT_FONT_NAME	"Sans 10"
 #define ENTRY_CURSOR_WIDTH      1
-#define ENTRY_PADDING           5
 
 G_DEFINE_TYPE (ExampleMultilineEntry, example_multiline_entry, CLUTTER_TYPE_ACTOR);
 
-/* Probably move into main */
+/* For the font map: */
 static PangoClutterFontMap  *_font_map = NULL;
 static PangoContext         *_context  = NULL;
 
@@ -49,15 +47,13 @@ enum
 
   PROP_FONT_NAME,
   PROP_TEXT,
-  PROP_COLOR,
-  PROP_POSITION
+  PROP_COLOR
 };
 
 enum
 {
   TEXT_CHANGED,
   CURSOR_EVENT,
-  ACTIVATE,
 
   LAST_SIGNAL
 };
@@ -66,6 +62,15 @@ static guint entry_signals[LAST_SIGNAL] = { 0, };
 
 #define EXAMPLE_MULTILINE_ENTRY_GET_PRIVATE(obj) \
 (G_TYPE_INSTANCE_GET_PRIVATE ((obj), CLUTTER_TYPE_MULTILINE_ENTRY, ExampleMultilineEntryPrivate))
+
+static void
+example_multiline_entry_delete_chars (ExampleMultilineEntry *entry, guint num);
+
+static void
+example_multiline_entry_insert_unichar (ExampleMultilineEntry *entry, gunichar wc);
+
+static void
+example_multiline_entry_delete_text (ExampleMultilineEntry *entry, gssize start_pos, gssize end_pos);
 
 struct _ExampleMultilineEntryPrivate
 {
@@ -82,7 +87,6 @@ struct _ExampleMultilineEntryPrivate
 
   gint                  position;
   gint                  text_x;
-  gint                  entry_padding;
 
   PangoAttrList        *effective_attrs;
   PangoLayout          *layout;
@@ -115,9 +119,6 @@ example_multiline_entry_set_property (GObject      *object,
     case PROP_COLOR:
       example_multiline_entry_set_color (entry, g_value_get_boxed (value));
       break;
-    case PROP_POSITION:
-      example_multiline_entry_set_cursor_position (entry, g_value_get_int (value));
-      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -149,9 +150,6 @@ example_multiline_entry_get_property (GObject    *object,
       example_multiline_entry_get_color (entry, &color);
       g_value_set_boxed (value, &color);
       break;
-    case PROP_POSITION:
-      g_value_set_int (value, priv->position);
-      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -172,8 +170,6 @@ example_multiline_entry_ensure_layout (ExampleMultilineEntry *entry, gint width)
       if (priv->effective_attrs)
 	pango_layout_set_attributes (priv->layout, priv->effective_attrs);
 
-      /* pango_layout_set_alignment (priv->layout, priv->alignment); */
-      /* pango_layout_set_ellipsize (priv->layout, priv->ellipsize); */
       pango_layout_set_single_paragraph_mode (priv->layout,
 					      FALSE );
 
@@ -304,7 +300,7 @@ example_multiline_entry_paint (ClutterActor *self)
                           width,
                           clutter_actor_get_height (self));
 
-  actor_width = width - (2 * priv->entry_padding);
+  actor_width = width;
   example_multiline_entry_ensure_layout (entry, actor_width);
   example_multiline_entry_ensure_cursor_position (entry);
 
@@ -327,7 +323,7 @@ example_multiline_entry_paint (ClutterActor *self)
       else if (priv->position == -1)
         {
           priv->text_x = actor_width - text_width;
-          priv->cursor_pos.x += priv->text_x + priv->entry_padding;
+          priv->cursor_pos.x += priv->text_x;
         }
       else
         {
@@ -341,19 +337,18 @@ example_multiline_entry_paint (ClutterActor *self)
                  priv->text_x -= cursor_x - (diff+actor_width);
              }
 
-           priv->cursor_pos.x += priv->text_x + priv->entry_padding;
+           priv->cursor_pos.x += priv->text_x;
         }
 
     }
   else
     {
       priv->text_x = 0;
-      priv->cursor_pos.x += priv->entry_padding;
     }
 
   priv->fgcol.alpha = clutter_actor_get_opacity (self);
   pango_clutter_render_layout (priv->layout,
-                               priv->text_x + priv->entry_padding, 0,
+                               priv->text_x, 0,
                                &priv->fgcol, 0);
 
   if (EXAMPLE_MULTILINE_ENTRY_GET_CLASS (entry)->paint_cursor)
@@ -418,9 +413,6 @@ example_multiline_entry_finalize (GObject *object)
   G_OBJECT_CLASS (example_multiline_entry_parent_class)->finalize (object);
 }
 
-static gboolean
-on_key_press (ExampleMultilineEntry *entry, ClutterKeyEvent *event, gpointer data);
-
 static void
 example_multiline_entry_class_init (ExampleMultilineEntryClass *klass)
 {
@@ -443,7 +435,6 @@ example_multiline_entry_class_init (ExampleMultilineEntryClass *klass)
    * The font to be used by the entry, expressed in a string that
    * can be parsed by pango_font_description_from_string().
    *
-   * Since: 0.4
    */
   g_object_class_install_property
     (gobject_class, PROP_FONT_NAME,
@@ -457,7 +448,6 @@ example_multiline_entry_class_init (ExampleMultilineEntryClass *klass)
    *
    * The text inside the entry.
    *
-   * Since: 0.4
    */
   g_object_class_install_property
     (gobject_class, PROP_TEXT,
@@ -471,7 +461,6 @@ example_multiline_entry_class_init (ExampleMultilineEntryClass *klass)
    *
    * The color of the text inside the entry.
    *
-   * Since: 0.4
    */
   g_object_class_install_property
     (gobject_class, PROP_COLOR,
@@ -481,21 +470,6 @@ example_multiline_entry_class_init (ExampleMultilineEntryClass *klass)
 			 CLUTTER_TYPE_COLOR,
 			 G_PARAM_READABLE | G_PARAM_WRITABLE));
 
-  /**
-   * ExampleMultilineEntry:position:
-   *
-   * The current input cursor position. -1 is taken to be the end of the text
-   *
-   * Since: 0.4
-   */
-  g_object_class_install_property
-    (gobject_class, PROP_POSITION,
-     g_param_spec_int ("position",
-                       "Position",
-                       "The cursor position",
-                       -1, G_MAXINT,
-                       -1,
-                       G_PARAM_READABLE | G_PARAM_WRITABLE));
 
   /**
    * ExampleMultilineEntry::text-changed:
@@ -522,7 +496,6 @@ example_multiline_entry_class_init (ExampleMultilineEntryClass *klass)
    * implement your own input cursor, set the cursor-visible property to %FALSE,
    * and connect to this signal to position and size your own cursor.
    *
-   * Since: 0.4
    */
    entry_signals[CURSOR_EVENT] =
     g_signal_new ("cursor-event",
@@ -533,26 +506,6 @@ example_multiline_entry_class_init (ExampleMultilineEntryClass *klass)
 		  g_cclosure_marshal_VOID__BOXED,
 		  G_TYPE_NONE, 1,
 		  CLUTTER_TYPE_GEOMETRY | G_SIGNAL_TYPE_STATIC_SCOPE);
-
-  /**
-  * ExampleMultilineEntry::activate:
-   * @entry: the actor which received the event
-   *
-   * The ::activate signal is emitted each time the entry is 'activated'
-   * by the user, normally by pressing the 'Enter' key. This signal will
-   * only be emitted when you are adding text to the entry via
-   * example_multiline_entry_handle_key_event().
-   *
-   * Since: 0.4
-   */
-  entry_signals[ACTIVATE] =
-    g_signal_new ("activate",
-		  G_TYPE_FROM_CLASS (gobject_class),
-		  G_SIGNAL_RUN_LAST,
-		  G_STRUCT_OFFSET (ExampleMultilineEntryClass, activate),
-		  NULL, NULL,
-		  g_cclosure_marshal_VOID__VOID,
-		  G_TYPE_NONE, 0);
 
   g_type_class_add_private (gobject_class, sizeof (ExampleMultilineEntryPrivate));
 }
@@ -581,7 +534,6 @@ example_multiline_entry_init (ExampleMultilineEntry *self)
   priv->text          = NULL;
   priv->position      = -1;
   priv->text_x        = 0;
-  priv->entry_padding = ENTRY_PADDING;
 
   priv->fgcol.red     = 0;
   priv->fgcol.green   = 0;
@@ -601,18 +553,6 @@ example_multiline_entry_init (ExampleMultilineEntry *self)
 
   priv->cursor        = clutter_rectangle_new_with_color (&priv->fgcol);
   clutter_actor_set_parent (priv->cursor, CLUTTER_ACTOR (self));
-
-
-  /* Allow the actor to emit events,
-   * so we can get key presses.
-   * By default only the stage does this.
-   * TODO: But our handler is still not called.
-   */
-  clutter_actor_set_reactive (CLUTTER_ACTOR (self), TRUE);
-
-  /* Handle key presses: */
-  g_signal_connect (self, "key-press-event",
-    G_CALLBACK (on_key_press), NULL);
 }
 
 
@@ -642,7 +582,6 @@ example_multiline_entry_new (void)
  * Return value: the text of the entry.  The returned string is
  *   owned by #ExampleMultilineEntry and should not be modified or freed.
  *
- * Since: 0.4
  */
 G_CONST_RETURN gchar *
 example_multiline_entry_get_text (ExampleMultilineEntry *entry)
@@ -700,8 +639,6 @@ example_multiline_entry_set_text (ExampleMultilineEntry *entry,
  *   understandable by pango_font_description_from_string().  The
  *   string is owned by #ExampleMultilineEntry and should not be modified
  *   or freed.
- *
- * Since: 0.4
  */
 G_CONST_RETURN gchar *
 example_multiline_entry_get_font_name (ExampleMultilineEntry *entry)
@@ -721,8 +658,6 @@ example_multiline_entry_get_font_name (ExampleMultilineEntry *entry)
  * @font_name must be a string containing the font name and its
  * size, similarly to what you would feed to the
  * pango_font_description_from_string() function.
- *
- * Since: 0.4
  */
 void
 example_multiline_entry_set_font_name (ExampleMultilineEntry *entry,
@@ -779,8 +714,6 @@ example_multiline_entry_set_font_name (ExampleMultilineEntry *entry,
  * @color: a #ClutterColor
  *
  * Sets the color of @entry.
- *
- * Since: 0.4
  */
 void
 example_multiline_entry_set_color (ExampleMultilineEntry       *entry,
@@ -820,8 +753,6 @@ example_multiline_entry_set_color (ExampleMultilineEntry       *entry,
  * @color: return location for a #ClutterColor
  *
  * Retrieves the color of @entry.
- *
- * Since: 0.4
  */
 void
 example_multiline_entry_get_color (ExampleMultilineEntry *entry,
@@ -849,10 +780,8 @@ example_multiline_entry_get_color (ExampleMultilineEntry *entry,
  * equal to the number of characters in the entry. A value of -1 indicates
  * that the position should be set after the last character in the entry.
  * Note that this position is in characters, not in bytes.
- *
- * Since: 0.6
  */
-void
+static void
 example_multiline_entry_set_cursor_position (ExampleMultilineEntry *entry,
                                    gint          position)
 {
@@ -877,28 +806,6 @@ example_multiline_entry_set_cursor_position (ExampleMultilineEntry *entry,
 
   if (CLUTTER_ACTOR_IS_VISIBLE (entry))
     clutter_actor_queue_redraw (CLUTTER_ACTOR (entry));
-}
-
-/**
- * example_multiline_entry_get_cursor_position:
- * @entry: a #ExampleMultilineEntry
- *
- * Gets the position, in characters, of the cursor in @entry.
- *
- * Return value: the position of the cursor.
- *
- * Since: 0.6
- */
-gint
-example_multiline_entry_get_cursor_position (ExampleMultilineEntry *entry)
-{
-  ExampleMultilineEntryPrivate *priv;
-
-  g_return_val_if_fail (EXAMPLE_IS_MULTILINE_ENTRY (entry), 0);
-
-  priv = entry->priv;
-
-  return priv->position;
 }
 
 
@@ -933,30 +840,28 @@ example_multiline_entry_handle_key_event (ExampleMultilineEntry    *entry,
 
   switch (keyval)
     {
-      case CLUTTER_Return:
-      case CLUTTER_KP_Enter:
-      case CLUTTER_ISO_Enter:
-        g_signal_emit (entry, entry_signals[ACTIVATE], 0);
-        break;
       case CLUTTER_Escape:
-      case CLUTTER_Up:
-      case CLUTTER_KP_Up:
-      case CLUTTER_Down:
-      case CLUTTER_KP_Down:
       case CLUTTER_Shift_L:
       case CLUTTER_Shift_R:
+        /* Ignore these - Don't try to insert them as characters. */
         break;
+
       case CLUTTER_BackSpace:
+        /* Delete the current character: */
         if (pos != 0 && len != 0)
           example_multiline_entry_delete_chars (entry, 1);
         break;
+
       case CLUTTER_Delete:
       case CLUTTER_KP_Delete:
+        /* Delete the current character: */
         if (len && pos != -1)
           example_multiline_entry_delete_text (entry, pos, pos+1);;
         break;
+
       case CLUTTER_Left:
       case CLUTTER_KP_Left:
+        /* Move the cursor one character left: */
         if (pos != 0 && len != 0)
           {
             if (pos == -1)
@@ -965,23 +870,43 @@ example_multiline_entry_handle_key_event (ExampleMultilineEntry    *entry,
               example_multiline_entry_set_cursor_position (entry, pos - 1);
           }
         break;
+
       case CLUTTER_Right:
       case CLUTTER_KP_Right:
+        /* Move the cursor one character right: */
         if (pos != -1 && len != 0)
           {
             if (pos != len)
               example_multiline_entry_set_cursor_position (entry, pos + 1);
           }
         break;
+
+      case CLUTTER_Up:
+      case CLUTTER_KP_Up:
+        /* TODO: Calculate the index of the position on the line above, 
+           and set the cursor to it. */
+           break;
+
+      case CLUTTER_Down:
+      case CLUTTER_KP_Down:
+        /* TODO: Calculate the index of the position on the line below, 
+           and set the cursor to it. */
+           break;
+
       case CLUTTER_End:
       case CLUTTER_KP_End:
+        /* Move the cursor to the end of the text: */
         example_multiline_entry_set_cursor_position (entry, -1);
         break;
+
       case CLUTTER_Begin:
       case CLUTTER_Home:
       case CLUTTER_KP_Home:
+        /* Move the cursor to the start of the text: */
         example_multiline_entry_set_cursor_position (entry, 0);
         break;
+
+    
       default:
         example_multiline_entry_insert_unichar (entry,
                                       clutter_keysym_to_unicode (keyval));
@@ -997,9 +922,9 @@ example_multiline_entry_handle_key_event (ExampleMultilineEntry    *entry,
  * Insert a character to the right of the current position of the cursor,
  * and updates the position of the cursor.
  *
- * Since: 0.4
+
  */
-void
+static void
 example_multiline_entry_insert_unichar (ExampleMultilineEntry *entry,
                               gunichar      wc)
 {
@@ -1039,9 +964,8 @@ example_multiline_entry_insert_unichar (ExampleMultilineEntry *entry,
  *
  * Characters are removed from before the current postion of the cursor.
  *
- * Since: 0.4
  */
-void
+static void
 example_multiline_entry_delete_chars (ExampleMultilineEntry *entry,
                             guint         num)
 {
@@ -1086,40 +1010,6 @@ example_multiline_entry_delete_chars (ExampleMultilineEntry *entry,
 }
 
 /**
- * example_multiline_entry_insert_text:
- * @entry: a #ExampleMultilineEntry
- * @text: the text to insert
- * @position: the position at which to insert the text.
- *
- * Insert text at a specifc position.
- *
- * A value of 0 indicates  that the text will be inserted before the first
- * character in the entry's text, and a value of -1 indicates that the text
- * will be inserted after the last character in the entry's text.
- *
- * Since: 0.4
- */
-void
-example_multiline_entry_insert_text (ExampleMultilineEntry *entry,
-                           const gchar  *text,
-                           gssize        position)
-{
-  ExampleMultilineEntryPrivate *priv;
-  GString *new = NULL;
-
-  g_return_if_fail (EXAMPLE_IS_MULTILINE_ENTRY (entry));
-
-  priv = entry->priv;
-
-  new = g_string_new (priv->text);
-  new = g_string_insert (new, position, text);
-
-  example_multiline_entry_set_text (entry, new->str);
-
-  g_string_free (new, TRUE);
-}
-
-/**
  * example_multiline_entry_delete_text:
  * @entry: a #ExampleMultilineEntry
  * @start_pos: the starting position.
@@ -1130,7 +1020,7 @@ example_multiline_entry_insert_text (ExampleMultilineEntry *entry,
  * @end_pos. If @end_pos is negative, then the characters deleted will be
  * those characters from @start_pos to the end of the text.
  *
- * Since: 0.4
+
  */
 void
 example_multiline_entry_delete_text (ExampleMultilineEntry       *entry,
@@ -1160,13 +1050,4 @@ example_multiline_entry_delete_text (ExampleMultilineEntry       *entry,
   g_string_free (new, TRUE);
 }
 
-/* TODO: Why isn't this handler called, even though we use set_reactive()?
- */
-static gboolean
-on_key_press (ExampleMultilineEntry *entry, ClutterKeyEvent *event, gpointer data)
-{
-  example_multiline_entry_handle_key_event (entry, event);
-
-  return TRUE; /* Stop further handling of this event. */
-}
 

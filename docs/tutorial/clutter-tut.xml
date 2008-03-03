@@ -924,13 +924,49 @@ that should be visible when dealing with large numbers of rows.
 
 <appendix id="appendix-implementing-text-editing">
 <title>Implementing Text Editing</title>
+
+<sect1>
+<title>The Technique</title>
+
 <para>
-TODO:
-Clutter contains a ClutterEntry actor for single-line text entry. This will be described, but because it 
-is limited this section will also discuss its implementation, and attempt to implement multiline text entry. 
-This should provide enough insight for developers to implement the specific UI behaviour that they need for 
-their application.
+&clutter; provides a <classname>ClutterEntry</classname> actor for text entry. 
+However, this is limited to single lines of text. Therefore you will need to 
+implement your own custom actor if you need this functionality with multiple 
+lines of text.
 </para>
+
+<para>Like <classname>ClutterEntry</classname> you can use the Pango API - 
+specifically the <classname>PangoLayout</classname> object. The 
+<classname>PangoLayout</classname> can then be rendered to the clutter display  
+in your <function>ClutterActor::paint()</function> implementation by using 
+the <function>pango_clutter_render_layout()</function> utility function.
+</para>
+
+</sect1>
+
+<sect1 id="multiline-text-entry-example"><title>Example</title>
+<para>
+This example has a custom actor, based on the <classname>ClutterEntry</classname> 
+implementation, using a <classname>PangoLayout</classname> to show text wrapped 
+over multiple lines.
+</para>
+
+<para>
+Real-world applications will probably want to implement more text-editing features, 
+such as the ability to move the cursor vertically, the ability to select and copy 
+sections of text, the ability to show and manipulate right-to-left text, etc.
+</para>
+
+<figure id="figure-multiline-text-entry">
+  <title>Behaviour</title>
+  <screenshot>
+    <graphic format="PNG" fileref="&url_figures_base;scrolling.png"/>
+  </screenshot>
+</figure>
+
+<para><ulink url="&url_examples_base;scrolling">Source Code</ulink></para>
+</sect1>
+
 </appendix>
 
 
