@@ -942,6 +942,16 @@ in your <function>ClutterActor::paint()</function> implementation by using
 the <function>pango_clutter_render_layout()</function> utility function.
 </para>
 
+<note>
+<para>
+However, <function>pango_clutter_render_layout()</function> is not official 
+public &clutter; API and could disappear in future version of &clutter;. You 
+may choose to investigate its implementation and reimplement it in your 
+application. Future versions of Pango are likely to provide new API to make 
+this easier. 
+</para>  
+</note>
+
 </sect1>
 
 <sect1 id="multiline-text-entry-example"><title>Example</title>
