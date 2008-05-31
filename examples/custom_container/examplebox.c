@@ -15,10 +15,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "clutter/cogl.h" /* For some helper functions. */
 
 #include "examplebox.h"
 #include <clutter/clutter-container.h>
+
+#include <cogl/cogl.h>
 
 #include <string.h>
 

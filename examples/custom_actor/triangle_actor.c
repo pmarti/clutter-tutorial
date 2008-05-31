@@ -16,8 +16,7 @@
 
 #include "triangle_actor.h"
 
-#include "clutter/cogl.h" /* For some helper functions. */
-#include <GL/glx.h> /* For the OpenGL API. */
+#include <cogl/cogl.h>
 
 G_DEFINE_TYPE (ClutterTriangle, clutter_triangle, CLUTTER_TYPE_ACTOR);
 
@@ -41,14 +40,13 @@ do_triangle_paint (ClutterActor *self, const ClutterColor *color)
 {
   ClutterTriangle        *triangle = CLUTTER_TRIANGLE(self);
   ClutterTrianglePrivate *priv;
-  ClutterGeometry          geom;
+  ClutterGeometry         geom;
+  ClutterFixed            coords[6];
 
   triangle = CLUTTER_TRIANGLE(self);
   priv = triangle->priv;
 
   cogl_push_matrix();
-
-  cogl_enable (CGL_ENABLE_BLEND);
 
   clutter_actor_get_geometry (self, &geom);
 
@@ -57,15 +55,18 @@ do_triangle_paint (ClutterActor *self, const ClutterColor *color)
   /* Paint a triangle:
    *
    * The parent paint call will have translated us into position so
-   * paint from 0, 0
-   *
-   * Note that we should really check that glGetError()) != GL_NO_ERROR
-   * after each gl call, but that would complicate this example. */
-  glBegin(GL_POLYGON);
-  glVertex2i(0, 0);
-  glVertex2i(0, geom.height);
-  glVertex2i(geom.width, geom.height);
-  glEnd();
+   * paint from 0, 0 */
+  coords[0] = CLUTTER_INT_TO_FIXED (0);
+  coords[1] = CLUTTER_INT_TO_FIXED (0);
+
+  coords[2] = CLUTTER_INT_TO_FIXED (0);
+  coords[3] = CLUTTER_INT_TO_FIXED (geom.height);
+
+  coords[4] = CLUTTER_INT_TO_FIXED (geom.width);
+  coords[5] = CLUTTER_INT_TO_FIXED (geom.height);
+
+  cogl_path_polygon (coords, 3);
+  cogl_path_fill ();
 
   cogl_pop_matrix();
 }

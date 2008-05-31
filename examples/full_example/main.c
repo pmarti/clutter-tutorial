@@ -65,10 +65,9 @@ void on_foreach_clear_list_items(gpointer data, gpointer user_data)
 
 void scale_texture_default(ClutterActor *texture)
 {
-  GdkPixbuf *pixbuf = clutter_texture_get_pixbuf (CLUTTER_TEXTURE (texture));
-  g_return_if_fail (pixbuf);
+  int pixbuf_height = 0;
+  clutter_texture_get_base_size (CLUTTER_TEXTURE (texture), NULL, &pixbuf_height);
 
-  const int pixbuf_height = gdk_pixbuf_get_height(pixbuf);
   const gdouble scale = pixbuf_height ? IMAGE_HEIGHT /  (gdouble)pixbuf_height : 0;
   clutter_actor_set_scale (texture, scale, scale);
 }
@@ -87,7 +86,7 @@ void load_images(const gchar* directory_path)
   /* Discover the images in the directory: */
   GError *error = NULL;
   GDir* dir = g_dir_open (directory_path, 0, &error);
-  if (error)
+  if(error)
   {
     g_warning("g_dir_open() failed: %s\n", error->message);
     g_clear_error(&error);
@@ -100,13 +99,12 @@ void load_images(const gchar* directory_path)
     gchar* path = g_build_filename (directory_path, filename, NULL);
 
     /* Try to load the file as an image: */
-    GdkPixbuf* pixbuf = gdk_pixbuf_new_from_file(path, NULL);
-    if(pixbuf)
+    ClutterActor *actor = clutter_texture_new_from_file (path, NULL);
+    if(actor)
     {
       Item* item = g_new0(Item, 1);
 
-      /* Add an actor to show this image: */
-      item->actor = clutter_texture_new_from_pixbuf (pixbuf);
+      item->actor = actor;
       item->filepath = g_strdup(path);
 
       /* Make sure that all images are shown with the same height: */
@@ -114,9 +112,6 @@ void load_images(const gchar* directory_path)
 
       list_items = g_slist_append (list_items, item);
     }
-
-    if(pixbuf)
-      g_object_unref (pixbuf);
 
     g_free (path);
   }
@@ -260,8 +255,9 @@ void rotate_all_until_item_is_at_front(Item *item)
   clutter_timeline_stop(timeline_rotation);
 
   /* Stop the other timeline in case that is active at the same time: */
-  if(timeline_moveup)
+  i(timeline_moveup)
     clutter_timeline_stop (timeline_moveup);
+
   clutter_actor_set_opacity (label_filename, 0);
 
   /* Get the item's position in the list: */

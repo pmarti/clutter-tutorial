@@ -15,8 +15,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "clutter/cogl.h" /* For some helper functions. */
-
 #include "scrollingcontainer.h"
 #include <clutter/clutter-container.h>
 #include <clutter/clutter-group.h>
@@ -388,7 +386,8 @@ void example_scrolling_container_scroll_left (ExampleScrollingContainer *self, g
 
   self->offset += distance;
   layout_children (self);
+
+  if (CLUTTER_ACTOR_IS_VISIBLE (CLUTTER_ACTOR (self)))
+    clutter_actor_queue_redraw (CLUTTER_ACTOR (self));
 }
-
-
 

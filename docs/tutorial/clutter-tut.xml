@@ -4,12 +4,13 @@
  <!ENTITY path_examples_base "../../examples">
  <!ENTITY clutter "<application>Clutter</application>">
  <!ENTITY tidy "<application>Tidy</application>">
- <!ENTITY clutterversion "0.6">
+ <!ENTITY clutterversion "0.7">
  <!ENTITY gtk "<application>GTK+</application>">
  <!ENTITY url_figures_base "../figures/">
  <!ENTITY url_examples_base "../../../examples/">
  <!ENTITY url_refdocs_base_clutter "http://clutter-project.org/docs/clutter/0.6/Clutter">
- <!ENTITY url_refdocs_base_clutter_gtk "http://www.clutter-project.org/docs/clutter-Clutter">
+ <!ENTITY url_refdocs_base_clutter_alt "http://clutter-project.org/docs/clutter/0.6/clutter-Clutter-">
+ <!ENTITY url_refdocs_base_clutter_gtk "http://www.clutter-project.org/docs/clutter-gtk/0.6/">
 ]>
 
 <!--
@@ -229,13 +230,14 @@ stage. Use <function>gtk_clutter_embed_new()</function> to instantiate the widge
 other GTK+ widget. Call <function>gtk_clutter_embed_get_stage</function> to get the <classname>ClutterStage</classname> from the 
 <classname>GtkClutterEmbed</classname> widget so you can then use the main &clutter; API.
 </para>
-<para>When using the <classname>GtkClutterEmbed</classname> widget you should use the regular <function>gtk_main()</function> function 
-to start the mainloop rather than <function>clutter_main()</function>.
+<para>When using the <classname>GtkClutterEmbed</classname> widget you should use <function>gtk_clutter_init</function> instead
+of <function>clutter_init()</function> and <function>gtk_init()</function> to initialize &clutter; and &gtk;. And you should use
+the regular <function>gtk_main()</function> function to start the mainloop rather than <function>clutter_main()</function>.
 </para>
 <para>For simplicity, all other examples in this document will instead use <function>clutter_stage_get_default()</function>, 
 but all the techniques can also be used with a stage inside the <classname>GtkClutterEmbed</classname> widget.</para> 
 
-<para><ulink url="&url_refdocs_base_clutter_gtk;Clutter.html">Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_clutter_gtk;GtkClutterEmbed.html">Reference</ulink></para>
 
 <sect2 id="stage-widget-example"><title>Example</title>
 <para>
@@ -397,7 +399,7 @@ See also the <link linkend="appendix-implementing-actors-containers">Implementin
 <!-- Add a link to a Tidy web page when one exists. -->
 
 <para><ulink url="&url_refdocs_base_clutter;Container.html">ClutterContainer Reference</ulink></para>
-<para><ulink url="&url_refdocs_base_clutter;Container.html">ClutterGroup Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_clutter;Group.html">ClutterGroup Reference</ulink></para>
 
 <sect2 id="actor-example-containers"><title>Example</title>
 <para>
@@ -562,7 +564,7 @@ second timeline moves the rectangle horizontally.
 &clutter; provides several effects functions that can be used together with a timeline to change the properties of 
 a single actor over time, using a simple numeric calculation. In many cases this is an easier way to implement animation. 
 For instance, <function>clutter_effect_fade()</function> gradually changes the opacity of an 
-actor or <function>clutter_effect_rotate_x()</function> gradually changes the rotation of an actor, calculating the opacity or 
+actor or <function>clutter_effect_rotate()</function> gradually changes the rotation of an actor, calculating the opacity or 
 rotation by calling the supplied <literal>alpha</literal> callback.
 </para>
 <para>To use a clutter effect, you should first create a <classname>ClutterEffectTemplate</classname>, specifying your 
@@ -594,7 +596,7 @@ However, the effect functions can only control one actor at a time and do not al
 is running. To do this you can use the behaviours directly, as described in the <link linkend="sec-behaviours">Behaviours</link> section.
 </para>
 
-<para><ulink url="&url_refdocs_base_clutter;Clutter-Effects.html">Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_clutter_alt;Effects.html">Reference</ulink></para>
 </sect1>
 
 
@@ -660,6 +662,9 @@ as much time as specified by the timeline's number of frames and frames per seco
 <para>Like actors, <classname>ClutterAlpha</classname> has a &quot;floating references&quot; so you don't need to unref it if you have added it to a behaviour. 
 However, the behaviours do not have a floating reference, so you should unref them when you are finished with them. You might do this at the same time as you 
 unref the timeline, for instance in a signal handler for the timeline's <literal>completed</literal> signal.</para>
+
+<para><ulink url="&url_refdocs_base_clutter;Behaviour.html">ClutterBehaviour Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_clutter;Alpha.html">ClutterAlpha Reference</ulink></para>
 
 <para>The following standard behaviours are available in &clutter;:
 <itemizedlist>

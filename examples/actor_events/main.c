@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
   clutter_actor_set_size (stage, 200, 200);
   clutter_stage_set_color (CLUTTER_STAGE (stage), &stage_color);
 
-  /* Connect signal handlers to handle mouse clicks and key presses on the stage: */ 
+  /* Connect signal handlers to handle mouse clicks on the stage: */ 
   g_signal_connect (stage, "button-press-event",
     G_CALLBACK (on_stage_button_press), NULL);
 

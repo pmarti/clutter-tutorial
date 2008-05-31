@@ -57,8 +57,7 @@ int main(int argc, char *argv[])
 {
   ClutterColor stage_color = { 0x00, 0x00, 0x00, 0xff }; /* Black */
 
-  clutter_init (&argc, &argv);
-  gtk_init (&argc, &argv);
+  gtk_clutter_init (&argc, &argv);
 
   /* Create the window and some child widgets: */
   GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);

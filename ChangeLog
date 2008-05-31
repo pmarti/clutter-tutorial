@@ -1,3 +1,25 @@
+2008-05-30  Jan Arne Petersen  <jpetersen@openismus.com>
+
+	* configure.ac: Updated required clutter version to 0.7.
+	* docs/tutorial/clutter-tut.xml: Fixed some links.
+	Using Behaviours:
+	Added links to the ClutterBehaviour and ClutterAlpha reference.
+	Stage Widget:
+	Mention gtk_clutter_init function (new in 0.7).
+	* examples/actor_events/main.c (main): Fixed comment.
+	* examples/custom_actor/triangle_actor.c (do_triangle_paint): Removed
+	cogl_enable call, because it is no longer public in 0.7 (it is
+	automatically handled by cogl). Use cogl API instead of GL to paint
+	the triangle.
+	* examples/custom_container/examplebox.c: Fixed include.
+	* examples/full_example/main.c (scale_texture_default, load_images):
+	Use new 0.7 ClutterTexture functions to load the texture from file.
+	* examples/scrolling/scrollingcontainer.c
+	  (example_scrolling_container_scroll_left): Removed unused include.
+	  Queue a redraw if the window is scrolled.
+	* examples/stage_widget/main.c (main): Use new gtk_clutter_init
+	function.
+
 2008-03-06  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Text Editing appendix: 
