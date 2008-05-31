@@ -20,6 +20,8 @@
 	* examples/stage_widget/main.c (main): Use new gtk_clutter_init
 	function.
 
+This is svn trunk, for clutter-0.7. See also the clutter-tutorial-0-6 branch.
+
 2008-03-06  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Text Editing appendix: 
