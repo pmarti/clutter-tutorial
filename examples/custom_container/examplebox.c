@@ -342,7 +342,7 @@ example_box_class_init (ExampleBoxClass *klass)
 static void
 example_box_init (ExampleBox *box)
 {
-  /* the required width depends on a given height in this container */
+  /* The required width depends on a given height in this container */
   g_object_set (G_OBJECT (box),
                 "request-mode", CLUTTER_REQUEST_WIDTH_FOR_HEIGHT,
                 NULL);

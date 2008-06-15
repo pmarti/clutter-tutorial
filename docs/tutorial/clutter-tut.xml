@@ -819,22 +819,26 @@ it should implement the <classname>ClutterActor</classname>'s
 
 <para>For instance, your <function>allocate()</function> implementation should 
 use the provided allocation to layout its child actors, by calling 
-<function>clutter_actor_allocate()</function> on them with appropriate 
+<function>clutter_actor_allocate()</function> on each child actor with appropriate 
 allocations.
 </para>
 
 <para>Your <function>get_preferred_width()</function> and 
 <function>get_preferred_height()</function> implementations should 
-return the size desired by your container, by setting the minimum and
-natural width and height, respectively, output parameters. Depending on your 
+return the size desired by your container, by providing both the minimum and
+natural size as output parameters. Depending on your 
 container, this might be dependent on the child actors. By calling
-<function>clutter_actor_get_preferred_size()</function> you can get the preferred
-height and width of a child actor. You can also get the preferred width for a
-given height or the preferred height for a given width of a child actor by calling 
-<function>clutter_actor_get_preferred_width()</function> and 
-<function>clutter_actor_get_preferred_height()</function>. You can set the type
-of geometry management your container should use by setting the 
-<literal>request-mode</literal> property.
+<function>clutter_actor_get_preferred_size()</function> you can discover the preferred
+height and width of a child actor.</para>
+
+<para>Your actor should implement one of two geometry management modes - either height 
+for width (<literal>CLUTTER_REQUEST_HEIGHT_FOR_WIDTH</literal>) or width for height 
+<literal>CLUTTER_REQUEST_WIDTH_FOR_HEIGHT</literal>) and should set its 
+<literal>request-mode</literal> property to indicate which one it uses. For instance, in 
+height-for-width mode, the parent actor first asks for the preferred height and then asks for 
+a preferred width appropriate for that height. <function>clutter_actor_get_preferred_size()</function> 
+checks this property and then calls either <function>clutter_actor_get_preferred_width()</function> 
+or <function>clutter_actor_get_preferred_height()</function> in the correct sequence.
 </para>
 
 <para>You should implement the <function>paint()</function> function, usually 

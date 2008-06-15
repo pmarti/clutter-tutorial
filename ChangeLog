@@ -1,3 +1,8 @@
+2008-06-15  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Hopefully made the explanation of 
+	layout modes a little clearer.
+
 2008-06-14  Jan Arne Petersen  <jpetersen@openismus.com>
 
 	* docs/tutorial/clutter-tut.xml: Rewrite some text regarding the new
