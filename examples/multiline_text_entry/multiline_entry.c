@@ -356,8 +356,9 @@ example_multiline_entry_paint (ClutterActor *self)
 }
 
 static void
-example_multiline_entry_request_coords (ClutterActor    *self,
-			      ClutterActorBox *box)
+example_multiline_entry_allocate (ClutterActor          *self,
+                                  const ClutterActorBox *box,
+				  gboolean               absolute_origin_changed)
 {
   ExampleMultilineEntry *entry = EXAMPLE_MULTILINE_ENTRY (self);
   ExampleMultilineEntryPrivate *priv = entry->priv;
@@ -373,7 +374,9 @@ example_multiline_entry_request_coords (ClutterActor    *self,
       priv->width = width;
     }
 
-  CLUTTER_ACTOR_CLASS (example_multiline_entry_parent_class)->request_coords (self, box);
+  CLUTTER_ACTOR_CLASS (example_multiline_entry_parent_class)->allocate (self,
+		  						        box,
+									absolute_origin_changed);
 }
 
 static void
@@ -421,8 +424,8 @@ example_multiline_entry_class_init (ExampleMultilineEntryClass *klass)
 
   klass->paint_cursor = example_multiline_entry_paint_cursor;
 
-  actor_class->paint           = example_multiline_entry_paint;
-  actor_class->request_coords  = example_multiline_entry_request_coords;
+  actor_class->paint          = example_multiline_entry_paint;
+  actor_class->allocate       = example_multiline_entry_allocate;
 
   gobject_class->finalize     = example_multiline_entry_finalize;
   gobject_class->dispose      = example_multiline_entry_dispose;

@@ -34,18 +34,13 @@
  * horizontal line.
  */
 
-
-static void
-layout_children (ExampleBox *box);
-
 static void clutter_container_iface_init (ClutterContainerIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (ExampleBox,
-                                  example_box,
-                                  CLUTTER_TYPE_ACTOR,
-                                  G_IMPLEMENT_INTERFACE (CLUTTER_TYPE_CONTAINER,
-                                                         clutter_container_iface_init));
-
+                         example_box,
+                         CLUTTER_TYPE_ACTOR,
+                         G_IMPLEMENT_INTERFACE (CLUTTER_TYPE_CONTAINER,
+                                                clutter_container_iface_init));
 
 /* An implementation for the ClutterContainer::add() vfunc: */
 static void
@@ -78,11 +73,9 @@ example_box_remove (ClutterContainer *container,
 
           g_signal_emit_by_name (container, "actor-removed", actor);
 
-          layout_children (box);
+          /* queue a relayout of the container */
+	  clutter_actor_queue_relayout (CLUTTER_ACTOR (box));
 
-          if (CLUTTER_ACTOR_IS_VISIBLE (CLUTTER_ACTOR (box)))
-            clutter_actor_queue_redraw (CLUTTER_ACTOR (box));
-          
           break;
         }
     }
@@ -191,71 +184,122 @@ example_box_pick (ClutterActor *actor,
     }
 }
 
-/* An implementation for the ClutterActor::query_coords() vfunc: */
+/* An implementation for the ClutterActor::get_preferred_width() vfunc: */
 static void
-example_box_query_coords (ClutterActor    *actor,
-                          ClutterActorBox *coords)
+example_box_get_preferred_width (ClutterActor *actor,
+                                 ClutterUnit   for_height,
+                                 ClutterUnit  *min_width_p,
+                                 ClutterUnit  *natural_width_p)
 {
   ExampleBox *box = EXAMPLE_BOX (actor);
   GList *l;
-  gint width, height;
+  ClutterUnit min_width = 0, natural_width = 0;
 
-  /* For this container, 
-   * x1 and y1 will just be whatever was provided to request_coords(),
-   * but the (desired) height and width (via x2 and y2) will be based 
-   * on the height and width desired by the child actors.
-   * Other containers might instead decide to reduce the size of the child actors 
-   * to fit inside the container's specified height/width.
+  /* For this container, the preferred width is the sum of the widths
+   * of the children. The preferred width depends on the height provided
+   * by for_height.
    */
-  coords->x1 = box->allocation.x1;
-  coords->y1 = box->allocation.y1;
-  
-  /* Calculate the x2 and y2 allocation for this container, 
-   * based on the allocations requested by the children: */
-  width = 0;
-  height = 0;
 
+  /* Calculate the preferred width for this container, 
+   * based on the preferred width requested by the children: */
   for (l = box->children; l; l = l->next)
     {
       ClutterActor *child = l->data;
       
       if (CLUTTER_ACTOR_IS_VISIBLE (child))
         {
-          guint child_width, child_height;
+          ClutterUnit child_min_width, child_natural_width;
 
-          clutter_actor_get_size (child, &child_width, &child_height);
+          clutter_actor_get_preferred_width (child, for_height, &child_min_width, &child_natural_width);
 
-          width = width + child_width;
-
-          height = MAX (child_height, height);
+          min_width += child_min_width;
+          natural_width += child_natural_width;
         }
     }
 
-  box->allocation.x2 = coords->x2 = 
-        coords->x1 + CLUTTER_UNITS_FROM_INT (width);
-  box->allocation.y2 = coords->y2 = 
-        coords->y1 + CLUTTER_UNITS_FROM_INT (height);
+  if (min_width_p)
+    *min_width_p = min_width;
+
+  if (natural_width_p)
+    *natural_width_p = natural_width;
 }
 
-/* An implementation for the ClutterActor::request_coords() vfunc: */
+/* An implementation for the ClutterActor::get_preferred_height() vfunc: */
 static void
-example_box_request_coords (ClutterActor    *actor,
-                            ClutterActorBox *coords)
+example_box_get_preferred_height (ClutterActor *actor,
+                                  ClutterUnit   for_width,
+                                  ClutterUnit  *min_height_p,
+                                  ClutterUnit  *natural_height_p)
 {
   ExampleBox *box = EXAMPLE_BOX (actor);
+  GList *l;
+  ClutterUnit min_height = 0, natural_height = 0;
 
-  /* Store the provided allocation.
-     But we only store x1 and y1 because the width and height are 
-     dependent on on the children. */
-  box->allocation.x1 = coords->x1;
-  box->allocation.y1 = coords->y1;
-  box->allocation.x2 = -1;
-  box->allocation.y2 = -1;
+  /* For this container, the preferred height is the maximum height
+   * of the children. The preferred height is independent of the given width.
+   */
 
-  /* Make sure that the children adapt their positions: */
-  layout_children (EXAMPLE_BOX (actor));
+  /* Calculate the preferred height for this container, 
+   * based on the preferred height requested by the children: */
+  for (l = box->children; l; l = l->next)
+    {
+      ClutterActor *child = l->data;
+      
+      if (CLUTTER_ACTOR_IS_VISIBLE (child))
+        {
+          ClutterUnit child_min_height, child_natural_height;
+
+          clutter_actor_get_preferred_height (child, -1, &child_min_height, &child_natural_height);
+
+          min_height = MAX (min_height, child_min_height);
+          natural_height = MAX (natural_height, child_natural_height);
+        }
+    }
+
+  if (min_height_p)
+    *min_height_p = min_height;
+
+  if (natural_height_p)
+    *natural_height_p = natural_height;
 }
 
+/* An implementation for the ClutterActor::allocate() vfunc: */
+static void
+example_box_allocate (ClutterActor          *actor,
+                      const ClutterActorBox *box,
+		      gboolean               absolute_origin_changed)
+{
+  ExampleBox *ebox = EXAMPLE_BOX (actor);
+
+  /* Look at each child actor: */
+  ClutterUnit child_x = 0;
+  GList *l = NULL;
+  for (l = ebox->children; l; l = l->next)
+    {
+      ClutterActor *child = l->data;
+
+      /* Discover what size the child wants: */
+      ClutterUnit child_width, child_height;
+      clutter_actor_get_preferred_size (child, NULL, NULL, &child_width, &child_height);
+
+      /* Calculate the position and size that the child may actually have: */
+
+      /* Position the child just after the previous child, horizontally: */
+      ClutterActorBox child_box = { 0, };
+      child_box.x1 = child_x;
+      child_box.x2 = child_x + child_width;
+      child_x = child_box.x2;
+
+      /* Position the child at the top of the container: */
+      child_box.y1 = 0;
+      child_box.y2 = child_box.y1 + child_height;
+
+      /* Tell the child what position and size it may actually have: */
+      clutter_actor_allocate (child, &child_box, absolute_origin_changed);
+    }
+
+  CLUTTER_ACTOR_CLASS (example_box_parent_class)->allocate (actor, box, absolute_origin_changed);
+}
 
 static void
 example_box_dispose (GObject *gobject)
@@ -290,63 +334,18 @@ example_box_class_init (ExampleBoxClass *klass)
   actor_class->hide_all = example_box_hide_all;
   actor_class->paint = example_box_paint;
   actor_class->pick = example_box_pick;
-  actor_class->query_coords = example_box_query_coords;
-  actor_class->request_coords = example_box_request_coords;
+  actor_class->get_preferred_width = example_box_get_preferred_width;
+  actor_class->get_preferred_height = example_box_get_preferred_height;
+  actor_class->allocate = example_box_allocate;
 }
 
 static void
 example_box_init (ExampleBox *box)
 {
-  box->allocation.x1 = box->allocation.y1 = 0;
-  box->allocation.x2 = box->allocation.y2 = -1;
-}
-
-
-static void
-layout_children (ExampleBox *box)
-{
-  /* Get the size requested by this container: */
-  ClutterActorBox allocation = { 0, };
-  clutter_actor_query_coords (CLUTTER_ACTOR (box), &allocation);
-
-  ClutterUnit width = allocation.x2 - allocation.x1;
-  ClutterUnit height = allocation.y2 - allocation.y1;
-
-  if (width < 0)
-    width = 0;
-
-  if (height < 0)
-    height = 0;
-
-  /* Look at each child actor: */
-  ClutterUnit child_x = 0;
-  GList *l = NULL;
-  for (l = box->children; l; l = l->next)
-    {
-      ClutterActor *child = l->data;
-
-      /* Discover what size the child wants: */
-      ClutterActorBox child_req = { 0, };
-      clutter_actor_query_coords (child, &child_req);
-
-      const ClutterUnit child_width = child_req.x2 - child_req.x1;
-      const ClutterUnit child_height = child_req.y2 - child_req.y1;
-
-      /* Calculate the position and size that the child may actually have: */
-
-      /* Position the child just after the previous child, horizontally: */
-      ClutterActorBox child_box = { 0, };
-      child_box.x1 = child_x;
-      child_box.x2 = child_x + child_width;
-      child_x = child_box.x2;
-
-      /* Position the child at the top of the container: */
-      child_box.y1 = 0;
-      child_box.y2 = child_height;
-
-      /* Tell the child what position and size it may actually have: */
-      clutter_actor_request_coords (child, &child_box);
-   }
+  /* the required width depends on a given height in this container */
+  g_object_set (G_OBJECT (box),
+                "request-mode", CLUTTER_REQUEST_WIDTH_FOR_HEIGHT,
+                NULL);
 }
 
 /*
@@ -371,14 +370,8 @@ example_box_pack (ExampleBox           *box,
   box->children = g_list_prepend (box->children, actor);
   clutter_actor_set_parent (actor, CLUTTER_ACTOR (box));
 
-  /* Reset the saved allocation,
-     so that it will be recalculated: */
-  box->allocation.x2 = box->allocation.y2 = -1;
-
-  layout_children (EXAMPLE_BOX (box));
-
-  if (CLUTTER_ACTOR_IS_VISIBLE (CLUTTER_ACTOR (box)))
-    clutter_actor_queue_redraw (CLUTTER_ACTOR (box));
+  /* queue a relayout of the container */
+  clutter_actor_queue_relayout (CLUTTER_ACTOR (box));
 }
 
 
@@ -418,7 +411,5 @@ example_box_new (void)
 {
   return g_object_new (EXAMPLE_TYPE_BOX, NULL);
 }
-
-
 
 

@@ -40,9 +40,6 @@ struct _ExampleScrollingContainer
   /*< private >*/
   ClutterActor parent_instance;
 
-  /* Allocation of the container: */
-  ClutterActorBox allocation;
-
   /* List of ExampleScrollingContainerChild structures */
   GList *children;
   

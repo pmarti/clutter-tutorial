@@ -1,3 +1,45 @@
+2008-06-14  Jan Arne Petersen  <jpetersen@openismus.com>
+
+	* docs/tutorial/clutter-tut.xml: Rewrite some text regarding the new
+	layout system introduced in clutter 0.7.
+
+	* examples/custom_container/examplebox.c (example_box_remove,
+	  example_box_pack): Call clutter_actor_queue_relayout instead of the
+	custom layout function.
+	  (example_box_get_preferred_width,
+	  example_box_get_preferred_height): Use the new layout system to
+	implement a width for height geometry management.
+	  (example_box_allocate): Move the layout algorithm
+	into the allocation function and use the new layout system to get
+	the preferred size of the child actors and to set their position.
+	  (example_box_init): Set geometry management to "width for height".
+	* examples/custom_container/examplebox.h: Remove unused allocation
+	store.
+	* examples/custom_container/main.c (main): Use preferred container size.
+	* examples/full_example/main.c (rotate_all_until_item_is_at_front):
+	Fix a typo.
+	* examples/multiline_text_entry/multiline_entry.c
+	  (example_multiline_entry_allocate,
+	  example_multiline_entry_class_init): Implement virtual allocate
+	function instead of the old request_coords function.
+	* examples/scrolling/scrollingcontainer.c
+	  (example_scrolling_container_pack,
+	  example_scrolling_container_remove,
+	  example_scrolling_container_scroll_left): Call
+	clutter_actor_queue_relayout instead of the custom layout function.
+	  (example_scrolling_container_allocate): Move the layout algorithm
+	into the allocation function and use the new layout system to get
+	the preferred size of the child actors and to set their position.
+	  (example_scrolling_container_class_init): Use allocation virtual
+	function instead of the query_coords and request_coords functions.
+	* examples/scrolling/scrollingcontainer.h: Remove unused allocation
+	store.
+
+2008-06-11  Murray Cumming  <murrayc@murrayc.com>
+
+	* Makefile_web.am_fragment: Change to a more permanent and 
+	API-versioned upload URI.
+
 2008-05-30  Jan Arne Petersen  <jpetersen@openismus.com>
 
 	* configure.ac: Updated required clutter version to 0.7.

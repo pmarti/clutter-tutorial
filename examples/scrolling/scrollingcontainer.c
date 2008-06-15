@@ -31,22 +31,19 @@
  */
 
 
-static void
-layout_children (ExampleScrollingContainer *self);
-
 static void clutter_container_iface_init (ClutterContainerIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (ExampleScrollingContainer,
-                                  example_scrolling_container,
-                                  CLUTTER_TYPE_ACTOR,
-                                  G_IMPLEMENT_INTERFACE (CLUTTER_TYPE_CONTAINER,
-                                                         clutter_container_iface_init));
+                         example_scrolling_container,
+                         CLUTTER_TYPE_ACTOR,
+                         G_IMPLEMENT_INTERFACE (CLUTTER_TYPE_CONTAINER,
+                                                clutter_container_iface_init));
 
 
 /* An implementation for the ClutterContainer::add() vfunc: */
 static void
 example_scrolling_container_add (ClutterContainer *container,
-                 ClutterActor     *actor)
+                                 ClutterActor     *actor)
 {
   example_scrolling_container_pack (EXAMPLE_SCROLLING_CONTAINER (container), actor);
 }
@@ -54,7 +51,7 @@ example_scrolling_container_add (ClutterContainer *container,
 /* An implementation for the ClutterContainer::remove() vfunc: */
 static void
 example_scrolling_container_remove (ClutterContainer *container,
-                    ClutterActor     *actor)
+                                    ClutterActor     *actor)
 {
   ExampleScrollingContainer *self = EXAMPLE_SCROLLING_CONTAINER (container);
   GList *l;
@@ -68,17 +65,14 @@ example_scrolling_container_remove (ClutterContainer *container,
       if (child == actor)
         {
           clutter_container_remove_actor (CLUTTER_CONTAINER (self->group), child);
-          
+
           self->children = g_list_remove_link (self->children, l);
           g_list_free (l);
 
           g_signal_emit_by_name (container, "actor-removed", actor);
 
-          layout_children (self);
+          clutter_actor_queue_relayout (CLUTTER_ACTOR (self));
 
-          if (CLUTTER_ACTOR_IS_VISIBLE (CLUTTER_ACTOR (self)))
-            clutter_actor_queue_redraw (CLUTTER_ACTOR (self));
-          
           break;
         }
     }
@@ -89,8 +83,8 @@ example_scrolling_container_remove (ClutterContainer *container,
 /* An implementation for the ClutterContainer::foreach() vfunc: */
 static void
 example_scrolling_container_foreach (ClutterContainer *container,
-                     ClutterCallback   callback,
-                     gpointer          user_data)
+                                     ClutterCallback   callback,
+                                     gpointer          user_data)
 {
   ExampleScrollingContainer *self = EXAMPLE_SCROLLING_CONTAINER (container);
   clutter_container_foreach (CLUTTER_CONTAINER (self->group), callback, user_data);
@@ -154,43 +148,69 @@ example_scrolling_container_paint (ClutterActor *actor)
    picking all the child actors: */
 static void
 example_scrolling_container_pick (ClutterActor *actor, 
-                  const ClutterColor *color)
+                                  const ClutterColor *color)
 {
   ExampleScrollingContainer *self = EXAMPLE_SCROLLING_CONTAINER (actor);
   clutter_actor_pick (self->group, color);
 }
 
-/* An implementation for the ClutterActor::query_coords() vfunc: */
+/* An implementation for the ClutterActor::allocate() vfunc: */
 static void
-example_scrolling_container_query_coords (ClutterActor    *actor,
-                          ClutterActorBox *coords)
+example_scrolling_container_allocate (ClutterActor          *actor,
+                                      const ClutterActorBox *box,
+                                      gboolean               absolute_origin_changed)
 {
   ExampleScrollingContainer *self = EXAMPLE_SCROLLING_CONTAINER (actor);
-  
-  /* The allocation is whatever was set with 
-   * clutter_actor_set_width(), clutter_actor_set_height(), etc.
-   */
-  coords->x1 = self->allocation.x1;
-  coords->y1 = self->allocation.y1;
-  coords->x2 = self->allocation.x2;
-  coords->y2 = self->allocation.y2;
-}
-
-/* An implementation for the ClutterActor::request_coords() vfunc: */
-static void
-example_scrolling_container_request_coords (ClutterActor    *actor,
-                            ClutterActorBox *coords)
-{
-  ExampleScrollingContainer *self = EXAMPLE_SCROLLING_CONTAINER (actor);
-
-  /* Store the provided allocation:*/
-  self->allocation.x1 = coords->x1;
-  self->allocation.y1 = coords->y1;
-  self->allocation.x2 = coords->x2;
-  self->allocation.y2 = coords->y2;
 
   /* Make sure that the children adapt their positions: */
-  layout_children (EXAMPLE_SCROLLING_CONTAINER (actor));
+  ClutterUnit width = box->x2 - box->x1;
+  ClutterUnit height = box->y2 - box->y1;
+
+  if (width < 0)
+    width = 0;
+
+  if (height < 0)
+    height = 0;
+
+  /* Arrange the group: */
+  ClutterActorBox child_box = { 0, };
+  child_box.x1 = 0;
+  child_box.x2 = width;
+
+  /* Position the child at the top of the container: */
+  child_box.y1 = 0;
+  child_box.y2 = height;
+
+  clutter_actor_allocate (self->group, &child_box, absolute_origin_changed);
+
+  /* Make sure that the group only shows the specified area, by clipping: */
+  clutter_actor_set_clip (self->group, 0, 0, CLUTTER_UNITS_TO_DEVICE(width), CLUTTER_UNITS_TO_DEVICE(height));
+
+  /* Show a rectangle border to show the area: */
+  clutter_actor_allocate (self->rect, &child_box, absolute_origin_changed);
+  clutter_actor_lower (self->rect, NULL);
+
+  /* Look at each child actor: */
+  gint child_x = -(self->offset);
+  GList *l = NULL;
+  for (l = self->children; l; l = l->next)
+    {
+      ClutterActor *child = l->data;
+      ClutterUnit width, height;
+
+      clutter_actor_get_preferred_size (child, NULL, NULL, &width, &height);
+
+      child_box.x1 = CLUTTER_UNITS_FROM_DEVICE (child_x);
+      child_box.y1 = 0;
+      child_box.x2 = child_box.x1 + width;
+      child_box.y2 = child_box.y1 + height;
+
+      clutter_actor_allocate (child, &child_box, absolute_origin_changed);
+
+      child_x += CLUTTER_UNITS_TO_DEVICE (width);
+   }
+
+  CLUTTER_ACTOR_CLASS (example_scrolling_container_parent_class)->allocate (actor, box, absolute_origin_changed);
 }
 
 
@@ -233,8 +253,7 @@ example_scrolling_container_class_init (ExampleScrollingContainerClass *klass)
   actor_class->hide_all = example_scrolling_container_hide_all;
   actor_class->paint = example_scrolling_container_paint;
   actor_class->pick = example_scrolling_container_pick;
-  actor_class->query_coords = example_scrolling_container_query_coords;
-  actor_class->request_coords = example_scrolling_container_request_coords;
+  actor_class->allocate = example_scrolling_container_allocate;
 }
 
 static void
@@ -249,60 +268,6 @@ example_scrolling_container_init (ExampleScrollingContainer *self)
   self->rect = clutter_rectangle_new_with_color (&actor_color);
   clutter_container_add_actor (CLUTTER_CONTAINER (self->group), self->rect);
   clutter_actor_show (self->rect);
-
-  self->allocation.x1 = self->allocation.y1 = 99;
-  self->allocation.x2 = self->allocation.y2 = 99;
-}
-
-
-static void
-layout_children (ExampleScrollingContainer *self)
-{
-  /* Get the size requested by this container: */
-  ClutterActorBox allocation = { 0, };
-  clutter_actor_query_coords (CLUTTER_ACTOR (self), &allocation);
-
-  ClutterUnit width = allocation.x2 - allocation.x1;
-  ClutterUnit height = allocation.y2 - allocation.y1;
-
-  if (width < 0)
-    width = 0;
-
-  if (height < 0)
-    height = 0;
-
-  /* Arrange the group: */
-  ClutterActorBox child_box = { 0, };
-  child_box.x1 = 0;
-  child_box.x2 = child_box.x1 + width;
-
-  /* Position the child at the top of the container: */
-  child_box.y1 = 0;
-  child_box.y2 = height;
-
-  clutter_actor_request_coords (self->group, &child_box);
-
-  /* Make sure that the group only shows the specified area, by clipping: */
-  clutter_actor_set_clip (self->group, 0, 0, CLUTTER_UNITS_TO_DEVICE(width), CLUTTER_UNITS_TO_DEVICE(height));
-
-  /* Show a rectangle border to show the area: */
-  clutter_actor_set_position (self->rect, 0, 0);
-  clutter_actor_set_width (self->rect, CLUTTER_UNITS_TO_DEVICE(width));
-  clutter_actor_set_height (self->rect, CLUTTER_UNITS_TO_DEVICE(height));
-  clutter_actor_lower (self->rect, NULL);
-
-
-  /* Look at each child actor: */
-  ClutterUnit child_x = -(self->offset);
-  GList *l = NULL;
-  for (l = self->children; l; l = l->next)
-    {
-      ClutterActor *child = l->data;
-
-      gint child_width = clutter_actor_get_width (child);
-      clutter_actor_set_position (child, child_x, 0);
-      child_x += child_width;
-   }
 }
 
 /*
@@ -327,10 +292,7 @@ example_scrolling_container_pack (ExampleScrollingContainer           *self,
   self->children = g_list_prepend (self->children, actor);
   clutter_container_add_actor (CLUTTER_CONTAINER (self->group), actor);
 
-  layout_children (EXAMPLE_SCROLLING_CONTAINER (self));
-
-  if (CLUTTER_ACTOR_IS_VISIBLE (CLUTTER_ACTOR (self)))
-    clutter_actor_queue_redraw (CLUTTER_ACTOR (self));
+  clutter_actor_queue_relayout (CLUTTER_ACTOR (self));
 }
 
 
@@ -385,9 +347,7 @@ void example_scrolling_container_scroll_left (ExampleScrollingContainer *self, g
   g_return_if_fail (EXAMPLE_IS_SCROLLING_CONTAINER (self));
 
   self->offset += distance;
-  layout_children (self);
 
-  if (CLUTTER_ACTOR_IS_VISIBLE (CLUTTER_ACTOR (self)))
-    clutter_actor_queue_redraw (CLUTTER_ACTOR (self));
+  clutter_actor_queue_relayout (CLUTTER_ACTOR (self));
 }
 

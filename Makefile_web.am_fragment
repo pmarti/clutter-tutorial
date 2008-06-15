@@ -1,5 +1,5 @@
 web_host = www.openismus.com
-web_path = /home/murrayc/openismus.com/misc/clutter_tutorial/
+web_path = /home/murrayc/openismus.com/documents/clutter_tutorial/0.8/
 web_path_docs = $(web_path)docs/
 
 #--delete and --delete-after are causing

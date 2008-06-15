@@ -255,7 +255,7 @@ void rotate_all_until_item_is_at_front(Item *item)
   clutter_timeline_stop(timeline_rotation);
 
   /* Stop the other timeline in case that is active at the same time: */
-  i(timeline_moveup)
+  if(timeline_moveup)
     clutter_timeline_stop (timeline_moveup);
 
   clutter_actor_set_opacity (label_filename, 0);

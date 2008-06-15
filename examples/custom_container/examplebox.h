@@ -40,9 +40,6 @@ struct _ExampleBox
   /*< private >*/
   ClutterActor parent_instance;
 
-  /* Allocation of the box */
-  ClutterActorBox allocation;
-
   /* List of ExampleBoxChild structures */
   GList *children;
 };

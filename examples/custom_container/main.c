@@ -34,7 +34,8 @@ int main(int argc, char *argv[])
 
   /* Add our custom container to the stage: */
   ClutterActor *box = example_box_new ();
-  clutter_actor_set_size (box, 100, 100);
+  /* Set the size to the preferred size of the container */
+  clutter_actor_set_size (box, -1, -1);
   clutter_actor_set_position (box, 20, 20);
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), box);
   clutter_actor_show (box);
