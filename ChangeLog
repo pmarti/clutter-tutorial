@@ -1,5 +1,10 @@
 2008-06-15  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/clutter-tut.xml: Removed the mention of the single-stage 
+	limitation because this was fixed in 0.7/0.8.
+
+2008-06-15  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Hopefully made the explanation of 
 	layout modes a little clearer.
 

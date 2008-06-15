@@ -181,10 +181,7 @@ applications and libraries:
 <sect1 id="sec-stage-basics">
 <title>Stage Basics</title>
 
-<para>Each &clutter; application contains at least one <classname>ClutterStage</classname>. Actually, &clutter; currently 
-allows only one stage per application, but this limitation might be removed in future. This stage contains Actors such as 
-rectangles, images, or text. We will talk more about the actors in the next chapter, but for now let's see how a stage can 
-be created and how we can respond to user interaction with the stage itself.
+<para>Each &clutter; application contains at least one <classname>ClutterStage</classname>. This stage contains Actors such as rectangles, images, or text. We will talk more about the actors in the next chapter, but for now let's see how a stage can be created and how we can respond to user interaction with the stage itself.
 </para>
 <para>First make sure that you have called <function>clutter_init()</function> to initialize &clutter;. 
 You may then get the application's stage with <function>clutter_stage_get_default()</function>. This function always returns 
