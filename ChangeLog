@@ -1,3 +1,9 @@
+2008-06-26  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml: Added a Header Files And Linking section.
+	Stage: For both examples, give the gcc command, with the pkg-config call, 
+	and refer to the new chapter. 
+
 2008-06-15  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Removed the mention of the single-stage 

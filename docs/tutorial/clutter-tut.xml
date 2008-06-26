@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
-"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
+  "http://docbook.org/docbook/xml/4.5/docbookx.dtd" [
  <!ENTITY path_examples_base "../../examples">
  <!ENTITY clutter "<application>Clutter</application>">
  <!ENTITY tidy "<application>Tidy</application>">
@@ -175,6 +175,36 @@ applications and libraries:
 
 </chapter>
 
+<chapter id="chapter-headers-and-linking">
+<title>Header Files And Linking</title>
+<para>
+To use the &clutter; APIs, you must include the headers for the libraries, and link to their shared libraries. The necessary compiler and linker commands can be obtained from the pkg-config utiltity like so:
+</para>
+
+<para>
+<programlisting>
+pkg-config clutter-&clutterversion; --cflags
+pkg-config clutter-&clutterversion; --libs
+</programlisting>
+</para>
+
+<para>
+However, if you are using the &quot;autotools&quot; (<command>automake</command>, <command>autoconf</command>, etc) build system, you will find it more convenient to use the <function>PKG_CHECK_MODULES</function> macro in your configure.ac file. For instance:
+</para>
+
+<para>
+<programlisting>
+PKG_CHECK_MODULES(EXAMPLE, clutter-&clutterversion;)
+AC_SUBST(EXAMPLE_CFLAGS)
+AC_SUBST(EXAMPLE_LIBS)
+</programlisting>
+</para>
+
+<para>
+You should then use the generated _CFLAGS and _LIBS definitions in your Makefile.am files. Note that you may mention other libraries in the same <function>PKG_CHECK_MODULES</function> call, separated by spaces. For instance, some examples in this tutorial require extra &clutter; libraries, such as <literal>clutter-gtk-&clutterversion;</literal>, <literal>clutter-cairo-&clutterversion;</literal> or <literal>clutter-gst-&clutterversion;</literal>.</para>
+
+</chapter>
+
 <chapter id="sec-stage">
 <title>The Stage</title>
 
@@ -204,6 +234,14 @@ interaction.
 <para>
 The following example shows a <classname>ClutterStage</classname> and handles clicks on the stage.
 There are no actors yet so all you will see is a black rectangle.
+</para>
+
+<para>You can create an executable from this code like so, being careful to use <literal>backticks</literal> around the call to <command>pkg-config</command>. See also the <link linkend="chapter-headers-and-linking">Header Files And Linking</link> section.</para>
+
+<para>
+<programlisting>
+gcc -Wall -g example.c -o example `pkg-config clutter-&clutterversion; --cflags  --libs`
+</programlisting>
 </para>
 
 <figure id="figure-stage">
@@ -240,6 +278,14 @@ but all the techniques can also be used with a stage inside the <classname>GtkCl
 <para>
 The following example shows a <classname>GtkClutterEmbed</classname> GTK+ widget and changes the stage color when a button is 
 clicked.
+</para>
+
+<para>Note that this example requires the <literal>clutter-gtk-&clutterversion;</literal> library as well as the standard <literal>clutter-&clutterversion;</literal> library. You can create an executable from this code like so, being careful to use <literal>backticks</literal> around the call to <command>pkg-config</command>. See also the <link linkend="chapter-headers-and-linking">Header Files And Linking</link> section.</para>
+
+<para>
+<programlisting>
+gcc -Wall -g example.c -o example `pkg-config clutter-&clutterversion; clutter-gtk-&clutterversion; --cflags  --libs`
+</programlisting>
 </para>
 
 <figure id="figure-stage-widget">
