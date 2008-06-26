@@ -1,5 +1,11 @@
 2008-06-26  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/Makefile.am: Add use.id.as.filename to the xsltproc call, 
+	so our filenames do not change when adding chapters in future.
+	* docs/tutorial/clutter-tut.xml: Added one missing ID.
+
+2008-06-26  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Added a Header Files And Linking section.
 	Stage: For both examples, give the gcc command, with the pkg-config call, 
 	and refer to the new chapter. 

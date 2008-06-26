@@ -563,7 +563,7 @@ The following example demonstrates the use of a timeline to rotate a rectangle a
 <para><ulink url="&url_examples_base;timeline">Source Code</ulink></para>
 </sect1>
 
-<sect1>
+<sect1 id="sec-timelines-score">
 <title>Grouping TimeLines in a Score</title>
 <para>
 A <classname>ClutterScore</classname> allows you to start and stop several timelines at once, or run them in sequence one after the other.</para> 
