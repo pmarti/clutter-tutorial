@@ -1,3 +1,9 @@
+2008-08-11  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/Makefile.am: Use the xhtml docbook xsl instead of html. 
+	* docs/tutorial/clutter-tut.xml: Mention 0.8 instead of 0.7.
+	* configure.ac: Depend on the -0.8 versions instead of 0.7.
+
 2008-06-26  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/Makefile.am: Add use.id.as.filename to the xsltproc call, 

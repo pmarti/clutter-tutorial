@@ -4,13 +4,13 @@
  <!ENTITY path_examples_base "../../examples">
  <!ENTITY clutter "<application>Clutter</application>">
  <!ENTITY tidy "<application>Tidy</application>">
- <!ENTITY clutterversion "0.7">
+ <!ENTITY clutterversion "0.8">
  <!ENTITY gtk "<application>GTK+</application>">
  <!ENTITY url_figures_base "../figures/">
  <!ENTITY url_examples_base "../../../examples/">
- <!ENTITY url_refdocs_base_clutter "http://clutter-project.org/docs/clutter/0.7/Clutter">
- <!ENTITY url_refdocs_base_clutter_alt "http://clutter-project.org/docs/clutter/0.7/clutter-Clutter-">
- <!ENTITY url_refdocs_base_clutter_gtk "http://www.clutter-project.org/docs/clutter-gtk/0.6/">
+ <!ENTITY url_refdocs_base_clutter "http://clutter-project.org/docs/clutter/0.8/Clutter">
+ <!ENTITY url_refdocs_base_clutter_alt "http://clutter-project.org/docs/clutter/0.8/clutter-Clutter-">
+ <!ENTITY url_refdocs_base_clutter_gtk "http://www.clutter-project.org/docs/clutter-gtk/0.8/">
 ]>
 
 <!--
@@ -45,7 +45,7 @@ name
     </abstract>
 
     <copyright>
-      <year>2007</year>
+      <year>2007, 2008</year>
       <holder>Openismus GmbH</holder>
     </copyright>
 

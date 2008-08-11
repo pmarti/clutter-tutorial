@@ -7,7 +7,7 @@ DOCBOOK_PHPWEBNOTES_TRANSFORM = docbook_phpwebnotes.xsl
 
 EXTRA_DIST = README insert_example_code.pl clutter-tut.xml clutter-tut-with-examples.xml style.css html $(DOCBOOK_PHPWEBNOTES_TRANSFORM)
 
-DOCBOOK_STYLESHEET ?= http://docbook.sourceforge.net/release/xsl/current/html/chunk.xsl
+DOCBOOK_STYLESHEET ?= http://docbook.sourceforge.net/release/xsl/current/xhtml/chunk.xsl
 
 # Create a DocBook source file that doesn't have the examples' comments blocks:
 clutter-tut-with-examples.xml: clutter-tut.xml insert_example_code.pl
