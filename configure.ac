@@ -72,7 +72,7 @@ GLIBMM_CHECK_PERL([5.6.0])
 #########################################################################
 #  Dependancy checks
 #########################################################################
-PKG_CHECK_MODULES(CLUTTER_DOC, clutter-0.7 clutter-gtk-0.7)
+PKG_CHECK_MODULES(CLUTTER_DOC, clutter-0.8 clutter-gtk-0.8)
 AC_SUBST(CLUTTER_DOC_CFLAGS)
 AC_SUBST(CLUTTER_DOC_LIBS)
 
