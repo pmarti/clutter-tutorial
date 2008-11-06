@@ -115,7 +115,7 @@ user interaction.</para>
 <title>Prebuilt Packages</title>
 
 <para>&clutter; packages are probably available from your Linux distribution. 
-For instance, on Ubuntu Linux or Debian you can install the <literal>libclutter-0.6-dev</literal> package.
+For instance, on Ubuntu Linux or Debian you can install the <literal>libclutter-&clutterversion;-dev</literal> package.
 </para>
 
 </sect1>
