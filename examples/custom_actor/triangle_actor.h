@@ -18,8 +18,7 @@
 #define _CLUTTER_TUTORIAL_TRIANGLE_ACTOR_H
 
 #include <glib-object.h>
-#include <clutter/clutter-actor.h>
-#include <clutter/clutter-color.h>
+#include <clutter/clutter.h>
 
 G_BEGIN_DECLS
 

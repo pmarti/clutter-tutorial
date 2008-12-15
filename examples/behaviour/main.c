@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
   knot[1].x= 150;
   knot[1].y= 150;
  
-  ClutterBehaviour *behaviour = clutter_behaviour_path_new (alpha, knot, sizeof(knot) / sizeof(ClutterKnot));
+  ClutterBehaviour *behaviour = clutter_behaviour_path_new_with_knots (alpha, knot, sizeof(knot) / sizeof(ClutterKnot));
   clutter_behaviour_apply (behaviour, rect);
   g_object_unref (timeline);
 

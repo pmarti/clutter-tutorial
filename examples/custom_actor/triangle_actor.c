@@ -36,9 +36,9 @@ struct _ClutterTrianglePrivate
 };
 
 static void
-do_triangle_paint (ClutterActor *self, const ClutterColor *color)
+do_triangle_paint (ClutterActor *self, const CoglColor *color)
 {
-  ClutterTriangle        *triangle = CLUTTER_TRIANGLE(self);
+  ClutterTriangle        *triangle;
   ClutterTrianglePrivate *priv;
   ClutterGeometry         geom;
   ClutterFixed            coords[6];
@@ -50,7 +50,7 @@ do_triangle_paint (ClutterActor *self, const ClutterColor *color)
 
   clutter_actor_get_geometry (self, &geom);
 
-  cogl_color (color);
+  cogl_set_source_color (color);
 
   /* Paint a triangle:
    *
@@ -74,15 +74,17 @@ do_triangle_paint (ClutterActor *self, const ClutterColor *color)
 static void
 clutter_triangle_paint (ClutterActor *self)
 {
-  ClutterTriangle *triangle = CLUTTER_TRIANGLE(self);
-  ClutterTrianglePrivate *priv = triangle->priv;
+  ClutterTrianglePrivate *priv;
+  CoglColor color;
+
+  priv = CLUTTER_TRIANGLE(self)->priv;
 
   /* Paint the triangle with the actor's color: */
-  ClutterColor color;
-  color.red   = priv->color.red;
-  color.green = priv->color.green;
-  color.blue  = priv->color.blue;
-  color.alpha = clutter_actor_get_opacity (self);
+  cogl_color_set_from_4ub(&color,
+                          priv->color.red,
+                          priv->color.green,
+                          priv->color.blue,
+                          clutter_actor_get_opacity (self));
 
   do_triangle_paint (self, &color);
 }
@@ -90,10 +92,13 @@ clutter_triangle_paint (ClutterActor *self)
 static void
 clutter_triangle_pick (ClutterActor *self, const ClutterColor *color)
 {
+  CoglColor coglcolor;
   /* Paint the triangle with the pick color, offscreen.
      This is used by Clutter to detect the actor under the cursor 
      by identifying the unique color under the cursor. */
-  do_triangle_paint (self, color);
+  cogl_color_set_from_4ub(&coglcolor,
+                          color->red, color->green, color->blue, color->alpha);
+  do_triangle_paint (self, &coglcolor);
 }
 
 static void

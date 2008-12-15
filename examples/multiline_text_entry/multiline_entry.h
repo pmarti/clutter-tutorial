@@ -18,11 +18,8 @@
 #ifndef _HAVE_EXAMPLE_MULTILINE_ENTRY_H
 #define _HAVE_EXAMPLE_MULTILINE_ENTRY_H
 
-#include <clutter/clutter-actor.h>
-#include <clutter/clutter-color.h>
-#include <clutter/clutter-event.h>
+#include <clutter/clutter.h>
 #include <pango/pango.h>
-
 
 G_BEGIN_DECLS
 

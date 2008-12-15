@@ -19,14 +19,6 @@
 
 ClutterActor *entry = NULL;
 
-static gboolean
-on_stage_key_press (ClutterStage *stage, ClutterKeyEvent *event, gpointer data)
-{
-  clutter_entry_handle_key_event (entry, event);
-
-  return TRUE; /* Stop further handling of this event. */
-}
-
 int main(int argc, char *argv[])
 {
   ClutterColor stage_color = { 0x00, 0x00, 0x00, 0xff };
@@ -50,9 +42,8 @@ int main(int argc, char *argv[])
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), entry);
   clutter_actor_show (entry);
 
-  /* Connect signal handlers to handle key presses on the stage: */ 
-  g_signal_connect (stage, "key-press-event",
-    G_CALLBACK (on_stage_key_press), NULL);
+  /* Set focus to handle key presses on the stage: */
+  clutter_stage_set_key_focus (CLUTTER_STAGE (stage), entry);
 
   /* Show the stage: */
   clutter_actor_show (stage);

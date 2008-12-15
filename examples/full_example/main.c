@@ -122,7 +122,7 @@ void add_to_ellipse_behaviour(ClutterTimeline *timeline_rotation, gdouble start_
 {
   g_return_if_fail (timeline_rotation);
 
-  ClutterAlpha *alpha = clutter_alpha_new_full (timeline_rotation, CLUTTER_ALPHA_SINE_INC, NULL, NULL);
+  ClutterAlpha *alpha = clutter_alpha_new_full (timeline_rotation, &clutter_sine_inc_func, NULL, NULL);
  
   item->ellipse_behaviour = clutter_behaviour_ellipse_new (alpha, 
     320, ELLIPSE_Y, /* x, y */
@@ -204,23 +204,24 @@ void on_timeline_moveup_completed(ClutterTimeline* timeline, gpointer user_data)
  */
 void on_timeline_rotation_completed(ClutterTimeline* timeline, gpointer user_data)
 {
-  /* All the items have now been rotated so that the clicked item is at the front. */
-  /* Now we transform just this one item gradually some more,
-   * and show the filename: */
-
-
+  /* All the items have now been rotated so that the clicked item is at the
+   * front.  Now we transform just this one item gradually some more, and
+   * show the filename.
+   */
   /* Transform the image: */
   ClutterActor *actor = item_at_front->actor;
-  timeline_moveup = clutter_timeline_new(60 /* frames */, 30 /* frames per second. */);
-  ClutterAlpha *alpha = clutter_alpha_new_full (timeline_moveup, CLUTTER_ALPHA_SINE_INC, NULL, NULL);
+  timeline_moveup = clutter_timeline_new(60 /* frames */, 30 /* fps */);
+  ClutterAlpha *alpha =
+    clutter_alpha_new_full (timeline_moveup, &clutter_sine_inc_func, NULL, NULL);
  
   /* Scale the item from its normal scale to approximately twice the normal scale: */
   gdouble scale_start = 0;
   clutter_actor_get_scale (actor, &scale_start, NULL);
   const gdouble scale_end = scale_start * 1.8;
 
-  behaviour_scale = 
-    clutter_behaviour_scale_new (alpha, scale_start, scale_start, scale_end, scale_end);
+  behaviour_scale = clutter_behaviour_scale_new (alpha,
+                                                 scale_start, scale_start,
+                                                 scale_end, scale_end);
   clutter_behaviour_apply (behaviour_scale, actor);
 
   /* Move the item up the y axis: */
@@ -229,17 +230,14 @@ void on_timeline_rotation_completed(ClutterTimeline* timeline, gpointer user_dat
   knots[0].y = clutter_actor_get_y (actor);
   knots[1].x = knots[0].x;
   knots[1].y = knots[0].y - 250;
-  behaviour_path = 
-    clutter_behaviour_path_new  (alpha, knots, G_N_ELEMENTS(knots));
+  behaviour_path =
+    clutter_behaviour_path_new_with_knots (alpha, knots, G_N_ELEMENTS(knots));
   clutter_behaviour_apply (behaviour_path, actor);
-
 
   /* Show the filename gradually: */
   clutter_label_set_text (CLUTTER_LABEL (label_filename), item_at_front->filepath);
-  behaviour_opacity = 
-    clutter_behaviour_opacity_new (alpha, 0, 255);
+  behaviour_opacity = clutter_behaviour_opacity_new (alpha, 0, 255);
   clutter_behaviour_apply (behaviour_opacity, label_filename);
-
 
   /* Start the timeline and handle its "completed" signal so we can unref it. */
   g_signal_connect (timeline_moveup, "completed", G_CALLBACK (on_timeline_moveup_completed), NULL);

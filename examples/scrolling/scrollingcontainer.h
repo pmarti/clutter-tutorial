@@ -18,8 +18,7 @@
 #ifndef __EXAMPLE_SCROLLING_CONTAINER_H__
 #define __EXAMPLE_SCROLLING_CONTAINER_H__
 
-#include <clutter/clutter-actor.h>
-#include <clutter/clutter-types.h>
+#include <clutter/clutter.h>
 
 G_BEGIN_DECLS
 

@@ -16,7 +16,7 @@
 
 #include <gtk/gtk.h>
 #include <clutter/clutter.h>
-#include <clutter-gtk/gtk-clutter-embed.h>
+#include <clutter-gtk/clutter-gtk.h>
 #include <stdlib.h>
 
 ClutterActor *stage = NULL;

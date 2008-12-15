@@ -1,5 +1,16 @@
 2008-12-15  Daniel Elstner  <danielk@openismus.com>
 
+	* examples/behaviour/main.c: Follow API changes of clutter 0.9.
+	* examples/custom_actor/triangle_actor.[ch]: ditto,
+	* examples/custom_container/examplebox.[ch]: ditto,
+	* examples/entry/main.c: ditto,
+	* examples/full_example/main.c: ditto,
+	* examples/multiline_text_entry/multiline_entry.[ch]: ditto,
+	* examples/scrolling/scrollingcontainer.[ch]: ditto,
+	* examples/stage_widget/main.c: ditto.
+
+2008-12-15  Daniel Elstner  <danielk@openismus.com>
+
 	* docs/tutorial/clutter-tut.xml: Remove references to
 	BehaviourBspline, as its functionality was merged into
 	BehaviourPath.

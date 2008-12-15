@@ -17,8 +17,8 @@
 
 
 #include "examplebox.h"
-#include <clutter/clutter-container.h>
 
+#include <clutter/clutter.h>
 #include <cogl/cogl.h>
 
 #include <string.h>

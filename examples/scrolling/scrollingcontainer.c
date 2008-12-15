@@ -16,9 +16,7 @@
  */
 
 #include "scrollingcontainer.h"
-#include <clutter/clutter-container.h>
-#include <clutter/clutter-group.h>
-#include <clutter/clutter-rectangle.h>
+#include <clutter/clutter.h>
 
 #include <string.h>
 #include <stdio.h>

@@ -23,13 +23,9 @@
 
 #include "multiline_entry.h"
 
-#include <clutter/clutter-enum-types.h>
-#include <clutter/clutter-keysyms.h>
-#include <clutter/clutter-main.h>
-#include <clutter/clutter-rectangle.h>
-#include <clutter/clutter-units.h>
-#include <clutter/pangoclutter.h>
-#include <clutter/clutter-backend.h>
+#include <clutter/clutter.h>
+#include <cogl/cogl.h>
+#include <cogl/cogl-pango.h>
 #include <string.h>
 
 #define DEFAULT_FONT_NAME	"Sans 10"
@@ -38,8 +34,8 @@
 G_DEFINE_TYPE (ExampleMultilineEntry, example_multiline_entry, CLUTTER_TYPE_ACTOR);
 
 /* For the font map: */
-static PangoClutterFontMap  *_font_map = NULL;
-static PangoContext         *_context  = NULL;
+static PangoFontMap *_font_map = NULL;
+static PangoContext *_context  = NULL;
 
 enum
 {
@@ -279,6 +275,7 @@ example_multiline_entry_paint (ClutterActor *self)
   ExampleMultilineEntry         *entry;
   ExampleMultilineEntryPrivate  *priv;
   PangoRectangle        logical;
+  CoglColor             color;
   gint                  width, actor_width;
   gint                  text_width;
   gint                  cursor_x;
@@ -346,10 +343,13 @@ example_multiline_entry_paint (ClutterActor *self)
       priv->text_x = 0;
     }
 
-  priv->fgcol.alpha = clutter_actor_get_opacity (self);
-  pango_clutter_render_layout (priv->layout,
-                               priv->text_x, 0,
-                               &priv->fgcol, 0);
+  cogl_color_set_from_4ub (&color, priv->fgcol.red,
+                                   priv->fgcol.green,
+                                   priv->fgcol.blue,
+                                   clutter_actor_get_opacity (self));
+  cogl_pango_render_layout (priv->layout,
+                            priv->text_x, 0,
+                            &color, 0);
 
   if (EXAMPLE_MULTILINE_ENTRY_GET_CLASS (entry)->paint_cursor)
     EXAMPLE_MULTILINE_ENTRY_GET_CLASS (entry)->paint_cursor (entry);
@@ -493,7 +493,8 @@ example_multiline_entry_class_init (ExampleMultilineEntryClass *klass)
    * ExampleMultilineEntry::cursor-event:
    * @entry: the actor which received the event
    * @geometry: a #ClutterGeometry
-   *
+   *#include <cogl/cogl.h>
+
    * The ::cursor-event signal is emitted each time the input cursor's geometry
    * changes, this could be a positional or size change. If you would like to
    * implement your own input cursor, set the cursor-visible property to %FALSE,
@@ -528,9 +529,9 @@ example_multiline_entry_init (ExampleMultilineEntry *self)
 
   if (G_UNLIKELY (_context == NULL))
     {
-      _font_map = PANGO_CLUTTER_FONT_MAP (pango_clutter_font_map_new ());
-      pango_clutter_font_map_set_resolution (_font_map, resolution);
-      _context = pango_clutter_font_map_create_context (_font_map);
+      _font_map = cogl_pango_font_map_new ();
+      cogl_pango_font_map_set_resolution (COGL_PANGO_FONT_MAP (_font_map), resolution);
+      _context = cogl_pango_font_map_create_context (COGL_PANGO_FONT_MAP (_font_map));
     }
 
   priv->layout        = NULL;
