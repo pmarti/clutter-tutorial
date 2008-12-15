@@ -65,28 +65,17 @@ AL_PROG_GNU_MAKE(AC_MSG_ERROR([dnl
 SUN make does not work for building gtkmm.
 Please install GNU make.]))
 
-# This macro is installed by glibmm
-# Doxygen needs the path to the installed perl.
-GLIBMM_CHECK_PERL([5.6.0])
-
 #########################################################################
 #  Dependancy checks
 #########################################################################
-PKG_CHECK_MODULES(CLUTTER_DOC, clutter-0.8 clutter-gtk-0.8)
+PKG_CHECK_MODULES(CLUTTER_DOC, clutter-0.9 clutter-gtk-0.9)
 AC_SUBST(CLUTTER_DOC_CFLAGS)
 AC_SUBST(CLUTTER_DOC_LIBS)
-
-#########################################################################
-#  C++ checks
-#########################################################################
-AC_PROG_CXX
-AC_LANG_CPLUSPLUS
 
 ## See scripts/dk-warn.m4 for usage details
 DK_ARG_ENABLE_WARNINGS([CLUTTER_DOC_WARNING_FLAGS],
                        [-Wall -w1],
-                       [-pedantic -Wall -Wextra -w1],
-                       [HILDON])
+                       [-Wall -Wextra -w1])
 
 # Dummy conditional just to make automake-1.4 happy.
 # We need an always-false condition in docs/Makefile.am.

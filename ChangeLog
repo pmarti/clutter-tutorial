@@ -1,3 +1,7 @@
+2008-12-15  Daniel Elstner  <danielk@openismus.com>
+
+	* configure.ac: Remove some cruft.
+
 2008-11-06  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Correct the version number in the 
