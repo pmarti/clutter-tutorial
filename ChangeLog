@@ -1,5 +1,11 @@
 2008-12-15  Daniel Elstner  <danielk@openismus.com>
 
+	* docs/tutorial/clutter-tut.xml: Remove references to
+	BehaviourBspline, as its functionality was merged into
+	BehaviourPath.
+
+2008-12-15  Daniel Elstner  <danielk@openismus.com>
+
 	* docs/tutorial/README: Fix copy'n'paste mistakes.
 
 2008-12-15  Daniel Elstner  <danielk@openismus.com>

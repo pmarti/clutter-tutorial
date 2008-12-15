@@ -711,11 +711,10 @@ unref the timeline, for instance in a signal handler for the timeline's <literal
 
 <para>The following standard behaviours are available in &clutter;:
 <itemizedlist>
-<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourBspline.html">ClutterBehaviourBspline</ulink>: Moves the actor along a bezier spline.</para></listitem>
 <listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourDepth.html">ClutterBehaviourDepth</ulink>: Moves the actor along the z axis.</para></listitem>
 <listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourEllipse.html">ClutterBehaviourEllipse</ulink>: Moves the actor around an ellipse.</para></listitem>
 <listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourOpacity.html">ClutterBehaviourOpacity</ulink>: Changes the opacity of the actor.</para></listitem>
-<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourPath.html">ClutterBehaviourPath</ulink>: Moves the actor along a path defined by a set of points</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourPath.html">ClutterBehaviourPath</ulink>: Moves the actor along straight lines and bezier curves.</para></listitem>
 <listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourRotate.html">ClutterBehaviourRotate</ulink>: Rotates the actor.</para></listitem>
 <listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourScale.html">ClutterBehaviourScale</ulink>: Scales the actor.</para></listitem>
 </itemizedlist>
