@@ -41,7 +41,7 @@ do_triangle_paint (ClutterActor *self, const CoglColor *color)
   ClutterTriangle        *triangle;
   ClutterTrianglePrivate *priv;
   ClutterGeometry         geom;
-  ClutterFixed            coords[6];
+  float                  coords[6];
 
   triangle = CLUTTER_TRIANGLE(self);
   priv = triangle->priv;
@@ -56,14 +56,14 @@ do_triangle_paint (ClutterActor *self, const CoglColor *color)
    *
    * The parent paint call will have translated us into position so
    * paint from 0, 0 */
-  coords[0] = CLUTTER_INT_TO_FIXED (0);
-  coords[1] = CLUTTER_INT_TO_FIXED (0);
+  coords[0] = 0;
+  coords[1] = 0;
 
-  coords[2] = CLUTTER_INT_TO_FIXED (0);
-  coords[3] = CLUTTER_INT_TO_FIXED (geom.height);
+  coords[2] = 0;
+  coords[3] = geom.height;
 
-  coords[4] = CLUTTER_INT_TO_FIXED (geom.width);
-  coords[5] = CLUTTER_INT_TO_FIXED (geom.height);
+  coords[4] = geom.width;
+  coords[5] = geom.height;
 
   cogl_path_polygon (coords, 3);
   cogl_path_fill ();

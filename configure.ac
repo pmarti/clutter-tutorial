@@ -103,7 +103,7 @@ AC_OUTPUT([
     examples/custom_container/Makefile
     examples/behaviour/Makefile
     examples/entry/Makefile
-    examples/effects/Makefile
+    examples/animation/Makefile
     examples/full_example/Makefile
       examples/full_example/images/Makefile
     examples/multiline_text_entry/Makefile

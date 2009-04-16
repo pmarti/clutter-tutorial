@@ -32,11 +32,11 @@ int main(int argc, char *argv[])
   clutter_stage_set_color (CLUTTER_STAGE (stage), &stage_color);
 
   /* Add an entry to the stage: */
-  entry = clutter_entry_new ();
-  clutter_entry_set_color (CLUTTER_ENTRY (entry), &actor_color);
-  clutter_entry_set_text (CLUTTER_ENTRY (entry), 
+  entry = clutter_text_new ();
+  clutter_text_set_color (CLUTTER_TEXT (entry), &actor_color);
+  clutter_text_set_text (CLUTTER_TEXT (entry), 
     "Wizard imps and sweat sock pimps, interstellar mongrel nymphs.");
-  clutter_entry_set_font_name  (CLUTTER_ENTRY (entry), "Sans 12");
+  clutter_text_set_font_name  (CLUTTER_TEXT (entry), "Sans 12");
   clutter_actor_set_size (entry, 590, 100);
   clutter_actor_set_position (entry, 5, 5);
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), entry);

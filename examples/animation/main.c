@@ -61,23 +61,22 @@ int main(int argc, char *argv[])
   /* Show the stage: */
   clutter_actor_show (stage);
 
-  ClutterTimeline *timeline = clutter_timeline_new(10 /* frames */, 30 /* frames per second. */);
+  ClutterTimeline *timeline = clutter_timeline_new(100 /* frames */, 30 /* frames per second. */);
   clutter_timeline_set_loop(timeline, TRUE); 
   clutter_timeline_start(timeline);
 
-  /* Instead of our custom callback, 
-   * we could use a standard callback. For instance, CLUTTER_ALPHA_SINE_INC. 
-   */
-  ClutterAlpha *alpha = clutter_alpha_new_with_func (timeline, &on_alpha, NULL, NULL);
+  /* Create a clutter alpha for the animation */
+  ClutterAlpha* alpha = clutter_alpha_new_with_func (timeline, &on_alpha, NULL, NULL);
 
-  ClutterKnot knot[2];
-  knot[0].x = 10;
-  knot[0].y = 10;
-  knot[1].x= 150;
-  knot[1].y= 150;
- 
-  ClutterBehaviour *behaviour = clutter_behaviour_path_new_with_knots (alpha, knot, sizeof(knot) / sizeof(ClutterKnot));
-  clutter_behaviour_apply (behaviour, rect);
+  /* Create an animation to change the properties */
+  ClutterAnimation* animation = 
+    clutter_actor_animate_with_alpha (rect, alpha, 
+                                          "x", 150,
+                                          "y", 150,
+                                          "opactiy", 0,
+                                          NULL);
+
+  g_object_unref (animation);
   g_object_unref (timeline);
 
   /* Start the main loop, so we can respond to events: */

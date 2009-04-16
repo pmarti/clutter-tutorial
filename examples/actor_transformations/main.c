@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 
 
   /* Add a label to the stage: */
-  ClutterActor *label = clutter_label_new_full ("Sans 12", "Some Text", &actor_color);
+  ClutterActor *label = clutter_text_new_full ("Sans 12", "Some Text", &actor_color);
   clutter_actor_set_size (label, 500, 500);
   clutter_actor_set_position (label, 20, 150);
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), label);

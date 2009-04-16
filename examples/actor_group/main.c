@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
   clutter_actor_show (rect);
 
   /* Add a label to the group: */
-  ClutterActor *label = clutter_label_new_full ("Sans 9", "Some Text", &actor_color);
+  ClutterActor *label = clutter_text_new_full ("Sans 9", "Some Text", &actor_color);
   clutter_actor_set_position (label, 0, 60);
   clutter_container_add_actor (CLUTTER_CONTAINER (group), label);
   clutter_actor_show (label);

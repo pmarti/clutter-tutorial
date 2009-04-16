@@ -122,7 +122,7 @@ void add_to_ellipse_behaviour(ClutterTimeline *timeline_rotation, gdouble start_
 {
   g_return_if_fail (timeline_rotation);
 
-  ClutterAlpha *alpha = clutter_alpha_new_full (timeline_rotation, &clutter_sine_inc_func, NULL, NULL);
+  ClutterAlpha *alpha = clutter_alpha_new_full (timeline_rotation, CLUTTER_EASE_OUT_SINE);
  
   item->ellipse_behaviour = clutter_behaviour_ellipse_new (alpha, 
     320, ELLIPSE_Y, /* x, y */
@@ -212,7 +212,7 @@ void on_timeline_rotation_completed(ClutterTimeline* timeline, gpointer user_dat
   ClutterActor *actor = item_at_front->actor;
   timeline_moveup = clutter_timeline_new(60 /* frames */, 30 /* fps */);
   ClutterAlpha *alpha =
-    clutter_alpha_new_full (timeline_moveup, &clutter_sine_inc_func, NULL, NULL);
+    clutter_alpha_new_full (timeline_moveup, CLUTTER_EASE_OUT_SINE);
  
   /* Scale the item from its normal scale to approximately twice the normal scale: */
   gdouble scale_start = 0;
@@ -235,7 +235,7 @@ void on_timeline_rotation_completed(ClutterTimeline* timeline, gpointer user_dat
   clutter_behaviour_apply (behaviour_path, actor);
 
   /* Show the filename gradually: */
-  clutter_label_set_text (CLUTTER_LABEL (label_filename), item_at_front->filepath);
+  clutter_text_set_text (CLUTTER_TEXT (label_filename), item_at_front->filepath);
   behaviour_opacity = clutter_behaviour_opacity_new (alpha, 0, 255);
   clutter_behaviour_apply (behaviour_opacity, label_filename);
 
@@ -378,10 +378,10 @@ int main(int argc, char *argv[])
   clutter_stage_set_color (CLUTTER_STAGE (stage), &stage_color);
 
   /* Create and add a label actor, hidden at first: */
-  label_filename = clutter_label_new ();
+  label_filename = clutter_text_new ();
   ClutterColor label_color = { 0x60, 0x60, 0x90, 0xff }; /* blueish */
-  clutter_label_set_color (CLUTTER_LABEL (label_filename), &label_color);
-  clutter_label_set_font_name (CLUTTER_LABEL (label_filename), "Sans 24");
+  clutter_text_set_color (CLUTTER_TEXT (label_filename), &label_color);
+  clutter_text_set_font_name (CLUTTER_TEXT (label_filename), "Sans 24");
   clutter_actor_set_position (label_filename, 10, 10);
   clutter_actor_set_opacity (label_filename, 0);
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), label_filename);
