@@ -522,7 +522,7 @@ The following example demonstrates handing of clicks on an actor:
 <title>Using Timelines</title>
 <para>
 A <classname>ClutterTimeline</classname> can be used to change the position or appearance of an actor over time. 
-These can be used directly as described in this chapter, or together with an effect or behaviour, as you will see in 
+These can be used directly as described in this chapter, or together with an animation or behaviour, as you will see in 
 the following chapters.</para> 
 
 <para>
@@ -597,66 +597,57 @@ second timeline moves the rectangle horizontally.
 </chapter>
 
 
-<chapter id="sec-effects">
-<title>Effects</title>
+<chapter id="sec-animations">
+<title>Animations</title>
 
 <sect1>
-<title>Using Effects</title>
+<title>Using Animations</title>
 
 <para>
-&clutter; provides several effects functions that can be used together with a timeline to change the properties of 
-a single actor over time, using a simple numeric calculation. In many cases this is an easier way to implement animation. 
-For instance, <function>clutter_effect_fade()</function> gradually changes the opacity of an 
-actor or <function>clutter_effect_rotate()</function> gradually changes the rotation of an actor, calculating the opacity or 
-rotation by calling the supplied <literal>alpha</literal> callback.
+Animations in &clutter; are used to change properties of a <classname>ClutterActor</classname>
+over time. For a new <classname>ClutterAnimation</classname> you need a
+<classname>ClutterTimeline</classname> and either a <classname>ClutterActor</classname>
+or one of the given standard animation modes to control the property change.
 </para>
-<para>To use a clutter effect, you should first create a <classname>ClutterEffectTemplate</classname>, specifying your 
-timeline object and a <classname>ClutterAlphaFunc</classname> callback. This callback will need to call 
-<function>clutter_alpha_get_timeline()</function> so it can return a value based on the timeline's current frame number 
-and total number of frames, using <function>clutter_timeline_get_current_frame()</function> and 
-<function>clutter_timeline_get_n_frames()</function>. The result should be between 0 and CLUTTER_ALPHA_MAX, with the meaning of 
-the result depending on the effect used. For instance, CLUTTER_ALPHA_MAX would be 100% opacity when using <function>clutter_effect_fade()</function>. 
-Several built-in callbacks, such as <function>CLUTTER_ALPHA_SINE</function>, allow you to easily specify natural movement. 
+<para>
+To create a new <classname>ClutterAnimation</classname> use 
+<function>clutter_actor_animate_with_timeline()</function> for standard modes or
+<function>clutter_actor_animate_with_actor()</function> for using an actor. These
+functions take a list of <classname>GObject</classname>-properties of the 
+<classname>ClutterActor</classname> to change and the value the property should have
+when the timeline finishes. To set the start value of the property you can just
+use <function>g_object_set()</function> or one of the available _set methods. It is
+possible to add/remove properties from the <classname>ClutterAnimation</classname>
+using <function>clutter_animation_bind()</function> and 
+<function>clutter_animation_unbind()</function>.
 </para>
-
-<figure id="figure-alpha-func">
-  <title>Graphic representation of some alpha functions.</title>
-  <screenshot>
-    <graphic format="PNG" fileref="&url_figures_base;alpha-func.png"/>
-  </screenshot>
-</figure>
-
-<para>You should then provide this <classname>ClutterEffectTemplate</classname> to one of the <function>clutter_effect</function> 
-functions, along with the actor and any extra parameters required by that function. Remember to unref the effect template after providing it to the effect function 
-(which will take a reference). Unlike actors, these do not have &quot;floating references&quot;.
+<para>
+In most cases you may be able to avoid using a custom <classname>ClutterAlpha</classname>
+by using on the the standard modes provided by &clutter;. Those modes are available
+in the <classname>ClutterAnimationMode</classname> enum.
 </para>
-<para>To make it easier to use different timelines with different effects, you can use <function>clutter_effect_template_set_timeline_clone()</function> to cause the 
-effect to clone (copy instead of just referencing) the timeline, allowing you to change the original timeline and supply it to a second effect, without 
-influencing the first effect.</para>
+<para><ulink url="&url_refdocs_base_clutter;Actor.html">ClutterActor Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_clutter;Animations.html">ClutterAnimation Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_clutter;Animations.html#ClutterAnimationMode">ClutterAnimationMode Reference</ulink></para>
 
-<para>The effects API is actually a simplified API that wraps the <classname>ClutterBehaviour</classname> objects. 
-However, the effect functions can only control one actor at a time and do not allow you to change the effects while the timeline 
-is running. To do this you can use the behaviours directly, as described in the <link linkend="sec-behaviours">Behaviours</link> section.
-</para>
-
-<para><ulink url="&url_refdocs_base_clutter_alt;Effects.html">Reference</ulink></para>
 </sect1>
 
 
-<sect1 id="effects-example"><title>Example</title>
+<sect1 id="effects-animations"><title>Example</title>
 <para>
-The following example demonstrates the use of both a fade effect and a path effect on the same actor,
+The following example demonstrates the use of an animation for a fade effect and a 
+path effect on the same actor,
 changing a rectangle's opacity while it is moved a long a straight line:
 </para>
 
-<figure id="figure-effects">
-  <title>Behaviour</title>
+<figure id="figure-animations">
+  <title>Animation</title>
   <screenshot>
     <graphic format="PNG" fileref="&url_figures_base;effects.png"/>
   </screenshot>
 </figure>
 
-<para><ulink url="&url_examples_base;effects">Source Code</ulink></para>
+<para><ulink url="&url_examples_base;animation">Source Code</ulink></para>
 </sect1>
 
 </chapter>
