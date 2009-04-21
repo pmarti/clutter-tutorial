@@ -548,6 +548,17 @@ timeline's <literal>completed</literal> signal.</para>
 <para><ulink url="&url_refdocs_base_clutter;Timeline.html">Reference</ulink></para>
 </sect1>
 
+<sect1 id="timeline-markers"><title>Markers</title>
+<para>
+In many cases you want an action to happen at a specfic point in the timeline. Instead of polling this point by using
+<function>clutter_timeline_get_progress()</function> you should instead use timeline markers. Timeline markers can be added
+using <function>clutter_timeline_add_marker_at_frame()</function> or <function>clutter_timeline_add_marker_at_time()</function>. 
+Once you added the marker, connect to the <literal>marker-reached</literal> to start the appropriate action there or to
+<literal>marker-reached::my_marker</liternal> when the signal should only catch the marker <literal>my_marker</literal>. 
+You can also use markers to navigate through the timeline using <function>clutter_timeline_advance_to_marker</function>.
+</para>
+</sect1>
+
 <sect1 id="timeline-example"><title>Example</title>
 <para>
 The following example demonstrates the use of a timeline to rotate a rectangle around the x axis while changing its color:

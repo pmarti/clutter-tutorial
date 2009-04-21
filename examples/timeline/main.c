@@ -53,6 +53,15 @@ on_timeline_new_frame (ClutterTimeline *timeline,
   }
 }
 
+void
+on_timeline_marker_reached (ClutterTimeline* timeline,
+                            gchar*           marker_name,
+                            gint             frame_num,
+                            gpointer         user_data)
+{
+  printf ("Reached marker %s at frame %d!\n",
+          marker_name, frame_num);
+}
 
 int main(int argc, char *argv[])
 {
@@ -77,7 +86,9 @@ int main(int argc, char *argv[])
   clutter_actor_show (stage);
 
   ClutterTimeline *timeline = clutter_timeline_new(10 /* frames */, 120 /* frames per second. */);
+  clutter_timeline_add_marker_at_frame (timeline, "clutter-tutorial", 5);
   g_signal_connect (timeline, "new-frame", G_CALLBACK (on_timeline_new_frame), NULL);
+  g_signal_connect (timeline, "marker-reached", G_CALLBACK (on_timeline_marker_reached), NULL);
   clutter_timeline_set_loop(timeline, TRUE); 
   clutter_timeline_start(timeline);
 
