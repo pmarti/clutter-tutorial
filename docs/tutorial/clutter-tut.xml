@@ -278,18 +278,17 @@ but all the techniques can also be used with a stage inside the <classname>GtkCl
 <title>GTK+ integration</title>
 
 <para>
-Sometimes you will need additional integration between GTK+ and the things
-you draw with clutter to get a clean integrated user interface. &clutter; 
-contains some handy utility methods to handle this.
+&clutter; contains some useful utility functions to help you integrate your 
+use of GTK+ and the parts you draw with &clutter;.
 </para>
 
 <para>
 To embed stock or other icons into clutter you can use the 
-<function>gtk_clutter_texture_new_from_*()</function> methods. If you need to
-draw in the correct theme colors the <function>gtk_clutter_get_*_color()</function>
-methods become important as they can receive the theme colors for a 
-<classname>GtkWidget</classname> in the current state and convert in into a
-<classname>ClutterColor</classname> that you can use within clutter.
+<function>gtk_clutter_texture_new_from_*()</function> functions. If you need to
+draw in the correct theme colors then the <function>gtk_clutter_get_*_color()</function> 
+functions can receive a theme color for a 
+<classname>GtkWidget</classname> in the current state and convert it to a
+<classname>ClutterColor</classname> for use with &clutter;.
 </para>
 </sect2>
 
@@ -567,14 +566,18 @@ timeline's <literal>completed</literal> signal.</para>
 <para><ulink url="&url_refdocs_base_clutter;Timeline.html">Reference</ulink></para>
 </sect1>
 
-<sect1 id="timeline-markers"><title>Markers</title>
+<sect1 id="timeline-markers">
+<title>Markers</title>
 <para>
-In many cases you want an action to happen at a specfic point in the timeline. Instead of polling this point by using
+You may want an action to happen at a specific moment in the timeline. Instead of polling with 
 <function>clutter_timeline_get_progress()</function> you should instead use timeline markers. Timeline markers can be added
 using <function>clutter_timeline_add_marker_at_frame()</function> or <function>clutter_timeline_add_marker_at_time()</function>. 
-Once you added the marker, connect to the <literal>marker-reached</literal> to start the appropriate action there or to
-<literal>marker-reached::my_marker</literal> when the signal should only catch the marker <literal>my_marker</literal>. 
-You can also use markers to navigate through the timeline using <function>clutter_timeline_advance_to_marker</function>.
+Handle the <literal>marker-reached</literal> signal to start the appropriate action at that moment, after checking the provided 
+marker name. To handle only the signal only for a particular marker, you may connect to the 
+<literal>marker-reached::my_marker</literal> signal, where <literal>my-marker</literal> is the name of your marker.</para>
+
+<para>
+You can also use markers to navigate through the timeline using the <function>clutter_timeline_advance_to_marker()</function> function.
 </para>
 </sect1>
 
@@ -690,6 +693,7 @@ changing a rectangle's opacity while it is moved a long a straight line:
 <sect1>
 <title>Using Behaviours</title>
 
+<!-- TODO: The Effects API is gone. -->
 <para>The <link linkend="sec-effects">Effects</link> API is simple but you will often need to 
 use behaviours directly to have more control.
 </para>

@@ -59,8 +59,8 @@ on_timeline_marker_reached (ClutterTimeline* timeline,
                             gint             frame_num,
                             gpointer         user_data)
 {
-  printf ("Reached marker %s at frame %d!\n",
-          marker_name, frame_num);
+  printf ("Reached marker %s at frame %d.\n",
+    marker_name, frame_num);
 }
 
 int main(int argc, char *argv[])
