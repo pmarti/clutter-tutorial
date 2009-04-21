@@ -274,6 +274,25 @@ but all the techniques can also be used with a stage inside the <classname>GtkCl
 
 <para><ulink url="&url_refdocs_base_clutter_gtk;GtkClutterEmbed.html">Reference</ulink></para>
 
+<sect2 id="stage-gtk">
+<title>GTK+ integration</title>
+
+<para>
+Sometimes you will need additional integration between GTK+ and the things
+you draw with clutter to get a clean integrated user interface. &clutter; 
+contains some handy utility methods to handle this.
+</para>
+
+<para>
+To embed stock or other icons into clutter you can use the 
+<function>gtk_clutter_texture_new_from_*()</function> methods. If you need to
+draw in the correct theme colors the <function>gtk_clutter_get_*_color()</function>
+methods become important as they can receive the theme colors for a 
+<classname>GtkWidget</classname> in the current state and convert in into a
+<classname>ClutterColor</classname> that you can use within clutter.
+</para>
+</sect2>
+
 <sect2 id="stage-widget-example"><title>Example</title>
 <para>
 The following example shows a <classname>GtkClutterEmbed</classname> GTK+ widget and changes the stage color when a button is 
@@ -554,7 +573,7 @@ In many cases you want an action to happen at a specfic point in the timeline. I
 <function>clutter_timeline_get_progress()</function> you should instead use timeline markers. Timeline markers can be added
 using <function>clutter_timeline_add_marker_at_frame()</function> or <function>clutter_timeline_add_marker_at_time()</function>. 
 Once you added the marker, connect to the <literal>marker-reached</literal> to start the appropriate action there or to
-<literal>marker-reached::my_marker</liternal> when the signal should only catch the marker <literal>my_marker</literal>. 
+<literal>marker-reached::my_marker</literal> when the signal should only catch the marker <literal>my_marker</literal>. 
 You can also use markers to navigate through the timeline using <function>clutter_timeline_advance_to_marker</function>.
 </para>
 </sect1>
