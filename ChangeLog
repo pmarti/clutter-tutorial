@@ -1,3 +1,9 @@
+2009-04-21  Johannes Schmid <jschmid@openismus.com>
+  
+  * docs/tutorial/clutter-tut.xml: Added section about timeline markers
+  and Gtk+ integration (#935)
+  * examples/timeline/main.c: Added example for timeline markers
+
 2009-04-20  Johannes Schmid <jschmid@openismus.com>
 
 	* docs/tutorial/clutter-tut.xml: Fixed section about effects to
