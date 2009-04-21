@@ -1,3 +1,15 @@
+2009-04-20  Johannes Schmid <jschmid@openismus.com>
+
+	* docs/tutorial/clutter-tut.xml: Fixed section about effects to
+	use animation API 
+
+2009-04-16  Johannes Schmid <jschmid@openismus.com>
+
+	* examples/effects => examples/animation:
+	Ported effects example to new animation API
+	* examples/*: Fixed little API problems with clutter 0.9, espeicially
+	moving from clutter_label_* to clutter_text_*
+
 2008-12-15  Daniel Elstner  <danielk@openismus.com>
 
 	* examples/behaviour/main.c: Follow API changes of clutter 0.9.
