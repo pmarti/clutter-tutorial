@@ -1076,8 +1076,12 @@ sections of text, the ability to show and manipulate right-to-left text, etc.
 <title>Contributing</title>
 <para>
 If you find errors in this documentation or if you would like to contribute additional material, you are
-encouraged to write an email to clutter@o-hand.com. Thanks.
+encouraged to write an email to murrayc@openismus.com. Thanks.
 </para>
+
+<para>The DocBook and C source code for this documentation is in the <ulink url="http://git.gnome.org/cgit/clutter-tutorial/">clutter-tutorial</ulink> module in GNOME's git repository.
+</para>
+
 </chapter>
 
 </book>

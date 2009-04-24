@@ -1,5 +1,11 @@
 2009-04-24  Murray Cumming  <murrayc@murrayc.com>
 
+	reviewed by: <delete if not using a buddy>
+
+	* docs/tutorial/clutter-tut.xml:
+
+2009-04-24  Murray Cumming  <murrayc@murrayc.com>
+
 	Correct the Animations and Behaviours updates.
 	 
 	* docs/tutorial/clutter-tut.xml: Animations: Make it clear that apps 
