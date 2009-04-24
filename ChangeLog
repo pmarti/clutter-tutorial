@@ -1,8 +1,7 @@
 2009-04-24  Murray Cumming  <murrayc@murrayc.com>
 
-	reviewed by: <delete if not using a buddy>
-
-	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/clutter-tut.xml: Contributing: Change the email address and 
+	mention the git module. 
 
 2009-04-24  Murray Cumming  <murrayc@murrayc.com>
 
