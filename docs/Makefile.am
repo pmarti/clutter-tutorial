@@ -10,7 +10,7 @@ post-html-recursive:
 	done
 
 post-html-local: index.html
-	scp $$SSH_OPT $^ $$USER@$(web_host):$(web_path_docs)
+	scp $^ $$USER@$(web_host):$(web_path_docs)
 
 post-html: post-html-local post-html-recursive
 

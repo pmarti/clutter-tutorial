@@ -636,47 +636,75 @@ second timeline moves the rectangle horizontally.
 <sect1>
 <title>Using Animations</title>
 
-<para>
-Animations in &clutter; are used to change properties of a <classname>ClutterActor</classname>
-over time. For a new <classname>ClutterAnimation</classname> you need a
-<classname>ClutterTimeline</classname> and either a <classname>ClutterActor</classname>
-or one of the given standard animation modes to control the property change.
+<para>The <function>clutter_actor_animate()</function>, 
+<function>clutter_actor_animate_with_timeline()</function>, and 
+<function>clutter_actor_animate_with_alpha()</function>  functions change the 
+properties of a single actor over time, using either a standard 
+<literal>ClutterAnimationMode</literal> or a simple numeric calculation. In 
+many cases this is an easier way to implement animation.
 </para>
-<para>
-To create a new <classname>ClutterAnimation</classname> use 
-<function>clutter_actor_animate_with_timeline()</function> for standard modes or
-<function>clutter_actor_animate_with_actor()</function> for using an actor. These
-functions take a list of <classname>GObject</classname>-properties of the 
-<classname>ClutterActor</classname> to change and the value the property should have
-when the timeline finishes. To set the start value of the property you can just
-use <function>g_object_set()</function> or one of the available _set methods. It is
-possible to add/remove properties from the <classname>ClutterAnimation</classname>
-using <function>clutter_animation_bind()</function> and 
-<function>clutter_animation_unbind()</function>.
+
+<para>These are convenience functions that use the 
+<classname>ClutterAnimation</classname> object. You should not need to use 
+<classname>ClutterAnimation</classname> directly.
 </para>
+
+<para>For instance, you could use <function>clutter_actor_animate()</function> to 
+fade an actor by changing its &quot;opacity&quot; property, while also 
+moving it to a specified position by changing its &quot;x&quot; and 
+&quot;y&quot; properties, changing all three property values linearly over 1 
+second (1000 milliseconds). You should specify the values that the properties 
+should reach, regardless of their initial values.</para>
 <para>
-In most cases you may be able to avoid using a custom <classname>ClutterAlpha</classname>
-by using on the the standard modes provided by &clutter;. Those modes are available
-in the <classname>ClutterAnimationMode</classname> enum.
+<programlisting>
+clutter_actor_animate (rectangle, CLUTTER_LINEAR, 1000,
+  "opacity", 150,
+  "x", 100,
+  "y", 100,
+  NULL);
+</programlisting>
 </para>
+
 <para><ulink url="&url_refdocs_base_clutter;Actor.html">ClutterActor Reference</ulink></para>
 <para><ulink url="&url_refdocs_base_clutter;Animations.html">ClutterAnimation Reference</ulink></para>
 <para><ulink url="&url_refdocs_base_clutter;Animations.html#ClutterAnimationMode">ClutterAnimationMode Reference</ulink></para>
 
 </sect1>
 
+<sect1 id="sec-animations-alpha">
+<title>Using Alpha Functions.</title>
 
-<sect1 id="effects-animations"><title>Example</title>
-<para>
-The following example demonstrates the use of an animation for a fade effect and a 
-path effect on the same actor,
-changing a rectangle's opacity while it is moved a long a straight line:
+<para>You may use a custom calculation callback, instead of a standard <literal>ClutterAnimationMode</literal> enum value such as <literal>CLUTTER_LINEAR</literal>, by using the  <function>clutter_actor_animate_with_alpha()</function> function, providing a <classname>ClutterAlpha</classname>.
 </para>
 
+<para>
+The <classname>ClutterAlpha</classname> object is constructed with a calculation callback and a <classname>ClutterTimeline</classname> which tells it when a new frame needs a new value to be calculated. Your <literal>alpha</literal> callback will need to call <function>clutter_alpha_get_timeline()</function> so it can return a value based on the timeline's current frame number and total number of frames, using <function>clutter_timeline_get_current_frame</function> and <function>clutter_timeline_get_n_frames()</function>. 
+</para>
+
+<para>Like actors, <classname>ClutterAlpha</classname> has a &quot;floating references&quot; so you don't need to unref it if you have added it to a behaviour. 
+However, the behaviours do not have a floating reference, so you should unref them when you are finished with them. You might do this at the same time as you 
+unref the timeline, for instance in a signal handler for the timeline's <literal>completed</literal> signal.
+</para>
+
+<!-- TODO: Create an example for Animation with an Alpha instead. -->
+<para>
+See the <link linkend="sec-behaviours">Behaviours</link> chapter for an example that uses a <classname>ClutterAlpha</classname>.
+</para>
+
+</sect1>
+
+
+<sect1 id="animation-example"><title>Example</title>
+<para>
+The following example demonstrates the use of an animation to achieve a fade and a 
+movement on the same actor, changing a rectangle's opacity while it is moved along a straight line:
+</para>
+
+<!-- TODO: Update the screenshot? -->
 <figure id="figure-animations">
   <title>Animation</title>
   <screenshot>
-    <graphic format="PNG" fileref="&url_figures_base;effects.png"/>
+    <graphic format="PNG" fileref="&url_figures_base;animation.png"/>
   </screenshot>
 </figure>
 
@@ -693,22 +721,18 @@ changing a rectangle's opacity while it is moved a long a straight line:
 <sect1>
 <title>Using Behaviours</title>
 
-<!-- TODO: The Effects API is gone. -->
-<para>The <link linkend="sec-effects">Effects</link> API is simple but you will often need to 
-use behaviours directly to have more control.
+<para>The <link linkend="sec-animations">Animation</link> API is simple but you will often need more control, while still avoiding the complication of using <classname>ClutterTimeline</classname> directly.
 </para>
 
 <para>
 Although the <classname>ClutterTimeline</classname>'s <literal>new-frame</literal> signal allows you to set actor 
 properties for each frame, &clutter; also provides <literal>Behaviour</literal>s which can change specific properties 
-of one specific actor over time, using a simple numeric calculation. However, unlike the simplified <link linkend="sec-effects">Effects</link> 
+of one specific actor over time, using a simple numeric calculation. However, unlike the simplified <link linkend="sec-animations">Animation</link> 
 API, using behaviours directly allows you to combine them to control multiple actors simultaneously and allows you to change the parameters of the 
 behaviours while the timeline is running.
 </para>
-<para>For instance, <classname>ClutterBehaviourPath</classname> moves the actor along a specified path, calculating the position 
-on the path once per frame by calling a supplied <literal>alpha</literal> callback. The <classname>ClutterAlpha</classname> 
-object is constructed with this callback and a <classname>ClutterTimeline</classname> which tells it when a new frame needs a 
-new value to be calculated.</para>
+<para>For instance, <classname>ClutterBehaviourPath</classname> moves the actor along a specified path, calculating the position on the path once per frame by calling a supplied <literal>alpha</literal> callback. See the <link linkend="sec-animations-alpha">Using Alpha Functions</link> section in the Animation chapter.
+</para>
 
 <figure id="figure-path-alpha-func">
   <title>Effects of alpha functions on a path.</title>
@@ -716,20 +740,6 @@ new value to be calculated.</para>
     <graphic format="PNG" fileref="&url_figures_base;path-alpha-func.png"/>
   </screenshot>
 </figure>
-
-<para>Your <literal>alpha</literal> callback will need to call <function>clutter_alpha_get_timeline()</function> so it can return 
-a value based on the timeline's current frame number and total number of frames, using 
-<function>clutter_timeline_get_current_frame</function> and <function>clutter_timeline_get_n_frames()</function>. Several built-in callbacks, such as 
-<function>CLUTTER_ALPHA_SINE</function>, allow you to easily specify natural movement. 
-</para>
-
-<para>If the behaviour's timeline is started and not stopped then the end point of the behaviour will always be reached and it will 
-end there unless the timeline is set to loop. For instance, an actor will move along a path until it has reached the end, taking 
-as much time as specified by the timeline's number of frames and frames per second.</para> 
-
-<para>Like actors, <classname>ClutterAlpha</classname> has a &quot;floating references&quot; so you don't need to unref it if you have added it to a behaviour. 
-However, the behaviours do not have a floating reference, so you should unref them when you are finished with them. You might do this at the same time as you 
-unref the timeline, for instance in a signal handler for the timeline's <literal>completed</literal> signal.</para>
 
 <para><ulink url="&url_refdocs_base_clutter;Behaviour.html">ClutterBehaviour Reference</ulink></para>
 <para><ulink url="&url_refdocs_base_clutter;Alpha.html">ClutterAlpha Reference</ulink></para>

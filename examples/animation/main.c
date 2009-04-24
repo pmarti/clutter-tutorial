@@ -1,4 +1,4 @@
-/* Copyright 2007 Openismus GmbH
+/* Copyright 2009 Openismus GmbH
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2
@@ -61,7 +61,8 @@ int main(int argc, char *argv[])
   /* Show the stage: */
   clutter_actor_show (stage);
 
-  ClutterTimeline *timeline = clutter_timeline_new(100 /* frames */, 30 /* frames per second. */);
+  ClutterTimeline *timeline = 
+    clutter_timeline_new(100 /* frames */, 30 /* frames per second. */);
   clutter_timeline_set_loop(timeline, TRUE); 
   clutter_timeline_start(timeline);
 
@@ -71,10 +72,10 @@ int main(int argc, char *argv[])
   /* Create an animation to change the properties */
   ClutterAnimation* animation = 
     clutter_actor_animate_with_alpha (rect, alpha, 
-                                          "x", 150,
-                                          "y", 150,
-                                          "opactiy", 0,
-                                          NULL);
+      "x", 150, 
+      "y", 150,
+      "opacity", 0,
+      NULL);
 
   g_object_unref (animation);
   g_object_unref (timeline);
@@ -83,5 +84,5 @@ int main(int argc, char *argv[])
   clutter_main ();
 
   return EXIT_SUCCESS;
-
 }
+

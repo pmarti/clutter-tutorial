@@ -19,10 +19,9 @@
 
 ClutterActor *rect = NULL;
 
-/* This must return a value between 0 and 1.0
- *
- * This will be called as many times per seconds as specified in our call to clutter_timeline_new().
- *
+/* This must return a value between 0 and 1.0.
+ * This will be called as many times per seconds as specified in our call to 
+ * clutter_timeline_new().
  */
 gdouble
 on_alpha (ClutterAlpha *alpha, gpointer data)
