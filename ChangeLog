@@ -1,5 +1,12 @@
 2009-04-24  Murray Cumming  <murrayc@murrayc.com>
 
+	Don't mention 0.8.
+	
+	* docs/tutorial/clutter-tut.xml: Change the 0.8 version entity to 0.9, 
+	and correct the reference links.
+
+2009-04-24  Murray Cumming  <murrayc@murrayc.com>
+
 	* docs/tutorial/clutter-tut.xml: Contributing: Change the email address and 
 	mention the git module. 
 
