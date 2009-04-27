@@ -1,3 +1,13 @@
+2009-04-27  Murray Cumming  <murrayc@murrayc.com>
+
+	Mention ClutterText.
+	
+	* configure.ac:
+	* docs/examples/: Removed multiline_text_entry/
+	* docs/tutorial/clutter-tut.xml: Actors: Mention ClutterText instead of 
+	ClutterEntry and ClutterLabel.
+	Remove the multiline text editing appendix because ClutterText can now do that. 
+
 2009-04-24  Murray Cumming  <murrayc@murrayc.com>
 
 	Don't mention 0.8.
