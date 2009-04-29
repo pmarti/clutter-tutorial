@@ -1,5 +1,16 @@
 2009-04-29  Johannes Schmid  <jschmid@openismus.com>
 
+	* examples/text/main.c:
+	* examples/Makefile.am:
+	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/figures/text.png:
+	Added section for ClutterText
+	
+	Added a section and an example for ClutterText. Moved scrolling section
+	to normal section from appendix.
+
+2009-04-29  Johannes Schmid  <jschmid@openismus.com>
+
 	* examples/scrolling/main.c:
 	* examples/scrolling/Makefile.am:
 	* docs/tutorial/clutter-tut.xml:

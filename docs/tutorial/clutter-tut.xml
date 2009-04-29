@@ -774,6 +774,113 @@ This simply moves the rectangle from the top-left to the bottom-right of the can
 
 </chapter>
 
+<chapter id="text editing">
+<title>Text editing</title>
+<sect1 id="clutter-text"><title>ClutterText</title>
+<para>
+Clutter contains a powerful widget to display and edit text. It doesn't support
+all the fancy things that <classname>GtkTextView</classname> supports but it is
+enough for displaying all kind of information and for simple text inserting operations.
+The use-case of this widget is to act like a <classname>GtkLabel</classname> or an 
+extended <classname>GtkEntry</classname> that support multi line editing
+</para>
+<para>
+There are three things you can use a <classname>ClutterText</classname> actor for:
+<itemizedlist>
+  <listitem>
+  <para>
+  As a simple label use <function>clutter_text_new_with_text()</function> or
+  <function>clutter_text_set_markup()</function> to display text. To make it non-editable
+  use <function>clutter_text_set_editable()</function>.
+  </para>
+  </listitem>
+  <listitem>
+  <para>
+  For use-cases where you would use a <classname>GtkEntry</classname> in a normal
+  &gtk; application, create a <classname>ClutterText</classname> using 
+  <function>clutter_text_new()</function> and <function>clutter_text_set_single_line_mode()
+  </function>. In this case it could be interesting to use <function>clutter_text_set_activatable()</function>
+  and connect to the <literal>activate</literal> signal which will be emitted when
+  the user presses <literal>Enter</literal>.
+  </para>
+  </listitem>
+  <listitem>
+  <para>
+  The third use case is a full-features multi-line text editing widget. <classname>ClutterText</classname>
+  gives you access to the cursor position using <function>clutter_text_get/set_cursor_*()</function> and to
+  the selection using <function>clutter_text_get/set_selection*()</function>. You can also add and
+  remove text at any position.
+  </para>
+  </listitem>
+</itemizedlist>
+When you want to have an editable <classname>ClutterText</classname> it is important
+to give it key focus using <function>clutter_stage_set_key_focus()</function>.
+</para>
+
+<para><ulink url="&url_refdocs_base_clutter;Text.html">ClutterText Reference</ulink></para>
+</sect1>
+
+<sect1 id="text-example"><title>Example</title>
+<para>
+This is a very basic example showing how to implement a multi-line text
+editing widget.
+</para>
+
+<figure id="figure-text-example">
+  <title>ClutterText</title>
+  <screenshot>
+    <graphic format="PNG" fileref="&url_figures_base;text.png"/>
+  </screenshot>
+</figure>
+
+<para><ulink url="&url_examples_base;text">Source Code</ulink></para>
+</sect1>
+
+</chapter>
+
+<chapter id="implementing-scrolling">
+<title>Scrolling</title>
+
+<sect1 id="actor-scrolling">
+<title>GtkClutterViewport</title>
+<para>
+When integrating <classname>ClutterActor</classname>s into &gtk; it can become
+necessary to implement scrolling due to limited screen space. Normally you would
+add a widget inside a <classname>GtkScrolledWindow</classname> to add scrolling
+capabilities. As clutter is accessing the graphic hardware directly bypassing the
+normal &gtk; drawing this is not possible with <classname>GtkClutterEmbed</classname>.
+</para>
+<para>
+Instead you have to use a <classname>GtkClutterViewport</classname> which will
+take care of the scrolling. The <classname>GtkClutterViewport</classname> does
+not draw any scrollbars itself instead it uses a <classname>GtkAdjustment</classname> to
+determine the current scrolling position. Usually you will connect the 
+<classname>GtkAdjustment</classname> to a <classname>GtkScrollbar</classname> but
+it is also possible to change it directly or to connect it to some other widget 
+derived from <classname>GtkRuler</classname>.
+</para>
+<para><ulink url="&url_refdocs_base_clutter_gtk;GtkClutterViewport.html">Reference</ulink></para>
+</sect1>
+
+<sect1 id="scrolling-actor-example"><title>Example</title>
+<para>
+This example is simple image viewer that allows scrolling the image. 
+Esspecially interesting is the layout of the <classname>GtkTable</classname> with the two scrollbars as it
+is a quite common case and probably a good starting point for implementing basic
+scrolling in an application.
+</para>
+
+<figure id="figure-scrolling-container">
+  <title>Scrolling Actor</title>
+  <screenshot>
+    <graphic format="PNG" fileref="&url_figures_base;scrolling.png"/>
+  </screenshot>
+</figure>
+
+<para><ulink url="&url_examples_base;scrolling">Source Code</ulink></para>
+</sect1>
+
+</chapter>
 
 <chapter id="sec-full-example">
 <title>Full Example</title>
@@ -968,51 +1075,6 @@ space, or align differently inside the container.
 
 
 </appendix>
-
-<appendix id="appendix-implementing-scrolling">
-<title>Implementing Scrolling</title>
-
-<sect1 id="actor-scrolling">
-<title>GtkClutterViewport</title>
-<para>
-When integrating <classname>ClutterActor</classname>s into &gtk; it can become
-necessary to implement scrolling due to limited screen space. Normally you would
-add a widget inside a <classname>GtkScrolledWindow</classname> to add scrolling
-capabilities. As clutter is accessing the graphic hardware directly bypassing the
-normal &gtk; drawing this is not possible with <classname>GtkClutterEmbed</classname>.
-</para>
-<para>
-Instead you have to use a <classname>GtkClutterViewport</classname> which will
-take care of the scrolling. The <classname>GtkClutterViewport</classname> does
-not draw any scrollbars itself instead it uses a <classname>GtkAdjustment</classname> to
-determine the current scrolling position. Usually you will connect the 
-<classname>GtkAdjustment</classname> to a <classname>GtkScrollbar</classname> but
-it is also possible to change it directly or to connect it to some other widget 
-derived from <classname>GtkRuler</classname>.
-</para>
-<para><ulink url="&url_refdocs_base_clutter_gtk;GtkClutterViewport.html">Reference</ulink></para>
-</sect1>
-
-<sect1 id="scrolling-actor-example"><title>Example</title>
-<para>
-This example is simple image viewer that allows scrolling the image. 
-Esspecially interesting is the layout of the <classname>GtkTable</classname> with the two scrollbars as it
-is a quite common case and probably a good starting point for implementing basic
-scrolling in an application.
-</para>
-
-<figure id="figure-scrolling-container">
-  <title>Scrolling Actor</title>
-  <screenshot>
-    <graphic format="PNG" fileref="&url_figures_base;scrolling.png"/>
-  </screenshot>
-</figure>
-
-<para><ulink url="&url_examples_base;scrolling">Source Code</ulink></para>
-</sect1>
-
-</appendix>
-
 
 <chapter id="sec-Contributing">
 <title>Contributing</title>

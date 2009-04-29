@@ -1,7 +1,7 @@
 include $(top_srcdir)/Makefile_web.am_fragment
 
 example_dirs = actor actor_events actor_group actor_transformations behaviour \
-               custom_actor custom_container animation entry stage stage_widget \
+               custom_actor custom_container animation text stage stage_widget \
                timeline score full_example \
                scrolling
 
