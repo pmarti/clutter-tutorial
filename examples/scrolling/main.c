@@ -14,74 +14,90 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
+#include <gtk/gtk.h>
 #include <clutter/clutter.h>
-#include "scrollingcontainer.h"
+#include <clutter-gtk/clutter-gtk.h>
 #include <stdlib.h>
 
-ClutterActor *scrolling = NULL;
-
-
-static gboolean
-on_stage_button_press (ClutterStage *stage, ClutterEvent *event, gpointer data)
+int
+main (int argc, char *argv[])
 {
-  printf ("Scrolling\n");
+  /* Clutter */
+  ClutterActor    *stage, *viewport, *tex;
+  ClutterColor     stage_color = { 0x61, 0x64, 0x8c, 0xff };
 
-  /* Scroll the container: */
-  example_scrolling_container_scroll_left (
-    EXAMPLE_SCROLLING_CONTAINER (scrolling), 10);
+  /* Gtk+ */
+  GtkWidget       *window, *embed; 
+  GtkWidget       *table, *scrollbar;
+  GtkAdjustment   *h_adjustment, *v_adjustment;
+  
+  /* Call gtk_clutter_init() to init both clutter and gtk+ */
+  if (gtk_clutter_init (&argc, &argv) != CLUTTER_INIT_SUCCESS)
+    g_error ("Unable to initialize GtkClutter");
 
-  return TRUE; /* Stop further handling of this event. */
-}
+  if (argc != 2)
+    g_error ("Usage: example <image file>");
+  
+  /* Create a toplevel window */
+  window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_default_size (GTK_WINDOW (window), 640, 480);
+  g_signal_connect (window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
 
-int main(int argc, char *argv[])
-{
-  ClutterColor stage_color = { 0x00, 0x00, 0x00, 0xff };
-  ClutterColor actor_color = { 0x7f, 0xae, 0xff, 0xff };
-  ClutterColor actor_color2 = { 0xff, 0x7f, 0xae, 0xff };
-  ClutterColor actor_color3 = { 0xae, 0xff, 0x7f, 0xff };
+  /* Create a table to hold the scrollbars and the ClutterEmbed widget */
+  table = gtk_table_new (2, 2, FALSE);
+  gtk_container_add (GTK_CONTAINER (window), table);
+  gtk_widget_show (table);
 
-  clutter_init (&argc, &argv);
+  /* Create ClutterEmbed widget for the stage */
+  embed = gtk_clutter_embed_new ();
+  gtk_table_attach (GTK_TABLE (table), embed,
+                    0, 1,
+                    0, 1,
+                    GTK_EXPAND | GTK_FILL,
+                    GTK_EXPAND | GTK_FILL,
+                    0, 0);
+  gtk_widget_show (embed);
 
-  /* Get the stage and set its size and color: */
-  ClutterActor *stage = clutter_stage_get_default ();
-  clutter_actor_set_size (stage, 200, 200);
+  /* Init stage */
+  stage = gtk_clutter_embed_get_stage (GTK_CLUTTER_EMBED (embed));
   clutter_stage_set_color (CLUTTER_STAGE (stage), &stage_color);
+  clutter_actor_set_size (stage, 640, 480);
 
-  /* Add our scrolling container to the stage: */
-  scrolling = example_scrolling_container_new ();
-  clutter_actor_set_size (scrolling, 180, 100);
-  clutter_actor_set_position (scrolling, 10, 10);
-  clutter_container_add_actor (CLUTTER_CONTAINER (stage), scrolling);
-  clutter_actor_show (scrolling);
+  /* Create viewport actor to be able to scroll actor. By passing NULL it
+   * will create new GtkAdjustments */
+  viewport = gtk_clutter_viewport_new (NULL, NULL);
+  clutter_container_add_actor (CLUTTER_CONTAINER (stage), viewport);
 
- /* Add some actors to our container: */
-  ClutterActor *actor = clutter_rectangle_new_with_color (&actor_color);
-  clutter_actor_set_size (actor, 75, 75);
-  clutter_container_add_actor (CLUTTER_CONTAINER (scrolling), actor);
-  clutter_actor_show (actor);
+  /* Load image from first command line argument and add it to viewport*/
+  tex = clutter_texture_new_from_file (argv[1], NULL);
+  clutter_container_add_actor (CLUTTER_CONTAINER (viewport), tex);
+  clutter_actor_set_position (tex, 0, 0);
+  clutter_actor_set_position (tex, 0, 0);
+  clutter_actor_set_position (viewport, 0, 0);
+  clutter_actor_set_size (viewport, 640, 480);
 
-  ClutterActor *actor2 = clutter_rectangle_new_with_color (&actor_color2);
-  clutter_actor_set_size (actor2, 75, 75);
-  clutter_container_add_actor (CLUTTER_CONTAINER (scrolling), actor2);
-  clutter_actor_show (actor2);
+  /* Create scrollbars and connect them to viewport */
+  gtk_clutter_scrollable_get_adjustments (GTK_CLUTTER_SCROLLABLE (viewport),
+                                          &h_adjustment,
+                                          &v_adjustment);
+  scrollbar = gtk_vscrollbar_new (v_adjustment);
+  gtk_table_attach (GTK_TABLE (table), scrollbar,
+                    1, 2,
+                    0, 1,
+                    0, GTK_EXPAND | GTK_FILL,
+                    0, 0);
+  gtk_widget_show (scrollbar);
+  scrollbar = gtk_hscrollbar_new (h_adjustment);
+  gtk_table_attach (GTK_TABLE (table), scrollbar,
+                    0, 1,
+                    1, 2,
+                    GTK_EXPAND | GTK_FILL, 0,
+                    0, 0);
 
-  ClutterActor *actor3 = clutter_rectangle_new_with_color (&actor_color3);
-  clutter_actor_set_size (actor3, 75, 75);
-  clutter_container_add_actor (CLUTTER_CONTAINER (scrolling), actor3);
-  clutter_actor_show (actor3);
+  gtk_widget_show (scrollbar);
+  gtk_widget_show (window);
 
-
-  /* Show the stage: */
-  clutter_actor_show (stage);
-
-  /* Connect signal handlers to handle mouse clicks on the stage: */ 
-  g_signal_connect (stage, "button-press-event",
-    G_CALLBACK (on_stage_button_press), NULL);
-
-  /* Start the main loop, so we can respond to events: */
-  clutter_main ();
-
+  gtk_main();
 
   return EXIT_SUCCESS;
-
 }

@@ -1,3 +1,14 @@
+2009-04-29  Johannes Schmid  <jschmid@openismus.com>
+
+	* examples/scrolling/main.c:
+	* examples/scrolling/Makefile.am:
+	* docs/tutorial/clutter-tut.xml:
+	* docs/tutorial/figures/scrolling.png:
+	Ported scrolling example to the new ClutterViewport class
+  
+	Updated example code and scrolling chapter in the tutorial
+	(openedhand bug #935)
+
 2009-04-27  Murray Cumming  <murrayc@murrayc.com>
 
 	Mention ClutterText.

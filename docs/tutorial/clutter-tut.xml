@@ -969,40 +969,40 @@ space, or align differently inside the container.
 
 </appendix>
 
-<!-- TODO: Update this for clutter 0.9. -->
 <appendix id="appendix-implementing-scrolling">
-<title>Implementing Scrolling in a Window-like Actor</title>
+<title>Implementing Scrolling</title>
 
-<sect1>
-<title>The Technique</title>
-
-<para>There is not yet a standard container in &clutter; to show and scroll through 
-a small part of a set of widgets, like the 
-<classname>GtkScrolledWindow</classname> widget in the GTK+ toolkit, so you may 
-need to implement this functionality in your application.
+<sect1 id="actor-scrolling">
+<title>GtkClutterViewport</title>
+<para>
+When integrating <classname>ClutterActor</classname>s into &gtk; it can become
+necessary to implement scrolling due to limited screen space. Normally you would
+add a widget inside a <classname>GtkScrolledWindow</classname> to add scrolling
+capabilities. As clutter is accessing the graphic hardware directly bypassing the
+normal &gtk; drawing this is not possible with <classname>GtkClutterEmbed</classname>.
 </para>
-<para>The &tidy; project 
-contains some suggested implementations for such actors, but here is a simpler example 
-of the general technique. It creates the impression of scrolling by clipping a 
-container so that it only shows a small area of the screen, while moving the child 
-widgets in that container.
+<para>
+Instead you have to use a <classname>GtkClutterViewport</classname> which will
+take care of the scrolling. The <classname>GtkClutterViewport</classname> does
+not draw any scrollbars itself instead it uses a <classname>GtkAdjustment</classname> to
+determine the current scrolling position. Usually you will connect the 
+<classname>GtkAdjustment</classname> to a <classname>GtkScrollbar</classname> but
+it is also possible to change it directly or to connect it to some other widget 
+derived from <classname>GtkRuler</classname>.
 </para>
+<para><ulink url="&url_refdocs_base_clutter_gtk;GtkClutterViewport.html">Reference</ulink></para>
 </sect1>
 
-<sect1 id="scrolling-container-example"><title>Example</title>
+<sect1 id="scrolling-actor-example"><title>Example</title>
 <para>
-This example places three rectangles in a custom container which scrolls its 
-child widgets to the left when the user clicks on the stage.
-</para>
-
-<para>
-Real-world applications will of course want to implement more specific behaviour, depending on their needs. For instance, 
-adding scrollbars that show accurate scroll positions, scrolling smoothly with animation, efficiently drawing only objects 
-that should be visible when dealing with large numbers of rows.
+This example is simple image viewer that allows scrolling the image. 
+Esspecially interesting is the layout of the <classname>GtkTable</classname> with the two scrollbars as it
+is a quite common case and probably a good starting point for implementing basic
+scrolling in an application.
 </para>
 
 <figure id="figure-scrolling-container">
-  <title>Scrolling Container</title>
+  <title>Scrolling Actor</title>
   <screenshot>
     <graphic format="PNG" fileref="&url_figures_base;scrolling.png"/>
   </screenshot>
