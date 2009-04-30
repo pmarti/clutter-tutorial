@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
   clutter_text_set_color (CLUTTER_TEXT (text), &actor_color);
   clutter_text_set_text (CLUTTER_TEXT (text), 
     "Wizard imps and sweat sock pimps, interstellar mongrel nymphs.");
-  clutter_text_set_font_name  (CLUTTER_TEXT (text), "Sans 12");
+  clutter_text_set_font_name (CLUTTER_TEXT (text), "Sans 12");
 	clutter_text_set_editable (CLUTTER_TEXT (text), TRUE);
 	clutter_text_set_line_wrap (CLUTTER_TEXT (text), TRUE);
 

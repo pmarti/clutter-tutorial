@@ -1,3 +1,12 @@
+2009-04-30  Murray Cumming  <murrayc@murrayc.com>
+
+	Fix the build.
+	
+	* configure.ac: 
+	* examples/text/Makefile.am: Added this file and mentioned it to fix the 
+	build.
+	* examples/text/main.c, examples/scrolling/main.c: Correct formatting. 
+
 2009-04-29  Johannes Schmid  <jschmid@openismus.com>
 
 	* examples/text/main.c:

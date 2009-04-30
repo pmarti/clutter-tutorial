@@ -110,5 +110,6 @@ AC_OUTPUT([
     examples/scrolling/Makefile
     examples/stage/Makefile
     examples/stage_widget/Makefile
+    examples/text/Makefile
     examples/timeline/Makefile
 ])
