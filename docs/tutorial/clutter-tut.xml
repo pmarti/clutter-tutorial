@@ -778,52 +778,45 @@ This simply moves the rectangle from the top-left to the bottom-right of the can
 <title>Text editing</title>
 <sect1 id="clutter-text"><title>ClutterText</title>
 <para>
-Clutter contains a powerful widget to display and edit text. It doesn't support
-all the fancy things that <classname>GtkTextView</classname> supports but it is
-enough for displaying all kind of information and for simple text inserting operations.
-The use-case of this widget is to act like a <classname>GtkLabel</classname> or an 
-extended <classname>GtkEntry</classname> that support multi line editing
+&clutter;'s <classname>ClutterText</classname> actor can display text and allow it to be edited. It doesn't have as much functionality as, for instance, GTK+'s <classname>GtkTextView</classname> widget, but it is enough for displaying information and for simple text entry. Therefore it serves the same purposes as GTK+'s <classname>GtkLabel</classname> or <classname>GtkEntry</classname> widgets, with the addition of multi line editing.
 </para>
+
 <para>
-There are three things you can use a <classname>ClutterText</classname> actor for:
+There are three ways you might use a <classname>ClutterText</classname> actor:
+</para>
+
+<para>
 <itemizedlist>
   <listitem>
-  <para>
-  As a simple label use <function>clutter_text_new_with_text()</function> or
-  <function>clutter_text_set_markup()</function> to display text. To make it non-editable
-  use <function>clutter_text_set_editable()</function>.
+  <para>For a simple label, use <function>clutter_text_new_with_text()</function> or <function>clutter_text_set_markup()</function>. To make it non-editable use <function>clutter_text_set_editable()</function>.
   </para>
   </listitem>
+  
   <listitem>
-  <para>
-  For use-cases where you would use a <classname>GtkEntry</classname> in a normal
-  &gtk; application, create a <classname>ClutterText</classname> using 
-  <function>clutter_text_new()</function> and <function>clutter_text_set_single_line_mode()
-  </function>. In this case it could be interesting to use <function>clutter_text_set_activatable()</function>
-  and connect to the <literal>activate</literal> signal which will be emitted when
-  the user presses <literal>Enter</literal>.
+  <para>For single line text entry, similar to a  <classname>GtkEntry</classname> in a normal &gtk; application, create a <classname>ClutterText</classname> using  <function>clutter_text_new()</function> and <function>clutter_text_set_single_line_mode()</function>. You may call <function>clutter_text_set_activatable()</function> and connect to the <literal>activate</literal> signal to react when the user presses <literal>Enter</literal>.
   </para>
   </listitem>
+  
   <listitem>
-  <para>
-  The third use case is a full-features multi-line text editing widget. <classname>ClutterText</classname>
-  gives you access to the cursor position using <function>clutter_text_get/set_cursor_*()</function> and to
-  the selection using <function>clutter_text_get/set_selection*()</function>. You can also add and
-  remove text at any position.
+  <para>For full-featured multi-line text editing, <classname>ClutterText</classname> gives you access to the cursor position using the <function>clutter_text_get/set_cursor_*()</function> functions and to the selection using the <function>clutter_text_get/set_selection*()</function> functions. You can also add and remove text at any position.
   </para>
   </listitem>
 </itemizedlist>
-When you want to have an editable <classname>ClutterText</classname> it is important
-to give it key focus using <function>clutter_stage_set_key_focus()</function>.
 </para>
+
+<note>
+<para>
+When you want the <classname>ClutterText</classname> to be editable, you must give it key focus using <function>clutter_stage_set_key_focus()</function>.
+</para>
+</note>
 
 <para><ulink url="&url_refdocs_base_clutter;Text.html">ClutterText Reference</ulink></para>
 </sect1>
 
 <sect1 id="text-example"><title>Example</title>
 <para>
-This is a very basic example showing how to implement a multi-line text
-editing widget.
+This is a very basic example showing how to use a <classname>ClutterText</classname> for information display or multi-line text
+editing.
 </para>
 
 <figure id="figure-text-example">

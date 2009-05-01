@@ -1,3 +1,12 @@
+2009-05-01  Murray Cumming  <murrayc@murrayc.com>
+
+	ClutterText corrections.
+	
+	* docs/tutorial/clutter-tut.xml: ClutterText section: Correct/Improve the 
+	text.
+	* examples/text/main.c (main): Add a second ClutterText so we have one 
+	non-editable and one editable multi-line editable.
+
 2009-04-30  Murray Cumming  <murrayc@murrayc.com>
 
 	Fix the build.
