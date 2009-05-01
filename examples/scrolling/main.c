@@ -56,7 +56,7 @@ main (int argc, char *argv[])
   clutter_stage_set_color (CLUTTER_STAGE (stage), &stage_color);
   clutter_actor_set_size (stage, 640, 480);
 
-  /* Createa a viewport actor to be able to scroll actor. By passing NULL it
+  /* Create a viewport actor to be able to scroll actor. By passing NULL it
    * will create new GtkAdjustments. */
   ClutterActor *viewport = gtk_clutter_viewport_new (NULL, NULL);
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), viewport);
