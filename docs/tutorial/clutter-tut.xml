@@ -774,7 +774,7 @@ This simply moves the rectangle from the top-left to the bottom-right of the can
 
 </chapter>
 
-<chapter id="text editing">
+<chapter id="sec-text">
 <title>Text editing</title>
 <sect1 id="clutter-text"><title>ClutterText</title>
 <para>
@@ -831,8 +831,8 @@ editing.
 
 </chapter>
 
-<chapter id="implementing-scrolling">
-<title>Scrolling</title>
+<chapter id="sec-gtk-scrolling">
+<title>Scrolling Via GTK+</title>
 
 <sect1 id="actor-scrolling">
 <title>GtkClutterViewport</title>

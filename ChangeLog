@@ -1,5 +1,9 @@
 2009-05-01  Murray Cumming  <murrayc@murrayc.com>
 
+	* docs/tutorial/clutter-tut.xml: Correct section IDs.
+
+2009-05-01  Murray Cumming  <murrayc@murrayc.com>
+
 	ClutterText corrections.
 	
 	* docs/tutorial/clutter-tut.xml: ClutterText section: Correct/Improve the 
