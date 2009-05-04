@@ -33,24 +33,24 @@ int main(int argc, char *argv[])
   /* Add a non-editable text actor to the stage: */
   ClutterActor *text = clutter_text_new ();
 
-	/* Setup text properties */
+  /* Setup text properties */
   clutter_text_set_color (CLUTTER_TEXT (text), &actor_color);
   clutter_text_set_text (CLUTTER_TEXT (text), 
     "Non-editable text: Wizard imps and sweat sock pimps, interstellar mongrel nymphs.");
   clutter_text_set_font_name (CLUTTER_TEXT (text), "Sans 12");
-	clutter_text_set_editable (CLUTTER_TEXT (text), FALSE);
-	clutter_text_set_line_wrap (CLUTTER_TEXT (text), FALSE);
+  clutter_text_set_editable (CLUTTER_TEXT (text), FALSE);
+  clutter_text_set_line_wrap (CLUTTER_TEXT (text), FALSE);
 
   clutter_actor_set_size (text, 590, 100);
   clutter_actor_set_position (text, 5, 5);
-	clutter_container_add_actor (CLUTTER_CONTAINER (stage), text);
+  clutter_container_add_actor (CLUTTER_CONTAINER (stage), text);
   clutter_actor_show (text);
   
   
-   /* Add a multi-line editable text actor to the stage: */
+  /* Add a multi-line editable text actor to the stage: */
   text = clutter_text_new ();
 
-	/* Setup text properties */
+  /* Setup text properties */
   clutter_text_set_color (CLUTTER_TEXT (text), &actor_color);
   clutter_text_set_text (CLUTTER_TEXT (text), 
     "Editable text: And as I sat there brooding on the old, unknown world, I thought of "
@@ -61,12 +61,12 @@ int main(int argc, char *argv[])
      "obscurity beyond the city, where the dark fields of the republic rolled "
      "on under the night.");
   clutter_text_set_font_name (CLUTTER_TEXT (text), "Sans 12");
-	clutter_text_set_editable (CLUTTER_TEXT (text), TRUE);
-	clutter_text_set_line_wrap (CLUTTER_TEXT (text), TRUE);
+  clutter_text_set_editable (CLUTTER_TEXT (text), TRUE);
+  clutter_text_set_line_wrap (CLUTTER_TEXT (text), TRUE);
 
   clutter_actor_set_size (text, 590, 100);
-	clutter_actor_set_position (text, 5, 50);
-	clutter_container_add_actor (CLUTTER_CONTAINER (stage), text);
+  clutter_actor_set_position (text, 5, 50);
+  clutter_container_add_actor (CLUTTER_CONTAINER (stage), text);
   clutter_actor_show (text);
 
   /* Set focus to handle key presses on the stage: */
