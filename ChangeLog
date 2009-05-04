@@ -1,3 +1,10 @@
+2009-05-04  Johannes Schmid <jschmid@openismus.com>
+
+	* configure.in
+	* examples/entry/*
+	
+	Removed obsolete entry example
+
 2009-05-01  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: Correct section IDs.
