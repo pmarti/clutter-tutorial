@@ -321,40 +321,28 @@ gcc -Wall -g example.c -o example `pkg-config clutter-&clutterversion; clutter-g
 <sect1 id="actor-scrolling">
 <title>Stage Widget Scrolling</title>
 <para>
-When integrating <classname>ClutterActor</classname>s into &gtk; it can become
-necessary to implement scrolling due to limited screen space. Normally you would
-add a widget inside a <classname>GtkScrolledWindow</classname> to add scrolling
-capabilities. As clutter is accessing the graphic hardware directly bypassing the
-normal &gtk; drawing this is not possible with <classname>GtkClutterEmbed</classname>.
+When integrating a <classname>ClutterStage</classname>s into &gtk; with <classname>GtkClutterEmbed</classname>, you may need to scroll due to limited screen space. Normally you would add the widget inside a <classname>GtkScrolledWindow</classname> but this is not possible with <classname>GtkClutterEmbed</classname>, as &clutter; accesses the graphics hardware directly, bypassing the normal &gtk; drawing system.
 </para>
 <para>
-Instead you have to use a <classname>GtkClutterViewport</classname> which will
-take care of the scrolling. The <classname>GtkClutterViewport</classname> does
-not draw any scrollbars itself instead it uses a <classname>GtkAdjustment</classname> to
-determine the current scrolling position. Usually you will connect the 
-<classname>GtkAdjustment</classname> to a <classname>GtkScrollbar</classname> but
-it is also possible to change it directly or to connect it to some other widget 
-derived from <classname>GtkRuler</classname>.
+Instead you should use a <classname>GtkClutterViewport</classname>. Unlike <classname>GtkScrolledWindow</classname>, this does not draw any scrollbars itself. Instead it uses a <classname>GtkAdjustment</classname> which you should also use with your own <classname>GtkScrollbar</classname> widgets, or any other <classname>GtkRange</classname> widget, su such as <classname>GtkScale</classname>.
 </para>
 <para><ulink url="&url_refdocs_base_clutter_gtk;GtkClutterViewport.html">Reference</ulink></para>
-</sect1>
 
-<sect1 id="scrolling-actor-example"><title>Example</title>
+<sect2 id="scrolling-actor-example"><title>Example</title>
 <para>
-This example is simple image viewer that allows scrolling the image. 
-Esspecially interesting is the layout of the <classname>GtkTable</classname> with the two scrollbars as it
-is a quite common case and probably a good starting point for implementing basic
-scrolling in an application.
+This example is a simple image viewer that allows scrolling of the image. Note the layout of the <classname>GtkTable</classname>, with the two scrollbars.
 </para>
 
-<figure id="figure-scrolling-actor">
-  <title>Scrolling Actor</title>
+<figure id="figure-stage-widget-scrolling">
+  <title>Stage Widget Scrolling</title>
   <screenshot>
     <graphic format="PNG" fileref="&url_figures_base;gtk_scrolling.png"/>
   </screenshot>
 </figure>
 
 <para><ulink url="&url_examples_base;gtk_scrolling">Source Code</ulink></para>
+</sect2>
+
 </sect1>
 
 </chapter>

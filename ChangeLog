@@ -1,3 +1,12 @@
+2009-05-04  Murray Cumming  <murrayc@murrayc.com>
+
+	Stage Widget Scrolling section improvements.
+	
+	* docs/tutorial/clutter-tut.xml: Stage Widget Scrolling: Correct the text.
+	In particular, I thing Johannes meant GtkRange rather than GtkRuler.
+	Put the example inside the section.
+	* docs/tutorial/figures/Makefile.am: Mention gtk_scrolling.png.
+
 2009-05-04  Johannes Schmid <jschmid@openismus.com>
 
   * examples/gtk_embed/main.c:
