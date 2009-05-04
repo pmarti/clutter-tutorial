@@ -1,6 +1,13 @@
 2009-05-04  Johannes Schmid <jschmid@openismus.com>
 
-	* configure.in
+	* examples/text/main.c:
+	* docs/tutorial/figures/text.png:
+	
+	Fixed text alignment in example and updated screenshot (#935)
+
+2009-05-04  Johannes Schmid <jschmid@openismus.com>
+
+	* configure.ac
 	* examples/entry/*
 	
 	Removed obsolete entry example

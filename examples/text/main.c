@@ -64,8 +64,8 @@ int main(int argc, char *argv[])
 	clutter_text_set_editable (CLUTTER_TEXT (text), TRUE);
 	clutter_text_set_line_wrap (CLUTTER_TEXT (text), TRUE);
 
-  //clutter_actor_set_size (text, 590, 100);
-  clutter_actor_set_position (text, 5, 30);
+  clutter_actor_set_size (text, 590, 100);
+	clutter_actor_set_position (text, 5, 50);
 	clutter_container_add_actor (CLUTTER_CONTAINER (stage), text);
   clutter_actor_show (text);
 
