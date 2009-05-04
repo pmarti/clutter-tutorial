@@ -108,7 +108,8 @@ AC_OUTPUT([
     examples/score/Makefile
     examples/scrolling/Makefile
     examples/stage/Makefile
-    examples/stage_widget/Makefile
+    examples/gtk_embed/Makefile
+    examples/gtk_scrolling/Makefile    
     examples/text/Makefile
     examples/timeline/Makefile
 ])

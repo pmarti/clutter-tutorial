@@ -1,5 +1,21 @@
 2009-05-04  Johannes Schmid <jschmid@openismus.com>
 
+  * examples/gtk_embed/main.c:
+  * examples/gtk_scrolling/main.c:
+  * examples/scrolling/main.c:
+  * docs/tutorial/clutter-tut.xml:
+  * docs/tutorial/figures/scrolling.png_
+  * docs/tutorial/figures/gtk_scrolling.png:
+  
+  Bring back old scrolling example and reorganize tutorial
+  
+  The old scrolling appendix is now back in place while the gtk scrolling
+  examples was moved inside the stage section near to the gtk embed widget.
+  Also renamed the Gtk+ examples so that they can be recognized as part of
+  clutter-gtk.
+
+2009-05-04  Johannes Schmid <jschmid@openismus.com>
+
 	* examples/text/main.c:
 	* docs/tutorial/figures/text.png:
 	
