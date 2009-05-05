@@ -1,3 +1,13 @@
+2009-05-05  Johannes Schmid <jschmid@openismus.com>
+
+	* docs/tutorial/figures/gtk_scrolling.png:
+	* docs/tutorial/figures/text.png:
+	Use Clearlooks for screenshots
+	
+	* docs/tutorial/figures/multiline_text_entry.png:
+	* docs/tutorial/figures/Makefile.am:
+	Removed obsolete screenshot
+
 2009-05-04  Murray Cumming  <murrayc@murrayc.com>
 
 	Stage Widget Scrolling section improvements.
