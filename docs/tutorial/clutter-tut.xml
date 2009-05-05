@@ -830,6 +830,8 @@ There are three ways you might use a <classname>ClutterText</classname> actor:
 </itemizedlist>
 </para>
 
+<para><ulink url="&url_refdocs_base_clutter;Text.html">ClutterText Reference</ulink></para>
+
 <note>
 <para>
 When you want the <classname>ClutterText</classname> to be editable you must give it key focus using <function>clutter_stage_set_key_focus()</function>.
@@ -843,7 +845,6 @@ To discover the size needed by the text inside a <classname>ClutterText</classna
 </para>
 </sect2>
 
-<para><ulink url="&url_refdocs_base_clutter;Text.html">ClutterText Reference</ulink></para>
 </sect1>
 
 <sect1 id="text-example"><title>Example</title>
