@@ -22,11 +22,13 @@ int main(int argc, char *argv[])
   ClutterColor stage_color = { 0x00, 0x00, 0x00, 0xff };
   ClutterColor actor_color = { 0xff, 0xff, 0xcc, 0xff };
 
+  ClutterUnit min_height, natural_height;
+
   clutter_init (&argc, &argv);
 
   /* Get the stage and set its size and color: */
   ClutterActor *stage = clutter_stage_get_default ();
-  clutter_actor_set_size (stage, 600, 200);
+  clutter_actor_set_size (stage, 800, 200);
   clutter_stage_set_color (CLUTTER_STAGE (stage), &stage_color);
 
 
@@ -40,8 +42,9 @@ int main(int argc, char *argv[])
   clutter_text_set_font_name (CLUTTER_TEXT (text), "Sans 12");
   clutter_text_set_editable (CLUTTER_TEXT (text), FALSE);
   clutter_text_set_line_wrap (CLUTTER_TEXT (text), FALSE);
-
-  clutter_actor_set_size (text, 590, 100);
+  clutter_actor_get_preferred_height (text, 750, &min_height,
+                                      &natural_height);
+  clutter_actor_set_size (text, 750, natural_height);
   clutter_actor_set_position (text, 5, 5);
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), text);
   clutter_actor_show (text);
@@ -64,7 +67,9 @@ int main(int argc, char *argv[])
   clutter_text_set_editable (CLUTTER_TEXT (text), TRUE);
   clutter_text_set_line_wrap (CLUTTER_TEXT (text), TRUE);
 
-  clutter_actor_set_size (text, 590, 100);
+  clutter_actor_get_preferred_height (text, 750, &min_height,
+                                      &natural_height);
+  clutter_actor_set_size (text, 750, natural_height);
   clutter_actor_set_position (text, 5, 50);
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), text);
   clutter_actor_show (text);

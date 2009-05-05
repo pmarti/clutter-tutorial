@@ -1,5 +1,12 @@
 2009-05-05  Johannes Schmid <jschmid@openismus.com>
 
+	* docs/tutorial/clutter-tut.xml
+	* docs/examples/text/main.c:
+	Added a section about size management of ClutterText actors and updated the
+	example.
+
+2009-05-05  Johannes Schmid <jschmid@openismus.com>
+
 	* docs/tutorial/figures/gtk_scrolling.png:
 	* docs/tutorial/figures/text.png:
 	Use Clearlooks for screenshots

@@ -836,6 +836,19 @@ When you want the <classname>ClutterText</classname> to be editable, you must gi
 </para>
 </note>
 
+<sect2>
+<title>Size management</title>
+<para>
+It is often a unpredictable which size a <classname>ClutterText</classname> actor will
+need to display all its text. In this case the <function>clutter_actor_get_preferred_height()</function>
+method becomes handy. Usually you will know the maximum width you can assign an actor
+because of screen limitation and this method will give you the correct height
+for the choosen text length and font. Of course you could also use 
+<function>clutter_actor_get_preferred_width()</function> in case you want to calculate
+the size the other way round.
+</para>
+</sect2>
+
 <para><ulink url="&url_refdocs_base_clutter;Text.html">ClutterText Reference</ulink></para>
 </sect1>
 
