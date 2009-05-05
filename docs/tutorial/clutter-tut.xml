@@ -832,20 +832,14 @@ There are three ways you might use a <classname>ClutterText</classname> actor:
 
 <note>
 <para>
-When you want the <classname>ClutterText</classname> to be editable, you must give it key focus using <function>clutter_stage_set_key_focus()</function>.
+When you want the <classname>ClutterText</classname> to be editable you must give it key focus using <function>clutter_stage_set_key_focus()</function>.
 </para>
 </note>
 
 <sect2>
-<title>Size management</title>
+<title>Size Management</title>
 <para>
-It is often a unpredictable which size a <classname>ClutterText</classname> actor will
-need to display all its text. In this case the <function>clutter_actor_get_preferred_height()</function>
-method becomes handy. Usually you will know the maximum width you can assign an actor
-because of screen limitation and this method will give you the correct height
-for the choosen text length and font. Of course you could also use 
-<function>clutter_actor_get_preferred_width()</function> in case you want to calculate
-the size the other way round.
+To discover the size needed by the text inside a <classname>ClutterText</classname> actor, you may call will the <function>clutter_actor_get_preferred_height()</function> function. This will provide the vertical space necessary to display all of the text at the currently specified width. Alternatively, you could call <function>clutter_actor_get_preferred_width()</function> to discover the horizontal space necessary for the text at the currently specified height.
 </para>
 </sect2>
 

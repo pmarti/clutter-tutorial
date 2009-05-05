@@ -1,3 +1,9 @@
+2009-05-05  Murray Cumming  <murrayc@murrayc.com>
+
+	* docs/tutorial/clutter-tut.xml:
+	* examples/text/main.c (main): Improve the preferred-height ClutterText 
+	explanation and example. 
+
 2009-05-05  Johannes Schmid <jschmid@openismus.com>
 
 	* docs/tutorial/clutter-tut.xml
