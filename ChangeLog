@@ -1,3 +1,9 @@
+2009-05-06  Johannes Schmid <jschmid@openismus.com>
+
+	* docs/tutorial/figures/gtk_scrolling.png:
+	* docs/tutorial/figures/text.png:
+	Make screenshot window fucussed to match with other screenshots
+
 2009-05-05  Murray Cumming  <murrayc@murrayc.com>
 
 	* docs/tutorial/clutter-tut.xml: ClutterText section: Fix the XML validation.
