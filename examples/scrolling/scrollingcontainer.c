@@ -156,13 +156,13 @@ example_scrolling_container_pick (ClutterActor *actor,
 static void
 example_scrolling_container_allocate (ClutterActor          *actor,
                                       const ClutterActorBox *box,
-                                      gboolean               absolute_origin_changed)
+                                      ClutterAllocationFlags absolute_origin_changed)
 {
   ExampleScrollingContainer *self = EXAMPLE_SCROLLING_CONTAINER (actor);
 
   /* Make sure that the children adapt their positions: */
-  ClutterUnit width = box->x2 - box->x1;
-  ClutterUnit height = box->y2 - box->y1;
+  float width = box->x2 - box->x1;
+  float height = box->y2 - box->y1;
 
   if (width < 0)
     width = 0;
@@ -182,30 +182,30 @@ example_scrolling_container_allocate (ClutterActor          *actor,
   clutter_actor_allocate (self->group, &child_box, absolute_origin_changed);
 
   /* Make sure that the group only shows the specified area, by clipping: */
-  clutter_actor_set_clip (self->group, 0, 0, CLUTTER_UNITS_TO_DEVICE(width), CLUTTER_UNITS_TO_DEVICE(height));
+  clutter_actor_set_clip (self->group, 0, 0, width, height);
 
   /* Show a rectangle border to show the area: */
   clutter_actor_allocate (self->rect, &child_box, absolute_origin_changed);
   clutter_actor_lower (self->rect, NULL);
 
   /* Look at each child actor: */
-  gint child_x = -(self->offset);
+  float child_x = -(self->offset);
   GList *l = NULL;
   for (l = self->children; l; l = l->next)
     {
       ClutterActor *child = l->data;
-      ClutterUnit width, height;
-
+      float width = 0;
+      float height = 0;
       clutter_actor_get_preferred_size (child, NULL, NULL, &width, &height);
 
-      child_box.x1 = CLUTTER_UNITS_FROM_DEVICE (child_x);
+      child_box.x1 = child_x;
       child_box.y1 = 0;
       child_box.x2 = child_box.x1 + width;
       child_box.y2 = child_box.y1 + height;
 
       clutter_actor_allocate (child, &child_box, absolute_origin_changed);
 
-      child_x += CLUTTER_UNITS_TO_DEVICE (width);
+      child_x += width;
    }
 
   CLUTTER_ACTOR_CLASS (example_scrolling_container_parent_class)->allocate (actor, box, absolute_origin_changed);

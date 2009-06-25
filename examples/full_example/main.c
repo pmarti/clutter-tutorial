@@ -210,7 +210,7 @@ void on_timeline_rotation_completed(ClutterTimeline* timeline, gpointer user_dat
    */
   /* Transform the image: */
   ClutterActor *actor = item_at_front->actor;
-  timeline_moveup = clutter_timeline_new(60 /* frames */, 30 /* fps */);
+  timeline_moveup = clutter_timeline_new(1000 /* milliseconds */);
   ClutterAlpha *alpha =
     clutter_alpha_new_full (timeline_moveup, CLUTTER_EASE_OUT_SINE);
  
@@ -338,7 +338,7 @@ void rotate_all_until_item_is_at_front(Item *item)
      pos_to_move = pos_front - pos;
   }
 
-  clutter_timeline_set_n_frames (timeline_rotation, angle_diff);
+  clutter_timeline_set_duration (timeline_rotation, angle_diff * 0.2);
 
   /* Remember what item will be at the front when this timeline finishes: */
   item_at_front = item;
@@ -404,7 +404,7 @@ int main(int argc, char *argv[])
   /* Show the stage: */
   clutter_actor_show (stage);
 
-  timeline_rotation = clutter_timeline_new(60 /* frames */, 30 /* frames per second. */);
+  timeline_rotation = clutter_timeline_new(2000 /* milliseconds */);
   g_signal_connect (timeline_rotation, "completed", G_CALLBACK (on_timeline_rotation_completed), NULL);
 
   /* Add an actor for each image: */

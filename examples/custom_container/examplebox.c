@@ -187,13 +187,13 @@ example_box_pick (ClutterActor *actor,
 /* An implementation for the ClutterActor::get_preferred_width() vfunc: */
 static void
 example_box_get_preferred_width (ClutterActor *actor,
-                                 ClutterUnit   for_height,
-                                 ClutterUnit  *min_width_p,
-                                 ClutterUnit  *natural_width_p)
+                                 float for_height,
+                                 float *min_width_p,
+                                 float *natural_width_p)
 {
   ExampleBox *box = EXAMPLE_BOX (actor);
   GList *l;
-  ClutterUnit min_width = 0, natural_width = 0;
+  float min_width = 0, natural_width = 0;
 
   /* For this container, the preferred width is the sum of the widths
    * of the children. The preferred width depends on the height provided
@@ -208,8 +208,8 @@ example_box_get_preferred_width (ClutterActor *actor,
       
       if (CLUTTER_ACTOR_IS_VISIBLE (child))
         {
-          ClutterUnit child_min_width, child_natural_width;
-
+          float child_min_width = 0;
+          float child_natural_width = 0;
           clutter_actor_get_preferred_width (child, for_height, &child_min_width, &child_natural_width);
 
           min_width += child_min_width;
@@ -227,13 +227,13 @@ example_box_get_preferred_width (ClutterActor *actor,
 /* An implementation for the ClutterActor::get_preferred_height() vfunc: */
 static void
 example_box_get_preferred_height (ClutterActor *actor,
-                                  ClutterUnit   for_width,
-                                  ClutterUnit  *min_height_p,
-                                  ClutterUnit  *natural_height_p)
+                                  float for_width,
+                                  float *min_height_p,
+                                  float *natural_height_p)
 {
   ExampleBox *box = EXAMPLE_BOX (actor);
   GList *l;
-  ClutterUnit min_height = 0, natural_height = 0;
+  float min_height = 0, natural_height = 0;
 
   /* For this container, the preferred height is the maximum height
    * of the children. The preferred height is independent of the given width.
@@ -247,8 +247,8 @@ example_box_get_preferred_height (ClutterActor *actor,
       
       if (CLUTTER_ACTOR_IS_VISIBLE (child))
         {
-          ClutterUnit child_min_height, child_natural_height;
-
+          float child_min_height = 0;
+          float child_natural_height = 0;
           clutter_actor_get_preferred_height (child, -1, &child_min_height, &child_natural_height);
 
           min_height = MAX (min_height, child_min_height);
@@ -267,19 +267,20 @@ example_box_get_preferred_height (ClutterActor *actor,
 static void
 example_box_allocate (ClutterActor          *actor,
                       const ClutterActorBox *box,
-		      gboolean               absolute_origin_changed)
+		                  ClutterAllocationFlags absolute_origin_changed)
 {
   ExampleBox *ebox = EXAMPLE_BOX (actor);
 
   /* Look at each child actor: */
-  ClutterUnit child_x = 0;
+  float child_x = 0;
   GList *l = NULL;
   for (l = ebox->children; l; l = l->next)
     {
       ClutterActor *child = l->data;
 
       /* Discover what size the child wants: */
-      ClutterUnit child_width, child_height;
+      float child_width = 0;
+      float child_height = 0;
       clutter_actor_get_preferred_size (child, NULL, NULL, &child_width, &child_height);
 
       /* Calculate the position and size that the child may actually have: */

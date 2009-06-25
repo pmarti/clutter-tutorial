@@ -31,11 +31,7 @@ on_alpha (ClutterAlpha *alpha, gpointer data)
    *  so we can base our value upon it:
    */
   ClutterTimeline *timeline = clutter_alpha_get_timeline (alpha);
-  const int current_frame_num = clutter_timeline_get_current_frame (timeline);
-  const int n_frames = clutter_timeline_get_n_frames (timeline);
-
-  /* Return a value that is simply proportional to the frame position: */
-  return (current_frame_num / n_frames);
+  return clutter_timeline_get_progress (timeline);
 }
 
 
@@ -61,8 +57,7 @@ int main(int argc, char *argv[])
   /* Show the stage: */
   clutter_actor_show (stage);
 
-  ClutterTimeline *timeline = 
-    clutter_timeline_new(100 /* frames */, 30 /* frames per second. */);
+  ClutterTimeline *timeline =  clutter_timeline_new(5000 /* milliseconds */);
   clutter_timeline_set_loop(timeline, TRUE); 
   clutter_timeline_start(timeline);
 

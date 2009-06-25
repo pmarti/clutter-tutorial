@@ -42,8 +42,8 @@ int main(int argc, char *argv[])
   clutter_text_set_line_wrap (CLUTTER_TEXT (text), FALSE);
   
   /* Discover the preferred height and use that height: */
-  ClutterUnit min_height = 0;
-  ClutterUnit natural_height = 0;
+  float min_height = 0;
+  float natural_height = 0;
   clutter_actor_get_preferred_height (text, 750, &min_height,
     &natural_height);
   clutter_actor_set_size (text, 750, natural_height);

@@ -96,11 +96,11 @@ int main(int argc, char *argv[])
   ClutterScore *score = clutter_score_new ();
   clutter_score_set_loop (score, TRUE);
 
-  ClutterTimeline *timeline_rotation = clutter_timeline_new (200 /* frames */, 120 /* frames per second. */);
+  ClutterTimeline *timeline_rotation = clutter_timeline_new (5000 /* milliseconds */);
   g_signal_connect (timeline_rotation, "new-frame", G_CALLBACK (on_timeline_rotation_new_frame), NULL);
   clutter_score_append (score, NULL, timeline_rotation);
 
-  ClutterTimeline *timeline_move = clutter_timeline_new (200 /* frames */, 120 /* frames per second. */);
+  ClutterTimeline *timeline_move = clutter_timeline_new (5000 /* milliseconds */);
   g_signal_connect (timeline_move, "new-frame", G_CALLBACK (on_timeline_move_new_frame), NULL);
   clutter_score_append (score,  timeline_rotation, timeline_move);
 

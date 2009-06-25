@@ -85,8 +85,8 @@ int main(int argc, char *argv[])
   /* Show the stage: */
   clutter_actor_show (stage);
 
-  ClutterTimeline *timeline = clutter_timeline_new(10 /* frames */, 120 /* frames per second. */);
-  clutter_timeline_add_marker_at_frame (timeline, "clutter-tutorial", 5);
+  ClutterTimeline *timeline = clutter_timeline_new(5000 /* milliseconds */);
+  clutter_timeline_add_marker_at_time (timeline, "clutter-tutorial", 2000 /* milliseconds */);
   g_signal_connect (timeline, "new-frame", G_CALLBACK (on_timeline_new_frame), NULL);
   g_signal_connect (timeline, "marker-reached", G_CALLBACK (on_timeline_marker_reached), NULL);
   clutter_timeline_set_loop(timeline, TRUE); 

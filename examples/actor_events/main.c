@@ -20,16 +20,16 @@
 static gboolean
 on_stage_button_press (ClutterStage *stage, ClutterEvent *event, gpointer data)
 {
-  gint x = 0;
-  gint y = 0;
+  gfloat x = 0;
+  gfloat y = 0;
   clutter_event_get_coords (event, &x, &y);
 
-  g_print ("Clicked stage at (%d, %d)\n", x, y);
+  g_print ("Clicked stage at (%f, %f)\n", x, y);
 
   /* Discover whether there is an actor at that position.
    * Note that you can also connect directly to the actor's signals instead.
    */
-  ClutterActor *rect = clutter_stage_get_actor_at_pos (stage, x, y);
+  ClutterActor *rect = clutter_stage_get_actor_at_pos (stage, CLUTTER_PICK_ALL, x, y);
   if (!rect)
     return FALSE;
 
@@ -42,11 +42,11 @@ on_stage_button_press (ClutterStage *stage, ClutterEvent *event, gpointer data)
 static gboolean
 on_rect_button_press (ClutterRectangle *rect, ClutterEvent *event, gpointer data)
 {
-  gint x = 0;
-  gint y = 0;
+  gfloat x = 0;
+  gfloat y = 0;
   clutter_event_get_coords (event, &x, &y);
 
-  g_print ("Clicked rectangle at (%d, %d)\n", x, y);
+  g_print ("Clicked rectangle at (%f, %f)\n", x, y);
 
   /* clutter_main_quit(); */
 
@@ -56,11 +56,11 @@ on_rect_button_press (ClutterRectangle *rect, ClutterEvent *event, gpointer data
 static gboolean
 on_rect_button_release (ClutterRectangle *rect, ClutterEvent *event, gpointer data)
 {
-  gint x = 0;
-  gint y = 0;
+  gfloat x = 0;
+  gfloat y = 0;
   clutter_event_get_coords (event, &x, &y);
 
-  g_print ("Click-release on rectangle at (%d, %d)\n", x, y);
+  g_print ("Click-release on rectangle at (%f, %f)\n", x, y);
 
   return TRUE; /* Stop further handling of this event. */
 }

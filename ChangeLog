@@ -1,8 +1,34 @@
+2009-06-25  Murray Cumming  <murrayc@murrayc.com>
+
+	Fixed the build with latest clutter API.
+	
+	* examples/actor_events/main.c (on_stage_button_press),
+	(on_rect_button_press), (on_rect_button_release):
+	* examples/animation/main.c (on_alpha), (main):
+	* examples/behaviour/main.c (on_alpha), (main):
+	* examples/custom_container/examplebox.c
+	(example_box_get_preferred_width),
+	(example_box_get_preferred_height), (example_box_allocate):
+	* examples/full_example/main.c (on_timeline_rotation_completed),
+	(rotate_all_until_item_is_at_front), (main):
+	* examples/score/main.c (main):
+	* examples/scrolling/scrollingcontainer.c
+	(example_scrolling_container_allocate):
+	* examples/scrolling/scrollingcontainer.h:
+	* examples/stage/main.c (on_stage_button_press):
+	* examples/text/main.c (main):
+	* examples/timeline/main.c (main): Fix the build with the latest clutter API, 
+	mostly:
+	- Providing a milliseconds duration to clutter_timeline_new() instead of 
+	frame and frames_per_second, plus changing associated functions to be 
+	duration-wise rather than frames-wise.
+	- Use float instead of gint.
+
 2009-05-06  Johannes Schmid <jschmid@openismus.com>
 
 	* docs/tutorial/figures/gtk_scrolling.png:
 	* docs/tutorial/figures/text.png:
-	Make screenshot window fucussed to match with other screenshots
+	Make screenshot window focussed to match with other screenshots
 
 2009-05-05  Murray Cumming  <murrayc@murrayc.com>
 

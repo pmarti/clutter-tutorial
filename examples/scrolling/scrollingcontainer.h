@@ -44,7 +44,7 @@ struct _ExampleScrollingContainer
   
   /* All the child actors are in this group: */
   ClutterActor *group;
-  gint offset;
+  float offset;
 
   /* A rectange to show the bounds: */
   ClutterActor *rect;
