@@ -574,7 +574,7 @@ for as many frames per second as appropriate. In your signal handler you can set
 For instance, the actor might be moved and rotated over time, and its color might change while this is happening.
 You could even change the properties of several actors to animate the entire stage.
 </para>
-<para>The <function>clutter_timeline_new()</function> constructor function takes a duration in milliseconds. The actual number of frames per second requested by the timeline will depend on the behaviour of your entire program, the performance of your hardware, and your monitor's refresh rate. It may even vary over time as conditions change. At best, the <literal>new-frame</literal> signal will be emmited at your monitor's refresh rate. At worst it will be called once at the start and once at the end of your timeline's duration.
+<para>The <function>clutter_timeline_new()</function> constructor function takes a duration in milliseconds. The actual number of frames per second requested by the timeline will depend on the behaviour of your entire program, the performance of your hardware, and your monitor's refresh rate. It may even vary over time as conditions change. At best, the <literal>new-frame</literal> signal will be emitted at your monitor's refresh rate. At worst it will be called once at the start and once at the end of your timeline's duration.
 </para>
 
 <para>&clutter; will not attempt to redraw the scene if the new frame has no change compared to the previous frame, so you don't need to do your own optimization to prevent unnecessary redraws.</para> 
