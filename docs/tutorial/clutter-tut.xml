@@ -570,14 +570,14 @@ the following chapters.</para>
 
 <para>
 The timeline object emits its <literal>new-frame</literal> signal for each frame that should be drawn, 
-for as many frames per second as specified. In your signal handler you can set the actor's properties. 
+for as many frames per second as appropriate. In your signal handler you can set the actor's properties. 
 For instance, the actor might be moved and rotated over time, and its color might change while this is happening.
 You could even change the properties of several actors to animate the entire stage.
 </para>
-<para>The <function>clutter_timeline_new()</function> constructor function takes a number of frames, and a number 
-of frames per second, so the entire timeline will have a duration of <parameter>n_frames</parameter> / <parameter>fps</parameter>. 
-You might therefore choose the number of frames based on a desired duration, by dividing the duration by the desired frames per second.
+<para>The <function>clutter_timeline_new()</function> constructor function takes a duration in milliseconds. The actual number of frames per second requested by the timeline will depend on the behaviour of your entire program, the performance of your hardware, and your monitor's refresh rate. It may even vary over time as conditions change. At best, the <literal>new-frame</literal> signal will be emmited at your monitor's refresh rate. At worst it will be called once at the start and once at the end of your timeline's duration.
 </para>
+
+<para>&clutter; will not attempt to redraw the scene if the new frame has no change compared to the previous frame, so you don't need to do your own optimization to prevent unnecessary redraws.</para> 
 
 <para>You may also use <function>clutter_timeline_set_loop()</function> to cause the timeline to 
 repeat for ever, or until you call <function>clutter_timeline_stop()</function>. The timeline does not start 
@@ -596,7 +596,7 @@ timeline's <literal>completed</literal> signal.</para>
 <para>
 You may want an action to happen at a specific moment in the timeline. Instead of polling with 
 <function>clutter_timeline_get_progress()</function> you should instead use timeline markers. Timeline markers can be added
-using <function>clutter_timeline_add_marker_at_frame()</function> or <function>clutter_timeline_add_marker_at_time()</function>. 
+with the <function>clutter_timeline_add_marker_at_time()</function> function. 
 Handle the <literal>marker-reached</literal> signal to start the appropriate action at that moment, after checking the provided 
 marker name. To handle only the signal only for a particular marker, you may connect to the 
 <literal>marker-reached::my_marker</literal> signal, where <literal>my-marker</literal> is the name of your marker.</para>
@@ -703,7 +703,7 @@ clutter_actor_animate (rectangle, CLUTTER_LINEAR, 1000,
 </para>
 
 <para>
-The <classname>ClutterAlpha</classname> object is constructed with a calculation callback and a <classname>ClutterTimeline</classname> which tells it when a new frame needs a new value to be calculated. Your <literal>alpha</literal> callback will need to call <function>clutter_alpha_get_timeline()</function> so it can return a value based on the timeline's current frame number and total number of frames, using <function>clutter_timeline_get_current_frame</function> and <function>clutter_timeline_get_n_frames()</function>. 
+The <classname>ClutterAlpha</classname> object is constructed with a calculation callback and a <classname>ClutterTimeline</classname> which tells it when a new frame needs a new value to be calculated. Your <literal>alpha</literal> callback will need to call <function>clutter_alpha_get_timeline()</function> so it can return a value based on the timeline's current progress, using the <function>clutter_timeline_get_progress()</function> function. 
 </para>
 
 <para>Like actors, <classname>ClutterAlpha</classname> has a &quot;floating references&quot; so you don't need to unref it if you have added it to a behaviour. 

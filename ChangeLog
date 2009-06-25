@@ -1,5 +1,13 @@
 2009-06-25  Murray Cumming  <murrayc@murrayc.com>
 
+	Timeline, Animations: Mentino duration not frames-per-second.
+	
+	* docs/tutorial/clutter-tut.xml: Timeline, Animations: Talk about duration 
+	rather than frames and frames-per-second, as per the new API. Describe the 
+	wonderful way that clutter now just does the right thing. 
+
+2009-06-25  Murray Cumming  <murrayc@murrayc.com>
+
 	Fixed the build with latest clutter API.
 	
 	* examples/actor_events/main.c (on_stage_button_press),
