@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 
   /* Create a viewport actor to be able to scroll actor. By passing NULL it
    * will create new GtkAdjustments. */
-  ClutterActor *viewport = gtk_clutter_viewport_new (NULL, NULL);
+  ClutterActor *viewport = gtk_clutter_viewport_new (NULL, NULL, NULL);
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), viewport);
 
   /* Load image from first command line argument and add it to viewport: */

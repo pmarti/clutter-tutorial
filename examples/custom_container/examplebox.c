@@ -173,14 +173,22 @@ example_box_pick (ClutterActor *actor,
                   const ClutterColor *color)
 {
   ExampleBox *box = EXAMPLE_BOX (actor);
-  GList *l;
+  GList *l = NULL;
+  
+  /* Chain up so we get a bounding box painted (if we are reactive) */
+  CLUTTER_ACTOR_CLASS (example_box_parent_class)->pick (actor, color);
 
+
+  /* TODO: Do something with the color?
+   * In clutter 0.8 we used it to call clutter_actor_pick() on the children,
+   * but now we call clutter_actor_paint() instead.
+   */
   for (l = box->children; l; l = l->next)
     {
       ClutterActor *child = l->data;
 
       if (CLUTTER_ACTOR_IS_MAPPED (child))
-        clutter_actor_pick (child, color);
+        clutter_actor_paint (child);
     }
 }
 

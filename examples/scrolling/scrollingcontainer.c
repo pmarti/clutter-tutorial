@@ -143,13 +143,17 @@ example_scrolling_container_paint (ClutterActor *actor)
 }
 
 /* An implementation for the ClutterActor::pick() vfunc,
-   picking all the child actors: */
+   drawing outlines of all the child actors: */
 static void
 example_scrolling_container_pick (ClutterActor *actor, 
                                   const ClutterColor *color)
 {
   ExampleScrollingContainer *self = EXAMPLE_SCROLLING_CONTAINER (actor);
-  clutter_actor_pick (self->group, color);
+
+  /* Chain up so we get a bounding box painted (if we are reactive) */
+  CLUTTER_ACTOR_CLASS (example_scrolling_container_parent_class)->pick (actor, color);
+
+  clutter_actor_paint (self->group);
 }
 
 /* An implementation for the ClutterActor::allocate() vfunc: */

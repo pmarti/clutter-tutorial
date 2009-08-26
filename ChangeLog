@@ -1,3 +1,16 @@
+2009-08-26  Murray Cumming  <murrayc@murrayc.com>
+
+  Use clutter-1.0 and clutter-gtk-0.10.
+
+	* configure.ac: Use clutter-1.0 and clutter-gtk-0.10.
+	* examples/gtk_scrolling/main.c (main): gtk_clutter_viewport_new() takes 
+	an extra parameter now.
+	* examples/custom_container/examplebox.c (example_box_pick):
+	* examples/scrolling/scrollingcontainer.c
+	(example_scrolling_container_pick): Use clutter_actor_paint() instead of 
+	deprecated clutter_actor_pick(), though I am now not sure if these 
+	implementations are correct at all.
+
 2009-06-25  Murray Cumming  <murrayc@murrayc.com>
 
 	Timeline, Animations: Mentino duration not frames-per-second.

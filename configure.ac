@@ -68,7 +68,7 @@ Please install GNU make.]))
 #########################################################################
 #  Dependancy checks
 #########################################################################
-PKG_CHECK_MODULES(CLUTTER_DOC, clutter-0.9 clutter-gtk-0.9)
+PKG_CHECK_MODULES(CLUTTER_DOC, clutter-1.0 clutter-gtk-0.10)
 AC_SUBST(CLUTTER_DOC_CFLAGS)
 AC_SUBST(CLUTTER_DOC_LIBS)
 
