@@ -1,6 +1,15 @@
+2009-10-19  Murray Cumming  <murrayc@murrayc.com>
+
+	Use floating point numbers when needed for clutter_actor_animate*().
+
+	* docs/tutorial/clutter-tut.xml:
+	* examples/animation/main.c (main): Use, for instance, 100.0 instead of 
+	100 for x and y values to clutter_actor_animate*(), as noticed by 
+	Neil Roberts on the clutter mailing list a while ago.
+
 2009-08-26  Murray Cumming  <murrayc@murrayc.com>
 
-  Use clutter-1.0 and clutter-gtk-0.10.
+	Use clutter-1.0 and clutter-gtk-0.10.
 
 	* configure.ac: Use clutter-1.0 and clutter-gtk-0.10.
 	* examples/gtk_scrolling/main.c (main): gtk_clutter_viewport_new() takes 

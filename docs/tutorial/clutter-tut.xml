@@ -684,8 +684,8 @@ should reach, regardless of their initial values.</para>
 <programlisting>
 clutter_actor_animate (rectangle, CLUTTER_LINEAR, 1000,
   "opacity", 150,
-  "x", 100,
-  "y", 100,
+  "x", 100.0,
+  "y", 100.0,
   NULL);
 </programlisting>
 </para>

@@ -67,8 +67,8 @@ int main(int argc, char *argv[])
   /* Create an animation to change the properties */
   ClutterAnimation* animation = 
     clutter_actor_animate_with_alpha (rect, alpha, 
-      "x", 150, 
-      "y", 150,
+      "x", 150.0, 
+      "y", 150.0,
       "opacity", 0,
       NULL);
 
