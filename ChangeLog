@@ -1,3 +1,12 @@
+2010-01-05  Murray Cumming  <murrayc@murrayc.com>
+
+	Remove calls to cogl_push_matrix() and cogl_pop_matrix(). 
+
+	* examples/custom_actor/triangle_actor.c (do_triangle_paint):
+	* examples/custom_container/examplebox.c (example_box_paint):
+	Remove calls to cogl_push_matrix() and cogl_pop_matrix() that are 
+	apparently now unnecessary.
+
 2009-10-19  Murray Cumming  <murrayc@murrayc.com>
 
 	Use floating point numbers when needed for clutter_actor_animate*().

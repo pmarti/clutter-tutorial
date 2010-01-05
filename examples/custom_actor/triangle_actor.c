@@ -46,8 +46,6 @@ do_triangle_paint (ClutterActor *self, const CoglColor *color)
   triangle = CLUTTER_TRIANGLE(self);
   priv = triangle->priv;
 
-  cogl_push_matrix();
-
   clutter_actor_get_geometry (self, &geom);
 
   cogl_set_source_color (color);
@@ -67,8 +65,6 @@ do_triangle_paint (ClutterActor *self, const CoglColor *color)
 
   cogl_path_polygon (coords, 3);
   cogl_path_fill ();
-
-  cogl_pop_matrix();
 }
 
 static void

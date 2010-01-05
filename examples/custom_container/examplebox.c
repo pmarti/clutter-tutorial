@@ -153,8 +153,6 @@ example_box_paint (ClutterActor *actor)
   ExampleBox *box = EXAMPLE_BOX (actor);
   GList *l;
 
-  cogl_push_matrix ();
-
   for (l = box->children; l; l = l->next)
     {
       ClutterActor *child = l->data;
@@ -162,8 +160,6 @@ example_box_paint (ClutterActor *actor)
       if (CLUTTER_ACTOR_IS_MAPPED (child))
         clutter_actor_paint (child);
     }
-
-  cogl_pop_matrix ();
 }
 
 /* An implementation for the ClutterActor::pick() vfunc,
