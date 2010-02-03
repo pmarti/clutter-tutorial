@@ -3,7 +3,7 @@ import sys
 import clutter
 
 def on_stage_button_press(stage, event):
-    print "Stage clicked at (%d, %d)" % (event.x, event.y)
+    print "Stage clicked at (%f, %f)" % (event.x, event.y)
 
 
 def main():
