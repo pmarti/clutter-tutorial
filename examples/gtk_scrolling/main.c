@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
   if (argc != 2)
     g_error ("Usage: example <image file>");
-  
+
   /* Create a toplevel window: */
   GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_default_size (GTK_WINDOW (window), 640, 480);
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
     0, GTK_EXPAND | GTK_FILL,
     0, 0);
   gtk_widget_show (scrollbar);
-  
+
   scrollbar = gtk_hscrollbar_new (h_adjustment);
   gtk_table_attach (GTK_TABLE (table), scrollbar,
     0, 1,
@@ -93,5 +93,5 @@ int main(int argc, char *argv[])
 
   gtk_main();
 
-	return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }
