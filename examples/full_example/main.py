@@ -87,10 +87,10 @@ def add_to_ellipse_behaviour(timeline_rotation, start_angle, item):
         return
 
     alpha = clutter.Alpha(timeline_rotation, clutter.EASE_OUT_SINE)
-    item.ellipse_behaviour = clutter.BehaviourEllipse(alpha,
-                               320, ELLIPSE_Y, # x, y
-                               ELLIPSE_HEIGHT, ELLIPSE_HEIGHT, # width, height
-                               start_angle, start_angle + 360)
+    item.ellipse_behaviour = clutter.BehaviourEllipse(alpha=alpha,
+                               x=320, y=ELLIPSE_Y, # x, y
+                               width=ELLIPSE_HEIGHT, height=ELLIPSE_HEIGHT, # width, height
+                               start=start_angle, end=start_angle + 360)
     item.ellipse_behaviour.set_direction(clutter.ROTATE_CW)
     item.ellipse_behaviour.set_angle_tilt(clutter.X_AXIS, -90)
     item.ellipse_behaviour.apply(item.actor)
