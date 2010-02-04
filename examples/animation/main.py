@@ -48,6 +48,9 @@ def main():
     # XXX: There is a bug in pygobject that will refuse to convert between
     # ints and chars. This should be fixed when clutter 1.2 is out and
     # pyclutter targets it. The result is that the opacity won't be animated
+    # the bug report is https://bugzilla.gnome.org/show_bug.cgi?id=591800
+    # and shall be fixed in the next release, so perhaps by the time you read
+    # this is already fixed.
     rect.animate_with_alpha(alpha, 'x', 150.0, 'y', 150.0, 'opacity', 0x0)
 
     # Start the main loop, so we can respond to events
