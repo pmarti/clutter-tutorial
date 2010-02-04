@@ -45,7 +45,10 @@ def main():
     alpha.set_func(on_alpha, None)
 
     # Create an animation to change the properties
-    rect.animate_with_alpha(alpha, 'x', 150.0, 'y', 150.0, 'opacity', 0)
+    # XXX: There is a bug in pygobject that will refuse to convert between
+    # ints and chars. This should be fixed when clutter 1.2 is out and
+    # pyclutter targets it. The result is that the opacity won't be animated
+    rect.animate_with_alpha(alpha, 'x', 150.0, 'y', 150.0, 'opacity', 0x0)
 
     # Start the main loop, so we can respond to events
     clutter.main()
