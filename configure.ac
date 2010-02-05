@@ -85,4 +85,6 @@ AC_OUTPUT([
     docs/tutorial/Makefile
     docs/tutorial/icons/Makefile
     docs/tutorial/figures/Makefile
+
+  examples/Makefile
 ])
