@@ -11,8 +11,6 @@ SUBDIRS = $(example_dirs)
 
 EXTRA_DIST	=  Makefile.am_fragment
 
-exclude_args = --delete-excluded --exclude *.o --exclude .libs --exclude .deps --exclude core --exclude .cvsignore --exclude a.out --exclude Makefile --exclude Makefile.in --exclude example --exclude .svn
+exclude_args = --delete-excluded --exclude *.pyc --exclude .libs --exclude .deps --exclude core --exclude .cvsignore --exclude a.out --exclude Makefile --exclude Makefile.in --exclude example --exclude .git
 post-html:
 	rsync $(rsync_args) -a $(exclude_args) $(example_dirs) $$USER@$(web_host):$(web_path)examples
-
-

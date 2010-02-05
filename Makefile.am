@@ -1,5 +1,5 @@
-SUBDIRS		= examples docs 
-DIST_SUBDIRS	= $(SUBDIRS) scripts
+SUBDIRS		= docs
+DIST_SUBDIRS	= examples $(SUBDIRS) scripts
 
 all-local:
 	@echo "*** Everything completed ***"
@@ -24,9 +24,8 @@ doc_tarball_files = docs/tutorial/html
 # # but this target is for maintainer use only anyway.
 
 clutter-docs.tar.gz:
-	find examples -name '*.cc' -o -name '*.h' -o -name '*.xpm' -o -name '*.xml' | \
+	find examples -name '*.py' -o -name '*.xpm' -o -name '*.xml' | \
 	tar cf - --files-from - $(doc_tarball_files) | gzip -c --best >$@
-
 
 
 

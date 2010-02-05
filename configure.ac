@@ -1,14 +1,14 @@
 # Configure.in
 #
-#  This file tests for various compiler features needed to configure 
+#  This file tests for various compiler features needed to configure
 #  the gtkmm package.  Original skeleton was provided by Stephan Kulow.
-#  All tests were written by Tero Pulkkinen, Mirko Streckenbach, and 
+#  All tests were written by Tero Pulkkinen, Mirko Streckenbach, and
 #  Karl Nelson.
 #
 #
 #  Copyright 2001 Free Software Foundation
 #  Copyright 1999 gtkmm Development Team
-#  Copyright 1998 Stephan Kulow 
+#  Copyright 1998 Stephan Kulow
 
 AC_INIT(config.h.in)
 #AC_PREREQ(2.59)
@@ -45,7 +45,7 @@ AL_ACLOCAL_INCLUDE(scripts)
 
 
 #########################################################################
-#  Configure arguments 
+#  Configure arguments
 #########################################################################
 
 #########################################################################
@@ -56,14 +56,6 @@ AC_PROG_MAKE_SET
 AC_CANONICAL_HOST
 AM_DISABLE_STATIC
 AM_PROG_LIBTOOL
-
-AL_PROG_GNU_M4(AC_MSG_ERROR([dnl
-SUN m4 does not work for building gtkmm. 
-Please install GNU m4.]))
-
-AL_PROG_GNU_MAKE(AC_MSG_ERROR([dnl
-SUN make does not work for building gtkmm.
-Please install GNU make.]))
 
 #########################################################################
 #  Dependancy checks
@@ -93,23 +85,4 @@ AC_OUTPUT([
     docs/tutorial/Makefile
     docs/tutorial/icons/Makefile
     docs/tutorial/figures/Makefile
-  
-  examples/Makefile
-    examples/actor/Makefile
-    examples/actor_events/Makefile
-    examples/actor_group/Makefile
-    examples/actor_transformations/Makefile
-    examples/custom_actor/Makefile
-    examples/custom_container/Makefile
-    examples/behaviour/Makefile
-    examples/animation/Makefile
-    examples/full_example/Makefile
-      examples/full_example/images/Makefile
-    examples/score/Makefile
-    examples/scrolling/Makefile
-    examples/stage/Makefile
-    examples/gtk_embed/Makefile
-    examples/gtk_scrolling/Makefile    
-    examples/text/Makefile
-    examples/timeline/Makefile
 ])
