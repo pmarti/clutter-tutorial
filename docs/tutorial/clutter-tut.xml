@@ -1,16 +1,15 @@
 <?xml version="1.0"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" 
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
   "http://docbook.org/docbook/xml/4.5/docbookx.dtd" [
  <!ENTITY path_examples_base "../../examples">
- <!ENTITY clutter "<application>Clutter</application>">
+ <!ENTITY pyclutter "<application>PyClutter</application>">
  <!ENTITY tidy "<application>Tidy</application>">
- <!ENTITY clutterversion "0.9">
- <!ENTITY gtk "<application>GTK+</application>">
+ <!ENTITY pyclutterversion "1.0">
+ <!ENTITY pygtk "<application>PyGTK</application>">
  <!ENTITY url_figures_base "../figures/">
  <!ENTITY url_examples_base "../../../examples/">
- <!ENTITY url_refdocs_base_clutter "http://clutter-project.org/docs/clutter/0.9/Clutter">
- <!ENTITY url_refdocs_base_clutter_alt "http://clutter-project.org/docs/clutter/0.9/clutter-Clutter-">
- <!ENTITY url_refdocs_base_clutter_gtk "http://www.clutter-project.org/docs/clutter-gtk/0.9/">
+ <!ENTITY url_refdocs_base_pyclutter "http://clutter-project.org/docs/pyclutter/1.0/class-clutter">
+ <!ENTITY url_refdocs_base_pycluttergtk "http://www.clutter-project.org/docs/clutter-gtk/1.0/">
 ]>
 
 <!--
@@ -25,9 +24,13 @@ name
 
   <bookinfo>
 
-    <title>Programming with &clutter;</title>
+    <title>Programming with &pyclutter;</title>
 
     <authorgroup>
+      <author>
+        <firstname>Pablo</firstname>
+        <surname>Martí</surname>
+      </author>
       <author>
         <firstname>Murray</firstname>
         <surname>Cumming</surname>
@@ -40,13 +43,13 @@ name
         We very much appreciate any reports of inaccuracies or other errors in
         this document.  Contributions are also most welcome.  Post your
         suggestions, critiques or addenda to the <ulink
-          url="mailto:murrayc@openismus.com">team</ulink>.</para>
+          url="mailto:pmarti@warp.es">author</ulink>.</para>
 
     </abstract>
 
     <copyright>
-      <year>2007, 2008</year>
-      <holder>Openismus GmbH</holder>
+      <year>2010</year>
+      <holder>Warp Networks S.L.</holder>
     </copyright>
 
     <legalnotice>
@@ -68,40 +71,40 @@ name
 <title>This book</title>
 
 <para>This book assumes a good
-understanding of C, and how to create C programs.
+understanding of Python, and how to create Python programs.
 </para>
 
-<para>This book attempts to explain key &clutter; concepts and introduce some of the more commonly used user interface elements (&quot;actors&quot;). For full API information you should follow the links into the reference documentation. 
-This document covers the API in &clutter; version &clutterversion;.</para>
+<para>This book attempts to explain key &pyclutter; concepts and introduce some of the more commonly used user interface elements (&quot;actors&quot;). For full API information you should follow the links into the reference documentation.
+This document covers the API in &pyclutter; version &pyclutterversion;.</para>
 
-<para>Each chapter contains very simple examples. These are meant to show the use of the API rather than show an impressive visual result. 
-However, the <link linkend="sec-full-example">full example</link> should give some idea of what can be achieved with &clutter;</para>
- 
-<para>The &clutter; platform uses techniques found in the <ulink url="http://www.gtk.org">GTK+</ulink> platform, so you will sometimes wish to refer to the &gtk; documentation.</para>
+<para>Each chapter contains very simple examples. These are meant to show the use of the API rather than show an impressive visual result.
+However, the <link linkend="sec-full-example">full example</link> should give some idea of what can be achieved with &pyclutter;</para>
+
+<para>The &pyclutter; platform uses techniques found in the <ulink url="http://www.pygtk.org">&pygtk;</ulink> platform, so you will sometimes wish to refer to the &pygtk; documentation.</para>
 
 <para>
-We would very much like to hear of any problems you have learning &clutter; 
+We would very much like to hear of any problems you have learning &pyclutter;
 with this document, and would appreciate input regarding improvements. Please see the <link linkend="sec-Contributing">Contributing</link> section for further information.
 </para>
 </sect1>
 
-<sect1 id="sec-clutter">
-<title>Clutter</title>
+<sect1 id="sec-pyclutter">
+<title>PyClutter</title>
 <para>
-&clutter; is a C programming API that allows you to create simple but visually appealing and involving user interfaces.
-It offers a variety of objects (actors) which can be placed on a canvas (stage) and manipulated by the application or the user. 
-It is therefore a &quot;retained mode&quot; graphics API. Unlike traditional 2D canvas APIs, &clutter; allows these actors to move partly in the Z dimension. </para>
-<para>This concept simplifies the creation of 3D interfaces compared to direct use of OpenGL or other 3D drawing APIs. 
-For instance, it restricts the user interaction to the 2D plane facing the user, which is appropriate for today's devices 
-allowing interaction only with a 2D plane such as a touchscreen. In addition, your application does not need to provide visual 
+&pyclutter; is a Python programming API that allows you to create simple but visually appealing and involving user interfaces.
+It offers a variety of objects (actors) which can be placed on a canvas (stage) and manipulated by the application or the user.
+It is therefore a &quot;retained mode&quot; graphics API. Unlike traditional 2D canvas APIs, &pyclutter; allows these actors to move partly in the Z dimension.</para>
+<para>This concept simplifies the creation of 3D interfaces compared to direct use of OpenGL or other 3D drawing APIs.
+For instance, it restricts the user interaction to the 2D plane facing the user, which is appropriate for today's devices
+allowing interaction only with a 2D plane such as a touchscreen. In addition, your application does not need to provide visual
 context to show the user which objects are, for instance, small rather than far away.</para>
-<para>In addition, &clutter; provides timeline and behavior abstractions which simplify animation by allowing you to associate actor properties 
-(such as position, rotation, or opacity) with callback functions, including pre-defined functions of time such as sine waves.</para> 
-<para>&clutter; uses the popular OpenGL 3D graphics API on regular desktop PCs, allowing it access to hardware acceleration. 
-On handheld devices it can use OpenGL ES, a subset of the OpenGL API aimed at embedded devices. So, where necessary, you may also use OpenGL or OpenGL ES directly.</para> 
+<para>In addition, &pyclutter; provides timeline and behavior abstractions which simplify animation by allowing you to associate actor properties
+(such as position, rotation, or opacity) with callback functions, including pre-defined functions of time such as sine waves.</para>
+<para>&pyclutter; uses the popular OpenGL 3D graphics API on regular desktop PCs, allowing it access to hardware acceleration.
+On handheld devices it can use OpenGL ES, a subset of the OpenGL API aimed at embedded devices. So, where necessary, you may also use OpenGL or OpenGL ES directly.</para>
 <para>
-In the next few chapters you will learn how to place actors on the stage, how to set their properties, how to change 
-their properties (including their position) over time by using timelines and behaviours, and how to do all this in response to 
+In the next few chapters you will learn how to place actors on the stage, how to set their properties, how to change
+their properties (including their position) over time by using timelines and behaviours, and how to do all this in response to
 user interaction.</para>
 </sect1>
 
@@ -114,8 +117,8 @@ user interaction.</para>
 <sect1 id="sec-linux-install-from-packages">
 <title>Prebuilt Packages</title>
 
-<para>&clutter; packages are probably available from your Linux distribution. 
-For instance, on Ubuntu Linux or Debian you can install the <literal>libclutter-&clutterversion;-dev</literal> package.
+<para>&pyclutter; packages are probably available from your Linux distribution.
+For instance, on Ubuntu Linux or Debian you can install the <literal>python-clutter-&pyclutterversion;</literal> package.
 </para>
 
 </sect1>
@@ -124,8 +127,8 @@ For instance, on Ubuntu Linux or Debian you can install the <literal>libclutter-
 <title>Installing From Source</title>
 
 <para>
-  After you've installed all of the dependencies, download the &clutter; source
-  code, unpack it, and change to the newly created directory. &clutter; can be
+  After you've installed all of the dependencies, download the &pyclutter; source
+  code, unpack it, and change to the newly created directory. &pyclutter; can be
   built and installed with the following sequence of commands:
 <screen>
 # ./configure
@@ -135,28 +138,30 @@ For instance, on Ubuntu Linux or Debian you can install the <literal>libclutter-
 </para>
 
 <para>
-    The <filename>configure</filename> script will check to make sure all of
-    the required dependencies are already installed. If you are missing any
-    dependencies it will exit and display an error.
+  The <filename>configure</filename> script will check to make sure all of
+  the required dependencies are already installed. If you are missing any
+  dependencies it will exit and display an error.
 </para>
 <para>
-    By default, &clutter; will be installed under the
-    <filename>/usr/local</filename> directory.
+  By default, &pyclutter; will be installed under the
+  <filename>/usr/local</filename> directory if you don't specify a prefix in
+  the configure script.
 </para>
 <para>
-  If you want to help develop &clutter; or experiment with new features, you can
-  also install &clutter; from SVN. Details are available at the 
-  <ulink url="http://www.clutter-project.org/">&clutter; web site</ulink>.
+  If you want to help develop &pyclutter; or experiment with new features, you can
+  also install &pyclutter; from git. Details are available at the
+  <ulink url="http://www.clutter-project.org/">&pyclutter; web site</ulink>.
 </para>
 
 <sect2 id="sec-installation-dependencies">
 <title>Dependencies</title>
 <para>
-  Before attempting to install &clutter;, you should first install these other
+  Before attempting to install &pyclutter;, you should first install these other
   packages:
 </para>
 <itemizedlist>
   <listitem><para><application>GTK+</application></para></listitem>
+  <listitem><para><application>PyGTK</application></para></listitem>
   <listitem><para><application>libgl (Mesa)</application></para></listitem>
 </itemizedlist>
 <para>
@@ -168,40 +173,11 @@ applications and libraries:
   <listitem><para><application>glib</application></para></listitem>
   <listitem><para><application>ATK</application></para></listitem>
   <listitem><para><application>Pango</application></para></listitem>
+  <listitem><para><application>Python-devel</application></para></listitem>
 </itemizedlist>
 </sect2>
 
 </sect1>
-
-</chapter>
-
-<chapter id="chapter-headers-and-linking">
-<title>Header Files And Linking</title>
-<para>
-To use the &clutter; APIs, you must include the headers for the libraries, and link to their shared libraries. The necessary compiler and linker commands can be obtained from the pkg-config utiltity like so:
-</para>
-
-<para>
-<programlisting>
-pkg-config clutter-&clutterversion; --cflags
-pkg-config clutter-&clutterversion; --libs
-</programlisting>
-</para>
-
-<para>
-However, if you are using the &quot;autotools&quot; (<command>automake</command>, <command>autoconf</command>, etc) build system, you will find it more convenient to use the <function>PKG_CHECK_MODULES</function> macro in your configure.ac file. For instance:
-</para>
-
-<para>
-<programlisting>
-PKG_CHECK_MODULES(EXAMPLE, clutter-&clutterversion;)
-AC_SUBST(EXAMPLE_CFLAGS)
-AC_SUBST(EXAMPLE_LIBS)
-</programlisting>
-</para>
-
-<para>
-You should then use the generated _CFLAGS and _LIBS definitions in your Makefile.am files. Note that you may mention other libraries in the same <function>PKG_CHECK_MODULES</function> call, separated by spaces. For instance, some examples in this tutorial require extra &clutter; libraries, such as <literal>clutter-gtk-&clutterversion;</literal>, <literal>clutter-cairo-&clutterversion;</literal> or <literal>clutter-gst-&clutterversion;</literal>.</para>
 
 </chapter>
 
@@ -211,38 +187,31 @@ You should then use the generated _CFLAGS and _LIBS definitions in your Makefile
 <sect1 id="sec-stage-basics">
 <title>Stage Basics</title>
 
-<para>Each &clutter; application contains at least one <classname>ClutterStage</classname>. This stage contains Actors such as rectangles, images, or text. We will talk more about the actors in the next chapter, but for now let's see how a stage can be created and how we can respond to user interaction with the stage itself.
+<para>Each &pyclutter; application contains at least one <classname>clutter.Stage</classname>. This stage contains Actors such as rectangles, images, or text. We will talk more about the actors in the next chapter, but for now let's see how a stage can be created and how we can respond to user interaction with the stage itself.
 </para>
-<para>First make sure that you have called <function>clutter_init()</function> to initialize &clutter;. 
-You may then get the application's stage with <function>clutter_stage_get_default()</function>. This function always returns 
-the same instance, with its own window. You could instead use a <classname>GtkClutterEmbed</classname> widget inside a more 
+<para>First make sure that you have imported the <package>clutter</package> module.
+You may then get the application's stage with <function>clutter.Stage()</function>. This always returns
+the same instance, with its own window. You could instead use a <classname>cluttergtk.Embed</classname> widget inside a more
 complicated GTK+ window - see the <link linkend="sec-stage-widget">Stage Widget</link> section.
 </para>
-<para><classname>ClutterStage</classname> is derived from the <classname>ClutterActor</classname> object so many of that object's 
-functions are useful for the stage. For instance, call <function>clutter_actor_show()</function> to make the stage visible.
+<para><classname>clutter.Stage</classname> is derived from the <classname>clutter.Actor</classname> object so many of that object's
+functions are useful for the stage. For instance, call <function>stage.show()</function> to make the stage visible.
 </para>
-<para><classname>ClutterStage</classname> also implements the <classname>ClutterContainer</classname> interface, allowing it to contain 
-child actors via calls to <function>clutter_container_add()</function>.
+<para><classname>clutter.Stage</classname> also implements the <classname>clutter.Container</classname> interface, allowing it to contain
+child actors via calls to <function>container.add()</function>.
 </para>
-<para>Call <function>clutter_main()</function> to start a main loop so that the stage can animate its contents and respond to user 
+<para>Call <function>clutter.main()</function> to start a main loop so that the stage can animate its contents and respond to user
 interaction.
 </para>
 
-<para><ulink url="&url_refdocs_base_clutter;Stage.html">Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pyclutter;stage.html">Reference</ulink></para>
 
 <sect2 id="stage-example"><title>Example</title>
 <para>
-The following example shows a <classname>ClutterStage</classname> and handles clicks on the stage.
+The following example shows a <classname>clutter.Stage</classname> and handles clicks on the stage.
 There are no actors yet so all you will see is a black rectangle.
 </para>
 
-<para>You can create an executable from this code like so, being careful to use <literal>backticks</literal> around the call to <command>pkg-config</command>. See also the <link linkend="chapter-headers-and-linking">Header Files And Linking</link> section.</para>
-
-<para>
-<programlisting>
-gcc -Wall -g example.c -o example `pkg-config clutter-&clutterversion; --cflags  --libs`
-</programlisting>
-</para>
 
 <figure id="figure-stage">
   <title>Stage</title>
@@ -259,52 +228,46 @@ gcc -Wall -g example.c -o example `pkg-config clutter-&clutterversion; --cflags 
 <sect1 id="sec-stage-widget">
 <title>Stage Widget</title>
 
-<para>The <classname>GtkClutterEmbed</classname> widget allows you to place a <classname>ClutterStage</classname> inside an 
-existing GTK+ window. For instance, the window might contain other GTK+ widgets allowing the user to affect the actors in 
-stage. Use <function>gtk_clutter_embed_new()</function> to instantiate the widget and then add it to a container just like any 
-other GTK+ widget. Call <function>gtk_clutter_embed_get_stage</function> to get the <classname>ClutterStage</classname> from the 
-<classname>GtkClutterEmbed</classname> widget so you can then use the main &clutter; API.
+<para>The <classname>cluttergtk.Embed</classname> widget allows you to place a <classname>clutter.Stage</classname> inside an
+existing PyGTK window. For instance, the window might contain other PyGTK widgets allowing the user to affect the actors in
+stage. Use <function>cluttergtk.Embed()</function> to instantiate the widget and then add it to a container just like any
+other PyGTK widget. Call <function>embed.get_stage()</function> to get the <classname>clutter.Stage</classname> from the
+<classname>cluttergtk.Embed</classname> widget so you can then use the main &pyclutter; API.
 </para>
-<para>When using the <classname>GtkClutterEmbed</classname> widget you should use <function>gtk_clutter_init</function> instead
-of <function>clutter_init()</function> and <function>gtk_init()</function> to initialize &clutter; and &gtk;. And you should use
-the regular <function>gtk_main()</function> function to start the mainloop rather than <function>clutter_main()</function>.
+<para>When using the <classname>cluttergtk.Embed</classname> widget you should import the <package>cluttergtk</package> module
+before the <package>clutter</package> module. You should use the regular <function>gtk.main()</function> function to start the
+mainloop rather than <function>clutter.main()</function>.
 </para>
-<para>For simplicity, all other examples in this document will instead use <function>clutter_stage_get_default()</function>, 
-but all the techniques can also be used with a stage inside the <classname>GtkClutterEmbed</classname> widget.</para> 
+<para>For simplicity, all other examples in this document will instead use <function>clutter.Stage()</function>,
+but all the techniques can also be used with a stage inside the <classname>cluttergtk.Embed</classname> widget.</para>
 
-<para><ulink url="&url_refdocs_base_clutter_gtk;GtkClutterEmbed.html">Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pycluttergtk;GtkClutterEmbed.html">Reference</ulink></para>
 
 <sect2 id="stage-gtk">
 <title>GTK+ integration</title>
 
 <para>
-&clutter; contains some useful utility functions to help you integrate your 
-use of GTK+ and the parts you draw with &clutter;.
+&pyclutter; contains some useful utility functions to help you integrate your
+use of GTK+ and the parts you draw with &pyclutter;.
 </para>
 
 <para>
-To embed stock or other icons into clutter you can use the 
-<function>gtk_clutter_texture_new_from_*()</function> functions. If you need to
-draw in the correct theme colors then the <function>gtk_clutter_get_*_color()</function> 
-functions can receive a theme color for a 
-<classname>GtkWidget</classname> in the current state and convert it to a
-<classname>ClutterColor</classname> for use with &clutter;.
+To embed stock or other icons into clutter you can use the <classname>cluttergtk.Texture</classname>
+and the <function>texture.from_{stock,file}()</function> functions. If you need to
+draw in the correct theme colors then the <function>cluttergtk.get_*_color()</function>
+functions can receive a theme color for a
+<classname>gtk.Widget</classname> in the current state and convert it to a
+<classname>clutter.Color</classname> for use with &pyclutter;.
 </para>
 </sect2>
 
 <sect2 id="stage-widget-example"><title>Example</title>
 <para>
-The following example shows a <classname>GtkClutterEmbed</classname> GTK+ widget and changes the stage color when a button is 
+The following example shows a <classname>cluttergtk.Embed</classname> PyGTK widget and changes the stage color when a button is
 clicked.
 </para>
 
-<para>Note that this example requires the <literal>clutter-gtk-&clutterversion;</literal> library as well as the standard <literal>clutter-&clutterversion;</literal> library. You can create an executable from this code like so, being careful to use <literal>backticks</literal> around the call to <command>pkg-config</command>. See also the <link linkend="chapter-headers-and-linking">Header Files And Linking</link> section.</para>
-
-<para>
-<programlisting>
-gcc -Wall -g example.c -o example `pkg-config clutter-&clutterversion; clutter-gtk-&clutterversion; --cflags  --libs`
-</programlisting>
-</para>
+<para>Note that this example requires the <literal>clutter-gtk-&pyclutterversion;</literal> and the <literal>clutter-&pyclutterversion;</literal> packages.</para>
 
 <figure id="figure-stage-widget">
   <title>Stage Widget</title>
@@ -321,16 +284,16 @@ gcc -Wall -g example.c -o example `pkg-config clutter-&clutterversion; clutter-g
 <sect1 id="actor-scrolling">
 <title>Stage Widget Scrolling</title>
 <para>
-When integrating a <classname>ClutterStage</classname>s into &gtk; with <classname>GtkClutterEmbed</classname>, you may need to scroll due to limited screen space. Normally you would add the widget inside a <classname>GtkScrolledWindow</classname> but this is not possible with <classname>GtkClutterEmbed</classname>, as &clutter; accesses the graphics hardware directly, bypassing the normal &gtk; drawing system.
+When integrating a <classname>clutter.Stage</classname>s into &pygtk; with <classname>cluttergtk.Embed</classname>, you may need to scroll due to limited screen space. Normally you would add the widget inside a <classname>gtk.ScrolledWindow</classname> but this is not possible with <classname>cluttergtk.Embed</classname>, as &pyclutter; accesses the graphics hardware directly, bypassing the normal &pygtk; drawing system.
 </para>
 <para>
-Instead you should use a <classname>GtkClutterViewport</classname>. Unlike <classname>GtkScrolledWindow</classname>, this does not draw any scrollbars itself. Instead it uses a <classname>GtkAdjustment</classname> which you should also use with your own <classname>GtkScrollbar</classname> widgets, or any other <classname>GtkRange</classname> widget, su such as <classname>GtkScale</classname>.
+Instead you should use a <classname>cluttergtk.Viewport</classname>. Unlike <classname>gtk.ScrolledWindow</classname>, this does not draw any scrollbars itself. Instead it uses a <classname>gtk.Adjustment</classname> which you should also use with your own <classname>gtk.Scrollbar</classname> widgets, or any other <classname>gtk.Range</classname> widget, such as <classname>gtk.Scale</classname>.
 </para>
-<para><ulink url="&url_refdocs_base_clutter_gtk;GtkClutterViewport.html">Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pycluttergtk;GtkClutterViewport.html">Reference</ulink></para>
 
 <sect2 id="scrolling-actor-example"><title>Example</title>
 <para>
-This example is a simple image viewer that allows scrolling of the image. Note the layout of the <classname>GtkTable</classname>, with the two scrollbars.
+This example is a simple image viewer that allows scrolling of the image. Note the layout of the <classname>gtk.Table</classname>, with the two scrollbars.
 </para>
 
 <figure id="figure-stage-widget-scrolling">
@@ -351,37 +314,34 @@ This example is a simple image viewer that allows scrolling of the image. Note t
 <chapter id="sec-actors">
 <title>Actors</title>
 
-<sect1 id = "sec-actors-basics">
+<sect1 id="sec-actors-basics">
 <title>Actor Basics</title>
-<para>As mentioned in the <link linkend="sec-clutter">introduction</link>, &clutter; is a canvas API for 2D surfaces in 3D space. 
-Standard &clutter; actors have 2D shapes and can be positioned and rotated in all three dimensions, but they have no depth. 
-Theoretically, therefore, most actors would be invisible if they were exactly rotated so that only their edge faced the screen. 
-When complex 3D objects are needed, you may use the full OpenGL ES API, as mentioned in the <link linkend="appendix-implementing-actors">Implementing Actors</link> appendix, 
+<para>As mentioned in the <link linkend="sec-pyclutter">introduction</link>, &pyclutter; is a canvas API for 2D surfaces in 3D space.
+Standard &pyclutter; actors have 2D shapes and can be positioned and rotated in all three dimensions, but they have no depth.
+Theoretically, therefore, most actors would be invisible if they were exactly rotated so that only their edge faced the screen.
+When complex 3D objects are needed, you may use the full OpenGL ES API, as mentioned in the <link linkend="appendix-implementing-actors">Implementing Actors</link> appendix,
 but let's look at the standard actors for now:
 <itemizedlist>
-<listitem><para><ulink url="&url_refdocs_base_clutter;Stage.html">ClutterStage</ulink>: The stage itself, mentioned already</para></listitem>
-<listitem><para><ulink url="&url_refdocs_base_clutter;Rectangle.html">ClutterRectangle</ulink>: A rectangle.</para></listitem>
-<listitem><para><ulink url="&url_refdocs_base_clutter;Text.html">ClutterText</ulink>: Displays and edits text.</para></listitem>
-<listitem><para><ulink url="&url_refdocs_base_clutter;Texture.html">ClutterTexture</ulink>: An image.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_pyclutter;stage.html">Stage</ulink>: The stage itself, mentioned already</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_pyclutter;rectangle.html">Rectangle</ulink>: A rectangle.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_pyclutter;text.html">Text</ulink>: Displays and edits text.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_pyclutter;texture.html">Texture</ulink>: An image.</para></listitem>
 </itemizedlist>
 </para>
 
-<para>Each actor should be added to the stage with <function>clutter_container_add()</function> and its 
-positions should then be specified. All actors derive from <classname>ClutterActor</classname> so you can call 
-<function>clutter_actor_set_position()</function> to set the x and y coordinates, and the z coordinate can be set with 
-<function>clutter_actor_set_depth()</function>, with larger values placing the actor further away from the observer. 
-<function>clutter_actor_set_size()</function> sets the width and height.
+<para>Each actor should be added to the stage with <function>stage.add()</function> and its
+positions should then be specified. All actors derive from <classname>clutter.Actor</classname> so you can call
+<function>actor.set_position()</function> to set the x and y coordinates, and the z coordinate can be set with
+<function>actor.set_depth()</function>, with larger values placing the actor further away from the observer.
+<function>actor.set_size()</function> sets the width and height.
 </para>
-<para>The actor's position is relative to the top-left (0, 0) of the parent container (such as the stage), but this origin can be changed by 
-calling <function>clutter_actor_set_anchor_point()</function>.</para>
-<para>By default, actors are hidden, so remember to call <function>clutter_actor_show</function>(). You may later call <function>clutter_actor_hide()</function> to 
+<para>The actor's position is relative to the top-left (0, 0) of the parent container (such as the stage), but this origin can be changed by
+calling <function>actor.set_anchor_point()</function>.</para>
+<para>By default, actors are hidden, so remember to call <function>actor.show()</function>. You may later call <function>actor.hide()</function> to
 temporarily hide the object again.</para>
-<para>Like &gtk; widgets, &clutter; actors have a &quot;floating reference&quot; when they are first instantiated with a function 
-such as <function>clutter_rectangle_new()</function>. This reference is then taken when the actor is added to a container, 
-such as the stage. This means that you do not need to unreference the actor after creating it.</para>
 <para>Actors may also be transformed by scaling or rotation, and may be made partly transparent.</para>
 
-<para><ulink url="&url_refdocs_base_clutter;Actor.html">Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pyclutter;actor.html">Reference</ulink></para>
 
 <sect2 id="actor-example"><title>Example</title>
 <para>
@@ -399,50 +359,50 @@ The following example demonstrates two unmoving actors in a stage:
 </sect2>
 </sect1>
 
-<sect1 id = "sec-actors-transformations">
+<sect1 id="sec-actors-transformations">
 <title>Transformations</title>
 <para>Actors can be scaled, rotated, and moved.</para>
 
 <sect2>
 <title>Scaling</title>
-<para>Call <function>clutter_actor_set_scale()</function> to increase or decrease the apparent size of the actor. 
-Note that this will not change the result of <function>clutter_actor_get_width()</function> and 
-<function>clutter_actor_get_height()</function> because it only changes the size of the actor as seen by the user. 
-Calling <function>clutter_actor_set_scale()</function> again will replace the first scale rather than multiplying it.
+<para>Call <function>actor.set_scale()</function> to increase or decrease the apparent size of the actor.
+Note that this will not change the result of <function>actor.get_width()</function> and
+<function>actor.get_height()</function> because it only changes the size of the actor as seen by the user.
+Calling <function>actor.set_scale()</function> again will replace the first scale rather than multiplying it.
 </para>
 </sect2>
 
 <sect2>
 <title>Rotation</title>
-<para>Call <function>clutter_actor_set_rotation()</function> to rotate the actor around an axis, specifying either 
-<literal>CLUTTER_X_AXIS</literal>, <literal>CLUTTER_Y_AXIS</literal> or <literal>CLUTTER_Z_AXIS</literal> and the desired angle. Only two of 
-the x, y, and z coordinates are used, depending on the specified axis. For instance, when using <literal>CLUTTER_X_AXIS</literal>, the y and z parameters specify the center of rotation on 
+<para>Call <function>actor.set_rotation()</function> to rotate the actor around an axis, specifying either
+<literal>X_AXIS</literal>, <literal>Y_AXIS</literal> or <literal>Z_AXIS</literal> and the desired angle. Only two of
+the x, y, and z coordinates are used, depending on the specified axis. For instance, when using <literal>X_AXIS</literal>, the y and z parameters specify the center of rotation on
 the plane of the x axis.
 </para>
-<para>Like the <function>clutter_actor_set_scale()</function>, this does not affect the position, width, or height of the actor as 
-returned by functions such as <function>clutter_actor_get_x()</function>.
+<para>Like the <function>actor.set_scale()</function>, this does not affect the position, width, or height of the actor as
+returned by functions such as <function>actor.get_x()</function>.
 </para>
 </sect2>
 
 <sect2>
 <title>Clipping</title>
-<para><classname>Actors</classname> may be &quot;clipped&quot; so that only one rectangular part of the actor is visible, 
-by calling <function>clutter_actor_set_clip()</function>, providing a position relative to the actor, along with the size. 
-For instance, you might implement scrolling by creating a large container actor and setting a clip rectangle so that only 
-a small part of the whole is visible at any one time. Scrolling up could then be implemented by moving the actor down while  
-moving the clip up. Clipping can be reverted by calling <function>clutter_actor_remove_clip()</function>.
+<para><classname>Actors</classname> may be &quot;clipped&quot; so that only one rectangular part of the actor is visible,
+by calling <function>actor.set_clip()</function>, providing a position relative to the actor, along with the size.
+For instance, you might implement scrolling by creating a large container actor and setting a clip rectangle so that only
+a small part of the whole is visible at any one time. Scrolling up could then be implemented by moving the actor down while
+moving the clip up. Clipping can be reverted by calling <function>actor.remove_clip()</function>.
 </para>
 <para>The area outside of the clip does not consume video memory and generally does not require much processing.</para>
 </sect2>
 
 <sect2>
 <title>Movement</title>
-<para>&clutter; does not have a translation function that behaves similarly to 
-<function>clutter_actor_set_scale()</function> and <function>clutter_actor_set_rotation()</function>, but you can move the actor by 
-calling <function>clutter_actor_move_by()</function> or <function>clutter_actor_set_depth</function>.
+<para>&pyclutter; does not have a translation function that behaves similarly to
+<function>actor.set_scale()</function> and <function>actor.set_rotation()</function>, but you can move the actor by
+calling <function>actor.move_by()</function> or <function>actor.set_depth</function>.
 </para>
-<para>Unlike the scaling and rotation functions, <function>clutter_actor_move_by()</function> does change the result of 
-functions such as <function>clutter_actor_get_x()</function>.
+<para>Unlike the scaling and rotation functions, <function>actor.move_by()</function> does change the result of
+functions such as <function>actor.get_x()</function>.
 </para>
 </sect2>
 
@@ -466,30 +426,30 @@ The following example demonstrates two unmoving actors in a stage, using rotatio
 
 <sect1 id = "sec-containers">
 <title>Containers</title>
-<para>Some clutter actors implement the <classname>ClutterContainer</classname> 
-interface. These actors can contain child actors and may position them in 
-relation to each other, for instance in a list or a table formation. In addition, 
-transformations or property changes may be applied to all children. Child actors 
-can be added to a container with the <function>clutter_container_add()</function> 
+<para>Some clutter actors implement the <classname>clutter.Container</classname>
+interface. These actors can contain child actors and may position them in
+relation to each other, for instance in a list or a table formation. In addition,
+transformations or property changes may be applied to all children. Child actors
+can be added to a container with the <function>container.add()</function>
 function.</para>
-<para>The main <classname>ClutterStage</classname> is itself a container, allowing 
-it to contain all the child actors. The only other container in Core &clutter; 
-is <classname>ClutterGroup</classname>, which can contain child actors, with 
-positions relative to the parent <classname>ClutterGroup</classname>. Scaling, 
-rotation and clipping of the group applies to the child actors, which can 
+<para>The main <classname>clutter.Stage</classname> is itself a container, allowing
+it to contain all the child actors. The only other container in Core &pyclutter;
+is <classname>clutter.Group</classname>, which can contain child actors, with
+positions relative to the parent <classname>clutter.Group</classname>. Scaling,
+rotation and clipping of the group applies to the child actors, which can
 simplify your code.
 </para>
-<para>Additional &clutter; containers can be found in the &tidy; toolkit library. 
+<para>Additional &pyclutter; containers can be found in the &tidy; toolkit library.
 See also the <link linkend="appendix-implementing-actors-containers">Implementing Containers</link> section.
 </para>
 <!-- Add a link to a Tidy web page when one exists. -->
 
-<para><ulink url="&url_refdocs_base_clutter;Container.html">ClutterContainer Reference</ulink></para>
-<para><ulink url="&url_refdocs_base_clutter;Group.html">ClutterGroup Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pyclutter;container.html">Container Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pyclutter;group.html">Group Reference</ulink></para>
 
 <sect2 id="actor-example-containers"><title>Example</title>
 <para>
-The following example shows the use of the <classname>ClutterGroup</classname> 
+The following example shows the use of the <classname>clutter.Group</classname>
 container, with two child actors being rotated together.
 </para>
 
@@ -506,7 +466,7 @@ container, with two child actors being rotated together.
 
 <sect1 id = "sec-actors-events">
 <title>Events</title>
-<para>The base <classname>ClutterActor</classname> has several signals that are emitted when the user interacts with the actor:
+<para>The base <classname>clutter.Actor</classname> has several signals that are emitted when the user interacts with the actor:
 <itemizedlist>
   <listitem><para><function>button-press-event</function>: Emitted when the user presses the mouse over the actor.</para></listitem>
   <listitem><para><function>button-release-event</function>: Emitted when the user releases the mouse over the actor.</para></listitem>
@@ -517,31 +477,31 @@ container, with two child actors being rotated together.
 </para>
 <para>For instance, you can detect button clicks on an actor like so:
 <programlisting>
-g_signal_connect (rect, "button-press-event", G_CALLBACK (on_rect_button_press), NULL);
+actor.connect("button-press-event", on_rect_button_press)
 </programlisting>
 </para>
-<para>Alternatively, you might just handle signals from the parent <classname>ClutterStage</classname> and use 
-<function>clutter_stage_get_actor_at_pos</function> to discover which actor should be affected.</para>
-<para>However, as a performance optimization, &clutter; does not emit all event signals by default. For instance, to 
-receive event signals for an actor instead of just the stage, you must call <function>clutter_actor_set_reactive()</function>. 
-If you don't need the motion event signals (<literal>motion-event</literal>, <literal>enter-event</literal> and <literal>leave-event</literal>), 
-you may call the global <function>clutter_set_motion_events_enabled()</function> function with <literal>FALSE</literal> to further optimize performance.
+<para>Alternatively, you might just handle signals from the parent <classname>clutter.Stage</classname> and use
+<function>stage.get_actor_at_pos</function> to discover which actor should be affected.</para>
+<para>However, as a performance optimization, &pyclutter; does not emit all event signals by default. For instance, to
+receive event signals for an actor instead of just the stage, you must call <function>actor.set_reactive()</function>.
+If you don't need the motion event signals (<literal>motion-event</literal>, <literal>enter-event</literal> and <literal>leave-event</literal>),
+you may call the global <function>clutter.set_motion_events_enabled()</function> function with <literal>False</literal> to further optimize performance.
 </para>
-<para>Your event signal handler should return <literal>true</literal> when it has fully handled the event, or <literal>false</literal> if you want the event to be sent also 
-to the next actor in the event chain. &clutter; first allows the stage to handle each event via the <literal>captured-event</literal> signal. But if the stage does not handle the 
-event then it will be passed down to the child actor, first passing through the actor's parent containers, giving each actor in the hierarchy a chance to handle the event via a 
+<para>Your event signal handler should return <literal>True</literal> when it has fully handled the event, or <literal>False</literal> if you want the event to be sent also
+to the next actor in the event chain. &pyclutter; first allows the stage to handle each event via the <literal>captured-event</literal> signal. But if the stage does not handle the
+event then it will be passed down to the child actor, first passing through the actor's parent containers, giving each actor in the hierarchy a chance to handle the event via a
 <literal>captured-event</literal> signal handler.
-If the event has still not been handled fully by any actor then the event will then be emitted via a specific signal (such as <literal>button-press-event</literal> or 
-<literal>key-press-event</literal>. These specific signals are emitted first from the child actor, then by its parent, passing all they way back up to the stage if no signal handler 
+If the event has still not been handled fully by any actor then the event will then be emitted via a specific signal (such as <literal>button-press-event</literal> or
+<literal>key-press-event</literal>. These specific signals are emitted first from the child actor, then by its parent, passing all they way back up to the stage if no signal handler
 returns <literal>true</literal> to indicate that it has handled the event fully.</para>
 
-<para>Actors usually only receive keyboard events when the actor has key focus, but you can give an actor exclusive access to any events by grabbing either the pointer or 
-the keyboard, using <function>clutter_grab_pointer</function> or <function>clutter_grab_keyboard</function>.
+<para>Actors usually only receive keyboard events when the actor has key focus, but you can give an actor exclusive access to any events by grabbing either the pointer or
+the keyboard, using <function>clutter.grab_pointer()</function> or <function>clutter.grab_keyboard()</function>.
 </para>
 
 <sect2 id="actor-example-events"><title>Example</title>
 <para>
-The following example demonstrates handing of clicks on an actor:
+The following example demonstrates handling of clicks on an actor:
 </para>
 
 <figure id="figure-actor-events">
@@ -564,45 +524,41 @@ The following example demonstrates handing of clicks on an actor:
 <sect1>
 <title>Using Timelines</title>
 <para>
-A <classname>ClutterTimeline</classname> can be used to change the position or appearance of an actor over time. 
-These can be used directly as described in this chapter, or together with an animation or behaviour, as you will see in 
-the following chapters.</para> 
+A <classname>clutter.Timeline</classname> can be used to change the position or appearance of an actor over time.
+These can be used directly as described in this chapter, or together with an animation or behaviour, as you will see in
+the following chapters.</para>
 
 <para>
-The timeline object emits its <literal>new-frame</literal> signal for each frame that should be drawn, 
-for as many frames per second as appropriate. In your signal handler you can set the actor's properties. 
+The timeline object emits its <literal>new-frame</literal> signal for each frame that should be drawn,
+for as many frames per second as appropriate. In your signal handler you can set the actor's properties.
 For instance, the actor might be moved and rotated over time, and its color might change while this is happening.
 You could even change the properties of several actors to animate the entire stage.
 </para>
-<para>The <function>clutter_timeline_new()</function> constructor function takes a duration in milliseconds. The actual number of frames per second requested by the timeline will depend on the behaviour of your entire program, the performance of your hardware, and your monitor's refresh rate. It may even vary over time as conditions change. At best, the <literal>new-frame</literal> signal will be emitted at your monitor's refresh rate. At worst it will be called once at the start and once at the end of your timeline's duration.
+<para>The <function>clutter.Timeline()</function> constructor function takes a duration in milliseconds. The actual number of frames per second requested by the timeline will depend on the behaviour of your entire program, the performance of your hardware, and your monitor's refresh rate. It may even vary over time as conditions change. At best, the <literal>new-frame</literal> signal will be emitted at your monitor's refresh rate. At worst it will be called once at the start and once at the end of your timeline's duration.
 </para>
 
-<para>&clutter; will not attempt to redraw the scene if the new frame has no change compared to the previous frame, so you don't need to do your own optimization to prevent unnecessary redraws.</para> 
+<para>&pyclutter; will not attempt to redraw the scene if the new frame has no change compared to the previous frame, so you don't need to do your own optimization to prevent unnecessary redraws.</para>
 
-<para>You may also use <function>clutter_timeline_set_loop()</function> to cause the timeline to 
-repeat for ever, or until you call <function>clutter_timeline_stop()</function>. The timeline does not start 
-until you call <function>clutter_timeline_start()</function>.
+<para>You may also use <function>timeline.set_loop()</function> to cause the timeline to
+repeat for ever, or until you call <function>timeline.stop()</function>. The timeline does not start
+until you call <function>timeline.start()</function>.
 </para>
 
-<para>Remember to unref the timeline when you are finished with it. Unlike actors, this does not have a &quot;floating reference&quot;. 
-You may either do this after your mainloop has finished, or when the timeline has finished, by handling the 
-timeline's <literal>completed</literal> signal.</para> 
-
-<para><ulink url="&url_refdocs_base_clutter;Timeline.html">Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pyclutter;timeline.html">Reference</ulink></para>
 </sect1>
 
 <sect1 id="timeline-markers">
 <title>Markers</title>
 <para>
-You may want an action to happen at a specific moment in the timeline. Instead of polling with 
-<function>clutter_timeline_get_progress()</function> you should instead use timeline markers. Timeline markers can be added
-with the <function>clutter_timeline_add_marker_at_time()</function> function. 
-Handle the <literal>marker-reached</literal> signal to start the appropriate action at that moment, after checking the provided 
-marker name. To handle only the signal only for a particular marker, you may connect to the 
+You may want an action to happen at a specific moment in the timeline. Instead of polling with
+<function>timeline.get_progress()</function> you should instead use timeline markers. Timeline markers can be added
+with the <function>timeline.add_marker_at_time()</function> function.
+Handle the <literal>marker-reached</literal> signal to start the appropriate action at that moment, after checking the provided
+marker name. To handle only the signal only for a particular marker, you may connect to the
 <literal>marker-reached::my_marker</literal> signal, where <literal>my-marker</literal> is the name of your marker.</para>
 
 <para>
-You can also use markers to navigate through the timeline using the <function>clutter_timeline_advance_to_marker()</function> function.
+You can also use markers to navigate through the timeline using the <function>timeline.advance_to_marker()</function> function.
 </para>
 </sect1>
 
@@ -624,21 +580,21 @@ The following example demonstrates the use of a timeline to rotate a rectangle a
 <sect1 id="sec-timelines-score">
 <title>Grouping TimeLines in a Score</title>
 <para>
-A <classname>ClutterScore</classname> allows you to start and stop several timelines at once, or run them in sequence one after the other.</para> 
+A <classname>clutter.Score</classname> allows you to start and stop several timelines at once, or run them in sequence one after the other.</para>
 
-<para>To add a timeline that should start first, call <function>clutter_score_append()</function> with NULL for the parent argument. 
-All such timelines will be started when you call <function>clutter_score_start()</function>.</para>
-<para>To add a timeline that should be started when a previously added timeline stops, call <function>clutter_score_append()</function> with the first 
+<para>To add a timeline that should start first, call <function>score.append()</function> with None for the parent argument.
+All such timelines will be started when you call <function>score.start()</function>.</para>
+<para>To add a timeline that should be started when a previously added timeline stops, call <function>score.append()</function> with the first
 timeline for the parent argument.</para>
 
-<para><ulink url="&url_refdocs_base_clutter;Score.html">Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pyclutter;score.html">Reference</ulink></para>
 </sect1>
 
 <sect1 id="score-example"><title>Example</title>
 <para>
-The following example demonstrates the use of a score containing two timelines, 
-with one starting when the other ends, and the whole score running as a loop. 
-The first timeline rotates the rectangle as in the previous example, and the 
+The following example demonstrates the use of a score containing two timelines,
+with one starting when the other ends, and the whole score running as a loop.
+The first timeline rotates the rectangle as in the previous example, and the
 second timeline moves the rectangle horizontally.
 </para>
 
@@ -661,59 +617,50 @@ second timeline moves the rectangle horizontally.
 <sect1>
 <title>Using Animations</title>
 
-<para>The <function>clutter_actor_animate()</function>, 
-<function>clutter_actor_animate_with_timeline()</function>, and 
-<function>clutter_actor_animate_with_alpha()</function>  functions change the 
-properties of a single actor over time, using either a standard 
-<literal>ClutterAnimationMode</literal> or a simple numeric calculation. In 
+<para>The <function>actor.animate()</function>,
+<function>actor.animate_with_timeline()</function>, and
+<function>actor.animate_with_alpha()</function> functions change the
+properties of a single actor over time, using either a standard
+<classname>clutter.AnimationMode</classname> or a simple numeric calculation. In
 many cases this is an easier way to implement animation.
 </para>
 
-<para>These are convenience functions that use the 
-<classname>ClutterAnimation</classname> object. You should not need to use 
-<classname>ClutterAnimation</classname> directly.
+<para>These are convenience functions that use the
+<classname>clutter.Animation</classname> object. You should not need to use
+<classname>clutter.Animation</classname> directly.
 </para>
 
-<para>For instance, you could use <function>clutter_actor_animate()</function> to 
-fade an actor by changing its &quot;opacity&quot; property, while also 
-moving it to a specified position by changing its &quot;x&quot; and 
-&quot;y&quot; properties, changing all three property values linearly over 1 
-second (1000 milliseconds). You should specify the values that the properties 
+<para>For instance, you could use <function>actor.animate()</function> to
+fade an actor by changing its &quot;opacity&quot; property, while also
+moving it to a specified position by changing its &quot;x&quot; and
+&quot;y&quot; properties, changing all three property values linearly over 1
+second (1000 milliseconds). You should specify the values that the properties
 should reach, regardless of their initial values.</para>
 <para>
 <programlisting>
-clutter_actor_animate (rectangle, CLUTTER_LINEAR, 1000,
-  "opacity", 150,
-  "x", 100.0,
-  "y", 100.0,
-  NULL);
+rectangle.animate(clutter.LINEAR, 1000, "opacity", 150, 'x', 100.0, 'y', 100.0)
 </programlisting>
 </para>
 
-<para><ulink url="&url_refdocs_base_clutter;Actor.html">ClutterActor Reference</ulink></para>
-<para><ulink url="&url_refdocs_base_clutter;Animations.html">ClutterAnimation Reference</ulink></para>
-<para><ulink url="&url_refdocs_base_clutter;Animations.html#ClutterAnimationMode">ClutterAnimationMode Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pyclutter;actor.html">clutter.Actor Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pyclutter;animations.html">clutter.Animation Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pyclutter;animations.html#ClutterAnimationMode">clutter.AnimationMode Reference</ulink></para>
 
 </sect1>
 
 <sect1 id="sec-animations-alpha">
 <title>Using Alpha Functions.</title>
 
-<para>You may use a custom calculation callback, instead of a standard <literal>ClutterAnimationMode</literal> enum value such as <literal>CLUTTER_LINEAR</literal>, by using the  <function>clutter_actor_animate_with_alpha()</function> function, providing a <classname>ClutterAlpha</classname>.
+<para>You may use a custom calculation callback, instead of a standard <classname>clutter.AnimationMode</classname> enum value such as <literal>LINEAR</literal>, by using the <function>actor.animate_with_alpha()</function> function, providing a <classname>clutter.Alpha</classname>.
 </para>
 
 <para>
-The <classname>ClutterAlpha</classname> object is constructed with a calculation callback and a <classname>ClutterTimeline</classname> which tells it when a new frame needs a new value to be calculated. Your <literal>alpha</literal> callback will need to call <function>clutter_alpha_get_timeline()</function> so it can return a value based on the timeline's current progress, using the <function>clutter_timeline_get_progress()</function> function. 
-</para>
-
-<para>Like actors, <classname>ClutterAlpha</classname> has a &quot;floating references&quot; so you don't need to unref it if you have added it to a behaviour. 
-However, the behaviours do not have a floating reference, so you should unref them when you are finished with them. You might do this at the same time as you 
-unref the timeline, for instance in a signal handler for the timeline's <literal>completed</literal> signal.
+The <classname>clutter.Alpha</classname> object is constructed with a calculation callback and a <classname>clutter.Timeline</classname> which tells it when a new frame needs a new value to be calculated. Your <literal>alpha</literal> callback will need to call <function>alpha.get_timeline()</function> so it can return a value based on the timeline's current progress, using the <function>timeline.get_progress()</function> function.
 </para>
 
 <!-- TODO: Create an example for Animation with an Alpha instead. -->
 <para>
-See the <link linkend="sec-behaviours">Behaviours</link> chapter for an example that uses a <classname>ClutterAlpha</classname>.
+See the <link linkend="sec-behaviours">Behaviours</link> chapter for an example that uses a <classname>clutter.Alpha</classname>.
 </para>
 
 </sect1>
@@ -721,7 +668,7 @@ See the <link linkend="sec-behaviours">Behaviours</link> chapter for an example 
 
 <sect1 id="animation-example"><title>Example</title>
 <para>
-The following example demonstrates the use of an animation to achieve a fade and a 
+The following example demonstrates the use of an animation to achieve a fade and a
 movement on the same actor, changing a rectangle's opacity while it is moved along a straight line:
 </para>
 
@@ -746,17 +693,19 @@ movement on the same actor, changing a rectangle's opacity while it is moved alo
 <sect1>
 <title>Using Behaviours</title>
 
-<para>The <link linkend="sec-animations">Animation</link> API is simple but you will often need more control, while still avoiding the complication of using <classname>ClutterTimeline</classname> directly.
+<para>
+The <link linkend="sec-animations">Animation</link> API is simple but you will often need more
+control, while still avoiding the complication of using <classname>clutter.Timeline</classname> directly.
 </para>
 
 <para>
-Although the <classname>ClutterTimeline</classname>'s <literal>new-frame</literal> signal allows you to set actor 
-properties for each frame, &clutter; also provides <literal>Behaviour</literal>s which can change specific properties 
-of one specific actor over time, using a simple numeric calculation. However, unlike the simplified <link linkend="sec-animations">Animation</link> 
-API, using behaviours directly allows you to combine them to control multiple actors simultaneously and allows you to change the parameters of the 
+Although the <classname>clutter.Timeline</classname>'s <literal>new-frame</literal> signal allows you to set actor
+properties for each frame, &pyclutter; also provides <literal>Behaviour</literal>s which can change specific properties
+of one specific actor over time, using a simple numeric calculation. However, unlike the simplified <link linkend="sec-animations">Animation</link>
+API, using behaviours directly allows you to combine them to control multiple actors simultaneously and allows you to change the parameters of the
 behaviours while the timeline is running.
 </para>
-<para>For instance, <classname>ClutterBehaviourPath</classname> moves the actor along a specified path, calculating the position on the path once per frame by calling a supplied <literal>alpha</literal> callback. See the <link linkend="sec-animations-alpha">Using Alpha Functions</link> section in the Animation chapter.
+<para>For instance, <classname>clutter.BehaviourPath</classname> moves the actor along a specified path, calculating the position on the path once per frame by calling a supplied <literal>alpha</literal> callback. See the <link linkend="sec-animations-alpha">Using Alpha Functions</link> section in the Animation chapter.
 </para>
 
 <figure id="figure-path-alpha-func">
@@ -766,17 +715,17 @@ behaviours while the timeline is running.
   </screenshot>
 </figure>
 
-<para><ulink url="&url_refdocs_base_clutter;Behaviour.html">ClutterBehaviour Reference</ulink></para>
-<para><ulink url="&url_refdocs_base_clutter;Alpha.html">ClutterAlpha Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pyclutter;behaviour.html">clutter.Behaviour Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pyclutter;alpha.html">clutter.Alpha Reference</ulink></para>
 
-<para>The following standard behaviours are available in &clutter;:
+<para>The following standard behaviours are available in &pyclutter;:
 <itemizedlist>
-<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourDepth.html">ClutterBehaviourDepth</ulink>: Moves the actor along the z axis.</para></listitem>
-<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourEllipse.html">ClutterBehaviourEllipse</ulink>: Moves the actor around an ellipse.</para></listitem>
-<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourOpacity.html">ClutterBehaviourOpacity</ulink>: Changes the opacity of the actor.</para></listitem>
-<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourPath.html">ClutterBehaviourPath</ulink>: Moves the actor along straight lines and bezier curves.</para></listitem>
-<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourRotate.html">ClutterBehaviourRotate</ulink>: Rotates the actor.</para></listitem>
-<listitem><para><ulink url="&url_refdocs_base_clutter;BehaviourScale.html">ClutterBehaviourScale</ulink>: Scales the actor.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_pyclutter;behaviourdepth.html">clutter.BehaviourDepth</ulink>: Moves the actor along the z axis.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_pyclutter;behaviourellipse.html">clutter.BehaviourEllipse</ulink>: Moves the actor around an ellipse.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_pyclutter;behaviouropacity.html">clutter.BehaviourOpacity</ulink>: Changes the opacity of the actor.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_pyclutter;behaviourpath.html">clutter.BehaviourPath</ulink>: Moves the actor along straight lines and bezier curves.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_pyclutter;behaviourrotate.html">clutter.BehaviourRotate</ulink>: Rotates the actor.</para></listitem>
+<listitem><para><ulink url="&url_refdocs_base_pyclutter;behaviourscale.html">clutter.BehaviourScale</ulink>: Scales the actor.</para></listitem>
 </itemizedlist>
 </para>
 
@@ -784,7 +733,7 @@ behaviours while the timeline is running.
 
 <sect1 id="behaviour-example"><title>Example</title>
 <para>
-The following example demonstrates the use of a <classname>ClutterBehaviourPath</classname> with a simple custom alpha callback. 
+The following example demonstrates the use of a <classname>clutter.BehaviourPath</classname> with a simple custom alpha callback.
 This simply moves the rectangle from the top-left to the bottom-right of the canvas at constant speed:
 </para>
 
@@ -802,46 +751,46 @@ This simply moves the rectangle from the top-left to the bottom-right of the can
 
 <chapter id="sec-text">
 <title>Text editing</title>
-<sect1 id="clutter-text"><title>ClutterText</title>
+<sect1 id="clutter-text"><title>Text</title>
 <para>
-&clutter;'s <classname>ClutterText</classname> actor can display text and allow it to be edited. It doesn't have as much functionality as, for instance, GTK+'s <classname>GtkTextView</classname> widget, but it is enough for displaying information and for simple text entry. Therefore it serves the same purposes as GTK+'s <classname>GtkLabel</classname> or <classname>GtkEntry</classname> widgets, with the addition of multi line editing.
+&pyclutter;'s <classname>clutter.Text</classname> actor can display text and allow it to be edited. It doesn't have as much functionality as, for instance, PyGTK's <classname>gtk.TextView</classname> widget, but it is enough for displaying information and for simple text entry. Therefore it serves the same purposes as PyGTK's <classname>gtk.Label</classname> or <classname>gtk.Entry</classname> widgets, with the addition of multi line editing.
 </para>
 
 <para>
-There are three ways you might use a <classname>ClutterText</classname> actor:
+There are three ways you might use a <classname>clutter.Text</classname> actor:
 </para>
 
 <para>
 <itemizedlist>
   <listitem>
-  <para>For a simple label, use <function>clutter_text_new_with_text()</function> or <function>clutter_text_set_markup()</function>. To make it non-editable use <function>clutter_text_set_editable()</function>.
+  <para>For a simple label, use <function>clutter.Text()</function> or <function>text.set_markup()</function>. To make it non-editable use <function>text.set_editable()</function>.
   </para>
   </listitem>
-  
+
   <listitem>
-  <para>For single line text entry, similar to a  <classname>GtkEntry</classname> in a normal &gtk; application, create a <classname>ClutterText</classname> using  <function>clutter_text_new()</function> and <function>clutter_text_set_single_line_mode()</function>. You may call <function>clutter_text_set_activatable()</function> and connect to the <literal>activate</literal> signal to react when the user presses <literal>Enter</literal>.
+  <para>For single line text entry, similar to a <classname>gtk.Entry</classname> in a normal &pygtk; application, create a <classname>clutter.Text</classname> using <function>clutter.Text()</function> and <function>text.set_single_line_mode()</function>. You may call <function>text.set_activatable()</function> and connect to the <literal>activate</literal> signal to react when the user presses <literal>Enter</literal>.
   </para>
   </listitem>
-  
+
   <listitem>
-  <para>For full-featured multi-line text editing, <classname>ClutterText</classname> gives you access to the cursor position using the <function>clutter_text_get/set_cursor_*()</function> functions and to the selection using the <function>clutter_text_get/set_selection*()</function> functions. You can also add and remove text at any position.
+  <para>For full-featured multi-line text editing, <classname>clutter.Text</classname> gives you access to the cursor position using the <function>text.{get,set}_cursor_*()</function> functions and to the selection using the <function>text.{get,set}_selection_*()</function> functions. You can also add and remove text at any position.
   </para>
   </listitem>
 </itemizedlist>
 </para>
 
-<para><ulink url="&url_refdocs_base_clutter;Text.html">ClutterText Reference</ulink></para>
+<para><ulink url="&url_refdocs_base_pyclutter;text.html">Text Reference</ulink></para>
 
 <note>
 <para>
-When you want the <classname>ClutterText</classname> to be editable you must give it key focus using <function>clutter_stage_set_key_focus()</function>.
+When you want the <classname>clutter.Text</classname> to be editable you must give it key focus using <function>stage.set_key_focus()</function>.
 </para>
 </note>
 
 <sect2>
 <title>Size Management</title>
 <para>
-To discover the size needed by the text inside a <classname>ClutterText</classname> actor, you may call will the <function>clutter_actor_get_preferred_height()</function> function. This will provide the vertical space necessary to display all of the text at the currently specified width. Alternatively, you could call <function>clutter_actor_get_preferred_width()</function> to discover the horizontal space necessary for the text at the currently specified height.
+To discover the size needed by the text inside a <classname>clutter.Text</classname> actor, you may call will the <function>actor.get_preferred_height()</function> function. This will provide the vertical space necessary to display all of the text at the currently specified width. Alternatively, you could call <function>actor.get_preferred_width()</function> to discover the horizontal space necessary for the text at the currently specified height.
 </para>
 </sect2>
 
@@ -849,8 +798,8 @@ To discover the size needed by the text inside a <classname>ClutterText</classna
 
 <sect1 id="text-example"><title>Example</title>
 <para>
-This is a very basic example showing how to use a <classname>ClutterText</classname> for information display or multi-line text
-editing.
+This is a very basic example showing how to use a <classname>clutter.Text</classname>
+for information display or multi-line text editing.
 </para>
 
 <figure id="figure-text-example">
@@ -868,12 +817,12 @@ editing.
 <chapter id="sec-full-example">
 <title>Full Example</title>
 
-<para>This example loads images from a directory and displays them in a rotating ellipse. You may click an image to 
-bring it to the front. When the image has rotated to the front it will move up while increasing in size, and the file path 
+<para>This example loads images from a directory and displays them in a rotating ellipse. You may click an image to
+bring it to the front. When the image has rotated to the front it will move up while increasing in size, and the file path
 will appear at the top of the window.
 </para>
 <para>
-This is larger than the examples used so far, with multiple timelines and multiple behaviours affecting multiple actors. 
+This is larger than the examples used so far, with multiple timelines and multiple behaviours affecting multiple actors.
 However, it's still a relatively simple example. A real application would need to be more flexible and have more functionality.
 </para>
 
@@ -898,15 +847,15 @@ TODO: Make this prettier. Use containers to do that.
 <sect1 id="appendix-implementing-actors-simple">
 <title>Implementing Simple Actors</title>
 <para>
-If the standard &clutter; actors don't meet all your needs then you may create your own custom actor objects. 
-Implementing a custom actor is much like implementing any new GObject type. You may use the <function>G_DEFINE_TYPE</function> 
-macro to specify that the type is derived from <classname>ClutterActor</classname>. For instance:
+If the standard &pyclutter; actors don't meet all your needs then you may create your own custom actor objects.
+Implementing a custom actor is much like implementing any new GObject type. You may use the <function>G_DEFINE_TYPE</function>
+macro to specify that the type is derived from <classname>clutter.Actor</classname>. For instance:
 <programlisting>
 G_DEFINE_TYPE (ClutterTriangle, clutter_triangle, CLUTTER_TYPE_ACTOR);
 </programlisting>
 </para>
 
-<para>You should then specify your object's implementation of the <function>ClutterActor::paint()</function> virtual function in your <literal>class_init</literal> function: 
+<para>You should then specify your object's implementation of the <function>clutter.Actor::paint()</function> virtual function in your <literal>__init__</literal> function:
 <programlisting>
 static void
 clutter_triangle_class_init (ClutterTriangleClass *klass)
@@ -921,24 +870,24 @@ clutter_triangle_class_init (ClutterTriangleClass *klass)
 </para>
 
 <para>
-Your <function>ClutterActor::paint()</function> implementation should use the OpenGL API to actually paint something. 
-You will probably need some information from your object's generic <classname>ClutterActor</classname> base class, for instance 
-by calling <function>clutter_actor_get_geometry()</function> and <function>clutter_actor_get_opacity()</function>, and by using your object's specific property values. 
+Your <function>clutter.Actor::paint()</function> implementation should use the OpenGL API to actually paint something.
+You will probably need some information from your object's generic <classname>clutter.Actor</classname> base class, for instance
+by calling <function>actor.get_geometry()</function> and <function>actor.get_opacity()</function>, and by using your object's specific property values.
 </para>
 
-<para>To make your code work with both OpenGL ES and regular OpenGL (and maybe even future &clutter; backends), you may wish 
-to use &clutter;'s <literal>cogl</literal> abstraction API which provides functions such as <function>cogl_rectangle()</function> 
-and <function>cogl_push_matrix()</function>. You can also detect whether the platform has support for either the OpenGL or OpenGL ES API by ifdefing for 
+<para>To make your code work with both OpenGL ES and regular OpenGL (and maybe even future &pyclutter; backends), you may wish
+to use &pyclutter;'s <literal>cogl</literal> abstraction API which provides functions such as <function>cogl_rectangle()</function>
+and <function>cogl_push_matrix()</function>. You can also detect whether the platform has support for either the OpenGL or OpenGL ES API by ifdefing for
 <literal>CLUTTER_COGL_HAS_GL</literal> or <literal>CLUTTER_COGL_HAS_GLES</literal>.
 </para>
 
-<para>You should also implement the <function>ClutterActor::pick()</function> virtual function, painting a silhouette of your actor 
-in the provided color. &clutter; uses this to draw each actor's silhouette offscreen in a unique color, using the color to quickly 
+<para>You should also implement the <function>clutter.Actor::pick()</function> virtual function, painting a silhouette of your actor
+in the provided color. &pyclutter; uses this to draw each actor's silhouette offscreen in a unique color, using the color to quickly
 identify the actor under the cursor. If your actor is simple then you can probably reuse the code from your paint() implementation.</para>
 
-<para>Most of the rest of <classname>ClutterActor</classname>'s virtual functions don't need to be reimplemented, because a suitable default implemention exists in 
-<classname>ClutterActor</classname>. For instance, 
-<function>show()</function>, <function>show_all()</function>, <function>hide()</function>, <function>hide_all()</function>, 
+<para>Most of the rest of <classname>clutter.Actor</classname>'s virtual functions don't need to be reimplemented, because a suitable default implemention exists in
+<classname>clutter.Actor</classname>. For instance,
+<function>show()</function>, <function>show_all()</function>, <function>hide()</function>, <function>hide_all()</function>,
 <function>request_coord()</function>.
 
 </para>
@@ -963,10 +912,10 @@ The following example demonstrates the implementation of a new triangle Actor ty
 <sect1 id="appendix-implementing-actors-containers">
 <title>Implementing Container Actors</title>
 <para>
-You can create container actors that arrange child actors by implementing the 
-ClutterContainer interface in your actor. You may use the <function>G_DEFINE_TYPE_WITH_CODE</function> 
-macro to specify that the type is derived from <classname>ClutterActor</classname> 
-and also implements the <classname>ClutterContainer</classname> interface. For instance:
+You can create container actors that arrange child actors by implementing the
+Container interface in your actor. You may use the <function>G_DEFINE_TYPE_WITH_CODE</function>
+macro to specify that the type is derived from <classname>clutter.Actor</classname>
+and also implements the <classname>clutter.Container</classname> interface. For instance:
 <programlisting>
 static void clutter_container_iface_init (ClutterContainerIface *iface);
 
@@ -978,59 +927,59 @@ G_DEFINE_TYPE_WITH_CODE (ExampleContainer, example_container, CLUTTER_TYPE_ACTOR
 
 <sect2>
 <title>ClutterActor virtual functions to implement</title>
-<para>If your container should control the position or size of its children then 
-it should implement the <classname>ClutterActor</classname>'s 
-<function>allocate()</function>, <function>get_preferred_width()</function> and 
+<para>If your container should control the position or size of its children then
+it should implement the <classname>clutter.Actor</classname>'s
+<function>allocate()</function>, <function>get_preferred_width()</function> and
 <function>get_preferred_height()</function> virtual functions.</para>
 
-<para>For instance, your <function>allocate()</function> implementation should 
-use the provided allocation to layout its child actors, by calling 
-<function>clutter_actor_allocate()</function> on each child actor with appropriate 
+<para>For instance, your <function>allocate()</function> implementation should
+use the provided allocation to layout its child actors, by calling
+<function>actor.allocate()</function> on each child actor with appropriate
 allocations.
 </para>
 
-<para>Your <function>get_preferred_width()</function> and 
-<function>get_preferred_height()</function> implementations should 
+<para>Your <function>get_preferred_width()</function> and
+<function>get_preferred_height()</function> implementations should
 return the size desired by your container, by providing both the minimum and
-natural size as output parameters. Depending on your 
+natural size as output parameters. Depending on your
 container, this might be dependent on the child actors. By calling
-<function>clutter_actor_get_preferred_size()</function> you can discover the preferred
+<function>actor.get_preferred_size()</function> you can discover the preferred
 height and width of a child actor.</para>
 
-<para>Your actor should implement one of two geometry management modes - either height 
-for width (<literal>CLUTTER_REQUEST_HEIGHT_FOR_WIDTH</literal>) or width for height 
-<literal>CLUTTER_REQUEST_WIDTH_FOR_HEIGHT</literal>) and should set its 
-<literal>request-mode</literal> property to indicate which one it uses. For instance, in 
-height-for-width mode, the parent actor first asks for the preferred height and then asks for 
-a preferred width appropriate for that height. <function>clutter_actor_get_preferred_size()</function> 
-checks this property and then calls either <function>clutter_actor_get_preferred_width()</function> 
-or <function>clutter_actor_get_preferred_height()</function> in the correct sequence.
+<para>Your actor should implement one of two geometry management modes - either height
+for width (<literal>REQUEST_HEIGHT_FOR_WIDTH</literal>) or width for height
+<literal>REQUEST_WIDTH_FOR_HEIGHT</literal>) and should set its
+<literal>request-mode</literal> property to indicate which one it uses. For instance, in
+height-for-width mode, the parent actor first asks for the preferred height and then asks for
+a preferred width appropriate for that height. <function>actor.get_preferred_size()</function>
+checks this property and then calls either <function>actor.get_preferred_width()</function>
+or <function>actor.get_preferred_height()</function> in the correct sequence.
 </para>
 
-<para>You should implement the <function>paint()</function> function, usually 
-calling <function>clutter_actor_paint()</function> on the child actors. All 
-containers should also implement the <function>pick()</function> function, calling 
-<function>clutter_actor_pick()</function> on each child actor.</para>
-<para>See the <link linkend="appendix-implementing-actors">Custom Actor</link> 
+<para>You should implement the <function>paint()</function> function, usually
+calling <function>actor.paint()</function> on the child actors. All
+containers should also implement the <function>pick()</function> function, calling
+<function>actor.pick()</function> on each child actor.</para>
+<para>See the <link linkend="appendix-implementing-actors">Custom Actor</link>
 section for more details these virtual functions.</para>
 </sect2>
 
 <sect2>
 <title>ClutterContainer virtual functions to implement</title>
-<para>Your container implementation should also implement some of the 
-<classname>ClutterContainer</classname> virtual functions so that the container's 
-children will be affected appropriately when functions are called on the container.  
+<para>Your container implementation should also implement some of the
+<classname>clutter.Container</classname> virtual functions so that the container's
+children will be affected appropriately when functions are called on the container.
 </para>
 
-<para>For instance, your <function>add()</function> and 
-<function>remove()</function> implementions should manage your container's 
-internal list of child actors and might need to trigger repositioning or 
+<para>For instance, your <function>add()</function> and
+<function>remove()</function> implementions should manage your container's
+internal list of child actors and might need to trigger repositioning or
 resizing of the child actors by calling
-<function>clutter_actor_queue_relayout()</function>.
+<function>actor.queue_relayout()</function>.
 </para>
-<para>Your <function>foreach</function> implementation would simply call the 
-provided callback on your container's list of child actors. Note that your container 
-could actually contain additional actors that are not considered to be child 
+<para>Your <function>foreach</function> implementation would simply call the
+provided callback on your container's list of child actors. Note that your container
+could actually contain additional actors that are not considered to be child
 actors for the purposes of add(), remove(), and foreach().</para>
 
 </sect2>
@@ -1039,10 +988,10 @@ actors for the purposes of add(), remove(), and foreach().</para>
 
 <sect1 id="custom-container-example"><title>Example</title>
 <para>
-The following example demonstrates the implementation of a box container that 
-lays its child actors out horizontally. A real container should probably allow 
-optional padding around the container and spacing between the child actors. 
-You might also want to allow some child actors to expand to fill the available 
+The following example demonstrates the implementation of a box container that
+lays its child actors out horizontally. A real container should probably allow
+optional padding around the container and spacing between the child actors.
+You might also want to allow some child actors to expand to fill the available
 space, or align differently inside the container.
 </para>
 
@@ -1065,28 +1014,28 @@ space, or align differently inside the container.
 <sect1>
 <title>The Technique</title>
 
-<para>There is not yet a standard container in &clutter; to show and scroll through 
-a small part of a set of widgets, like the 
-<classname>GtkScrolledWindow</classname> widget in the GTK+ toolkit, so you may 
+<para>There is not yet a standard container in &pyclutter; to show and scroll through
+a small part of a set of widgets, like the
+<classname>gtk.ScrolledWindow</classname> widget in the PyGTK toolkit, so you may
 need to implement this functionality in your application.
 </para>
-<para>The &tidy; project 
-contains some suggested implementations for such actors, but here is a simpler example 
-of the general technique. It creates the impression of scrolling by clipping a 
-container so that it only shows a small area of the screen, while moving the child 
+<para>The &tidy; project
+contains some suggested implementations for such actors, but here is a simpler example
+of the general technique. It creates the impression of scrolling by clipping a
+container so that it only shows a small area of the screen, while moving the child
 widgets in that container.
 </para>
 </sect1>
 
 <sect1 id="scrolling-container-example"><title>Example</title>
 <para>
-This example places three rectangles in a custom container which scrolls its 
+This example places three rectangles in a custom container which scrolls its
 child widgets to the left when the user clicks on the stage.
 </para>
 
 <para>
-Real-world applications will of course want to implement more specific behaviour, depending on their needs. For instance, 
-adding scrollbars that show accurate scroll positions, scrolling smoothly with animation, efficiently drawing only objects 
+Real-world applications will of course want to implement more specific behaviour, depending on their needs. For instance,
+adding scrollbars that show accurate scroll positions, scrolling smoothly with animation, efficiently drawing only objects
 that should be visible when dealing with large numbers of rows.
 </para>
 
@@ -1106,10 +1055,10 @@ that should be visible when dealing with large numbers of rows.
 <title>Contributing</title>
 <para>
 If you find errors in this documentation or if you would like to contribute additional material, you are
-encouraged to write an email to murrayc@openismus.com. Thanks.
+encouraged to write an email to pmarti@warp.es. Thanks.
 </para>
 
-<para>The DocBook and C source code for this documentation is in the <ulink url="http://git.gnome.org/cgit/clutter-tutorial/">clutter-tutorial</ulink> module in GNOME's git repository.
+<para>The DocBook and Python source code for this documentation is in the <ulink url="http://github.com/pmarti/clutter-tutorial">pyclutter-tutorial</ulink> module.
 </para>
 
 </chapter>

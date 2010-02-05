@@ -5,13 +5,12 @@
          xmlns="http://usefulinc.com/ns/doap#">
 
   <name xml:lang="en">Clutter-Tutorial</name>
-  <shortdesc xml:lang="en">A tutorial for the clutter toolkit</shortdesc>
-  <homepage rdf:resource="http://www.openismus.com/documents/clutter_tutorial/" />
+  <shortdesc xml:lang="en">A tutorial for the python-clutter toolkit</shortdesc>
+  <homepage rdf:resource="http://www.openismus.com/documents/pyclutter_tutorial/" />
 
   <maintainer>
     <foaf:Person>
-      <foaf:name>Murray Cumming</foaf:name>
-      <gnome:userid>murrayc</gnome:userid>
+      <foaf:name>Pablo Marti</foaf:name>
     </foaf:Person>
   </maintainer>
 </Project>
