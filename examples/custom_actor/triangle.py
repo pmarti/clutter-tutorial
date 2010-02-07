@@ -58,8 +58,7 @@ class Triangle(clutter.Actor):
     def set_color(self, color):
         self._color = clutter.color_from_string(color)
         self.set_opacity(self._color.alpha)
-        # CLUTTER_ACTOR_IS_VISIBLE cheap implementation
-        if self.get_flags() & clutter.ACTOR_VISIBLE:
+        if self.props.visible:
             clutter.Actor.queue_redraw(self)
 
 
