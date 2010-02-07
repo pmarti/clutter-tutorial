@@ -3,8 +3,6 @@ import sys
 import clutter
 
 
-rect = None
-
 # This must return a value between 0 and 1.0
 #
 # This will be called as many times per seconds as specified in our call to clutter_timeline_new().
@@ -25,7 +23,6 @@ def main():
     stage.set_color(stage_color)
 
     # Add a rectangle to the stage
-    global rect
     rect = clutter.Rectangle(rect_color)
     rect.set_size(40, 40)
     rect.set_position(10, 10)
@@ -51,12 +48,13 @@ def main():
     # the bug report is https://bugzilla.gnome.org/show_bug.cgi?id=591800
     # and shall be fixed in the next release, so perhaps by the time you read
     # this is already fixed.
-    rect.animate_with_alpha(alpha, 'x', 150.0, 'y', 150.0, 'opacity', 0x0)
+    rect.animate_with_alpha(alpha, 'x', 150.0, 'y', 150.0, 'opacity', 0.0)
 
     # Start the main loop, so we can respond to events
     clutter.main()
 
     return 0
+
 
 if __name__ == '__main__':
     sys.exit(main())

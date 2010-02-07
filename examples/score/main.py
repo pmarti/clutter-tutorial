@@ -34,7 +34,6 @@ def on_timeline_rotation_new_frame(timeline, frame_num):
 
 # Move the rectangle.
 def on_timeline_move_new_frame(timeline, frame_num):
-    global rect
     x_position = rect.get_x()
     x_position += 1
 

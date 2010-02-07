@@ -4,8 +4,6 @@ import sys
 import clutter
 
 
-stage = None
-
 # For showing the filename
 label_filename = None
 
@@ -45,8 +43,9 @@ class Item(object):
 item_at_front = None
 list_items = []
 
+
 def on_foreach_clear_list_items(data, user_data):
-    pass
+    """Not necessary in Python"""
 
 
 def scale_texture_default(texture):
@@ -96,10 +95,9 @@ def add_to_ellipse_behaviour(timeline_rotation, start_angle, item):
     item.ellipse_behaviour.apply(item.actor)
 
 
-def add_image_actors():
+def add_image_actors(stage):
     x, y, angle = 20, 0, 0
     global list_items
-    global stage
     global timeline_rotation
 
     for item in list_items:
@@ -288,7 +286,6 @@ def main():
     stage_color = clutter.Color(176, 176, 176, 255) # light gray
 
     # Get the stage and set its size and color
-    global stage
     stage = clutter.Stage()
     stage.set_size(800, 600)
     stage.set_color(stage_color)
@@ -327,7 +324,7 @@ def main():
 
     # Add an actor for each image
     load_images("images")
-    add_image_actors()
+    add_image_actors(stage)
 
     # timeline_rotation.set_loop(True)
 

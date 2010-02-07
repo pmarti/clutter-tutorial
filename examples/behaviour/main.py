@@ -3,8 +3,6 @@ import sys
 import clutter
 
 
-rect = None
-
 # This must return a value between 0 and 1.0
 # This will be called as many times per seconds as specified in our call to
 # clutter.Timeline.
@@ -25,7 +23,6 @@ def main():
     stage.set_color(stage_color)
 
     # Add a rectangle to the stage
-    global rect
     rect = clutter.Rectangle(rect_color)
     rect.set_size(40, 40)
     rect.set_position(10, 10)

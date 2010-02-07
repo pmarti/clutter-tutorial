@@ -3,12 +3,11 @@ import sys
 import clutter
 
 
-rect = None
 rotation_angle = 0
 color_change_count = 0
 
 
-def on_timeline_new_frame(timeline, frame_num):
+def on_timeline_new_frame(timeline, frame_num, rect):
     global rotation_angle
     rotation_angle += 1
     if rotation_angle >= 360:
@@ -46,7 +45,6 @@ def main():
     stage.set_color(stage_color)
 
     # Add a rectangle to the stage
-    global rect
     rect = clutter.Rectangle(rect_color)
     rect.set_size(70, 70)
     rect.set_position(50, 100)
@@ -59,7 +57,7 @@ def main():
 
     timeline = clutter.Timeline(5000) # milliseconds
     timeline.add_marker_at_time("clutter-tutorial", 2000) # milliseconds
-    timeline.connect('new-frame', on_timeline_new_frame)
+    timeline.connect('new-frame', on_timeline_new_frame, rect)
     timeline.connect('marker-reached', on_timeline_marker_reached)
 
     timeline.set_loop(True)
